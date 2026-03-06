@@ -1,525 +1,206 @@
-<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>NEXO-1 // ARM EXOSKELET</title>
+<title>NEXO-1 // ARM EXOSKELET PRO</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
-/* ══════════════════════════════════════
-   NEXO-1 // DESIGN SYSTEM
-══════════════════════════════════════ */
 :root{
-  --void:#020408;
-  --deep:#050a10;
-  --p1:#080f18;
-  --p2:#0c1620;
-  --p3:#101e2c;
-  --e1:#152030;
-  --e2:#1e3048;
-  --e3:#2a4460;
-  --c1:#00ffe0;   /* neon cyan */
-  --c2:#00b8ff;   /* electric blue */
-  --c3:#7b2fff;   /* plasma purple */
-  --hot:#ff4400;  /* heat orange */
-  --hot2:#ff8800;
-  --lime:#00ff88;
-  --warn:#ffe100;
-  --red:#ff1f4b;
-  --txt:#8ab4cc;
-  --txt2:#5a8aa8;
-  --r:12px;
-  --r2:8px;
+  --void:#010306;--deep:#050a10;--p1:#080f18;--p2:#0c1620;--p3:#101e2c;
+  --e1:#152030;--e2:#1e3048;--e3:#2a4460;
+  --c1:#00ffe0;--c2:#00b8ff;--c3:#7b2fff;
+  --hot:#ff4400;--hot2:#ff8800;--lime:#00ff88;--warn:#ffe100;--red:#ff1f4b;
+  --txt:#8ab4cc;--txt2:#5a8aa8;--r:12px;--r2:8px;
 }
-
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html{background:var(--void);overflow-x:hidden;}
-body{
-  background:var(--void);
-  color:var(--txt);
-  font-family:'Rajdhani',sans-serif;
-  font-size:15px;
-  line-height:1.5;
-  min-height:100vh;
-  padding-bottom:80px;
-  overflow-x:hidden;
-}
+html,body{background:var(--void);overflow-x:hidden;}
+body{color:var(--txt);font-family:'Rajdhani',sans-serif;font-size:15px;line-height:1.5;min-height:100vh;padding-bottom:84px;}
 
-/* ── ATMOSPHERE ── */
-.atmo{
-  position:fixed;inset:0;pointer-events:none;z-index:0;
-  background:
-    radial-gradient(ellipse 70% 50% at 10% 0%,  rgba(0,255,224,.055) 0%,transparent 65%),
-    radial-gradient(ellipse 60% 70% at 90% 100%, rgba(123,47,255,.04) 0%,transparent 65%),
-    radial-gradient(ellipse 40% 40% at 50% 50%,  rgba(0,184,255,.02) 0%,transparent 70%);
-}
-/* Scanlines */
-.scan{
-  position:fixed;inset:0;pointer-events:none;z-index:0;
-  background:repeating-linear-gradient(
-    0deg,transparent,transparent 3px,
-    rgba(0,255,224,.008) 3px,rgba(0,255,224,.008) 4px
-  );
-}
-/* Hex grid */
-.hex{
-  position:fixed;inset:0;pointer-events:none;z-index:0;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='104'%3E%3Cpolygon points='30,2 58,17 58,47 30,62 2,47 2,17' fill='none' stroke='rgba(0,184,255,.035)' stroke-width='1'/%3E%3C/svg%3E");
-  background-size:60px 104px;
-}
-
-/* ── WRAPPER ── */
+/* ATMOSPHERE */
+.atmo{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 70% 50% at 10% 0%,rgba(0,255,224,.06) 0%,transparent 65%),
+  radial-gradient(ellipse 60% 70% at 90% 100%,rgba(123,47,255,.05) 0%,transparent 65%),
+  radial-gradient(ellipse 40% 40% at 50% 50%,rgba(0,184,255,.025) 0%,transparent 70%);}
+.scan{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,255,224,.007) 3px,rgba(0,255,224,.007) 4px);}
+.hex{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='104'%3E%3Cpolygon points='30,2 58,17 58,47 30,62 2,47 2,17' fill='none' stroke='rgba(0,184,255,.03)' stroke-width='1'/%3E%3C/svg%3E");
+  background-size:60px 104px;}
 .root{position:relative;z-index:1;}
 
-/* ══════════════════════════════════════
-   HEADER
-══════════════════════════════════════ */
-.hdr{
-  position:sticky;top:0;z-index:999;
-  background:rgba(2,4,8,.94);
-  backdrop-filter:blur(24px);
-  -webkit-backdrop-filter:blur(24px);
-  border-bottom:1px solid var(--e2);
-}
-.hdr-top{
-  display:flex;align-items:stretch;
-  height:54px;border-bottom:1px solid rgba(0,255,224,.06);
-}
-.logo-wrap{
-  display:flex;flex-direction:column;justify-content:center;
-  padding:0 14px;border-right:1px solid var(--e2);
-  min-width:0;flex-shrink:0;
-}
-.logo-n{
-  font-family:'Orbitron',monospace;
-  font-size:1.05rem;font-weight:900;
-  letter-spacing:3px;color:#fff;line-height:1;
-}
-.logo-n em{
-  color:var(--c1);font-style:normal;
-  text-shadow:0 0 20px rgba(0,255,224,.6);
-}
-.logo-s{
-  font-family:'Share Tech Mono',monospace;
-  font-size:.46rem;letter-spacing:3px;
-  color:var(--hot);text-transform:uppercase;margin-top:3px;
-}
+/* HEADER */
+.hdr{position:sticky;top:0;z-index:999;background:rgba(1,3,6,.96);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);border-bottom:1px solid var(--e2);}
+.hdr-top{display:flex;align-items:stretch;height:58px;border-bottom:1px solid rgba(0,255,224,.06);}
+.logo-wrap{display:flex;flex-direction:column;justify-content:center;padding:0 14px;border-right:1px solid var(--e2);min-width:0;flex-shrink:0;}
+.logo-n{font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:900;letter-spacing:3px;color:#fff;line-height:1;}
+.logo-n em{color:var(--c1);font-style:normal;text-shadow:0 0 22px rgba(0,255,224,.7);}
+.logo-s{font-family:'Share Tech Mono',monospace;font-size:.44rem;letter-spacing:3px;color:var(--hot);text-transform:uppercase;margin-top:3px;}
 .hdr-stats{display:flex;flex:1;overflow:hidden;}
-.hstat{
-  flex:1;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  border-right:1px solid var(--e2);
-  padding:0 3px;min-width:0;
-}
+.hstat{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-right:1px solid var(--e2);padding:0 3px;min-width:0;}
 .hstat:last-child{border-right:none;}
-.hv{
-  font-family:'Orbitron',monospace;
-  font-size:.78rem;font-weight:700;
-  color:var(--hot2);line-height:1;
-  white-space:nowrap;
-}
-.hl{
-  font-family:'Share Tech Mono',monospace;
-  font-size:.42rem;color:var(--txt2);
-  letter-spacing:1px;text-transform:uppercase;
-  margin-top:2px;white-space:nowrap;
-}
-
-/* PROGRESS */
+.hv{font-family:'Orbitron',monospace;font-size:.8rem;font-weight:700;color:var(--hot2);line-height:1;white-space:nowrap;}
+.hl{font-family:'Share Tech Mono',monospace;font-size:.42rem;color:var(--txt2);letter-spacing:1px;text-transform:uppercase;margin-top:2px;white-space:nowrap;}
 .pbar-outer{height:3px;background:var(--e1);}
-.pbar-inner{
-  height:100%;
-  background:linear-gradient(90deg,var(--c2),var(--c1),var(--lime));
-  transition:width .5s cubic-bezier(.4,0,.2,1);
-  box-shadow:0 0 16px var(--c1),0 0 4px #fff;
-  position:relative;
-}
-.pbar-tip{
-  position:absolute;right:-1px;top:-3px;bottom:-3px;
-  width:3px;background:#fff;border-radius:2px;
-  box-shadow:0 0 10px var(--c1),0 0 20px var(--c1);
-}
+.pbar-inner{height:100%;background:linear-gradient(90deg,var(--c2),var(--c1),var(--lime));transition:width .6s cubic-bezier(.4,0,.2,1);box-shadow:0 0 16px var(--c1);position:relative;}
+.pbar-tip{position:absolute;right:-1px;top:-3px;bottom:-3px;width:3px;background:#fff;border-radius:2px;box-shadow:0 0 12px var(--c1),0 0 24px var(--c1);}
 
-/* ══════════════════════════════════════
-   BOTTOM NAV
-══════════════════════════════════════ */
-.bnav{
-  position:fixed;bottom:0;left:0;right:0;z-index:999;
-  background:rgba(2,4,8,.97);
-  backdrop-filter:blur(24px);
-  border-top:1px solid var(--e2);
-  display:grid;grid-template-columns:repeat(5,1fr);
-  padding:5px 0 max(7px,env(safe-area-inset-bottom));
-}
-.nb{
-  background:none;border:none;cursor:pointer;
-  display:flex;flex-direction:column;align-items:center;gap:2px;
-  padding:5px 2px;position:relative;
-}
-.ni{font-size:1.15rem;line-height:1.2;transition:filter .2s;filter:grayscale(1) opacity(.4);}
-.nl{
-  font-family:'Share Tech Mono',monospace;
-  font-size:.46rem;color:var(--txt2);
-  letter-spacing:.5px;text-transform:uppercase;transition:color .2s;
-}
+/* BOTTOM NAV */
+.bnav{position:fixed;bottom:0;left:0;right:0;z-index:999;background:rgba(1,3,6,.98);backdrop-filter:blur(28px);border-top:1px solid var(--e2);display:grid;grid-template-columns:repeat(6,1fr);padding:5px 0 max(7px,env(safe-area-inset-bottom));}
+.nb{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;padding:5px 2px;position:relative;}
+.ni{font-size:1.1rem;line-height:1.2;transition:filter .2s;filter:grayscale(1) opacity(.38);}
+.nl{font-family:'Share Tech Mono',monospace;font-size:.42rem;color:var(--txt2);letter-spacing:.5px;text-transform:uppercase;transition:color .2s;}
 .nb.on .ni{filter:drop-shadow(0 0 8px var(--c1)) saturate(2);}
 .nb.on .nl{color:var(--c1);}
-.nb.on::before{
-  content:'';position:absolute;top:0;left:20%;right:20%;
-  height:2px;border-radius:0 0 2px 2px;
-  background:linear-gradient(90deg,transparent,var(--c1),transparent);
-  box-shadow:0 0 12px var(--c1);
-}
+.nb.on::before{content:'';position:absolute;top:0;left:15%;right:15%;height:2px;border-radius:0 0 2px 2px;background:linear-gradient(90deg,transparent,var(--c1),transparent);box-shadow:0 0 14px var(--c1);}
 
-/* ══════════════════════════════════════
-   PAGES
-══════════════════════════════════════ */
-.page{display:none;padding:14px 13px 0;}
-.page.on{display:block;animation:pageIn .22s ease both;}
-@keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+/* PAGES */
+.page{display:none;padding:12px 12px 0;animation:pageIn .2s ease both;}
+.page.on{display:block;}
+@keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
-/* ══════════════════════════════════════
-   SECTION HEADER
-══════════════════════════════════════ */
-.sec{
-  display:flex;align-items:center;gap:10px;
-  font-family:'Orbitron',monospace;
-  font-size:.6rem;letter-spacing:4px;
-  text-transform:uppercase;color:var(--c1);
-  margin:18px 0 10px;
-}
-.sec::after{content:'';flex:1;height:1px;
-  background:linear-gradient(90deg,var(--e3),transparent);}
-.sec-badge{
-  font-size:.55rem;margin-left:auto;
-  background:rgba(0,255,224,.06);
-  border:1px solid rgba(0,255,224,.2);
-  padding:2px 8px;border-radius:3px;color:var(--c1);
-}
+/* SECTION HEADER */
+.sec{display:flex;align-items:center;gap:10px;font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:4px;text-transform:uppercase;color:var(--c1);margin:18px 0 10px;}
+.sec::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--e3),transparent);}
+.sec-badge{font-size:.54rem;margin-left:auto;background:rgba(0,255,224,.06);border:1px solid rgba(0,255,224,.2);padding:2px 8px;border-radius:3px;color:var(--c1);}
 
-/* ══════════════════════════════════════
-   CARDS
-══════════════════════════════════════ */
-.card{
-  background:var(--p1);
-  border:1px solid var(--e2);
-  border-radius:var(--r);
-  margin-bottom:9px;
-  position:relative;overflow:hidden;
-  transition:border-color .2s,box-shadow .2s;
-}
-/* Top shimmer line */
-.card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent 0%,rgba(0,255,224,.12) 50%,transparent 100%);
-}
-.card.done{border-color:var(--lime);}
-.card.done::after{
-  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
-  background:linear-gradient(180deg,var(--lime) 0%,rgba(0,255,136,.2) 100%);
-}
-.card:active{transform:scale(.995);}
-
+/* CARDS */
+.card{background:var(--p1);border:1px solid var(--e2);border-radius:var(--r);margin-bottom:9px;position:relative;overflow:hidden;transition:border-color .2s,box-shadow .2s;}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,255,224,.1),transparent);}
+.card.done{border-color:var(--lime);box-shadow:0 0 18px rgba(0,255,136,.07);}
+.card.done::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--lime),rgba(0,255,136,.2));}
+.card:active{transform:scale(.996);}
 .crow{display:flex;align-items:flex-start;gap:10px;padding:13px 13px 8px;}
-
-/* CHECKBOX */
-.chk{
-  width:26px;height:26px;min-width:26px;
-  border:1.5px solid var(--e3);border-radius:6px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:.9rem;color:transparent;
-  background:rgba(0,255,224,.03);
-  transition:all .2s;cursor:pointer;flex-shrink:0;
-  user-select:none;margin-top:1px;
-}
-.card.done .chk{
-  background:var(--lime);border-color:var(--lime);color:#000;
-  box-shadow:0 0 16px rgba(0,255,136,.35),inset 0 1px 0 rgba(255,255,255,.2);
-}
-.chk-step{
-  width:26px;height:26px;min-width:26px;
-  border:1.5px solid var(--e3);border-radius:6px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:.9rem;color:transparent;
-  background:rgba(0,255,224,.03);
-  transition:all .2s;cursor:pointer;flex-shrink:0;user-select:none;
-}
-.scard.done .chk-step{
-  background:var(--lime);border-color:var(--lime);color:#000;
-  box-shadow:0 0 16px rgba(0,255,136,.35);
-}
-
+.chk{width:28px;height:28px;min-width:28px;border:1.5px solid var(--e3);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:1rem;color:transparent;background:rgba(0,255,224,.03);transition:all .2s;cursor:pointer;flex-shrink:0;user-select:none;margin-top:1px;}
+.card.done .chk{background:var(--lime);border-color:var(--lime);color:#000;box-shadow:0 0 18px rgba(0,255,136,.4);}
 .cbody{flex:1;min-width:0;}
-.ctitle{
-  font-family:'Rajdhani',sans-serif;font-weight:700;
-  font-size:.95rem;color:#ddeeff;line-height:1.3;
-  margin-bottom:4px;transition:color .2s;
-}
+.ctitle{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.97rem;color:#ddeeff;line-height:1.3;margin-bottom:4px;transition:color .2s;}
 .card.done .ctitle{color:var(--txt2);text-decoration:line-through;}
 
 /* TAGS */
 .tags{display:flex;flex-wrap:wrap;gap:4px;margin:4px 0;}
-.tag{
-  font-family:'Share Tech Mono',monospace;
-  font-size:.56rem;padding:2px 7px;border-radius:4px;
-  letter-spacing:.4px;white-space:nowrap;
-}
-.t-mat  {background:rgba(255,68,0,.1); color:var(--hot); border:1px solid rgba(255,68,0,.22);}
-.t-spec {background:rgba(0,184,255,.08);color:var(--c2); border:1px solid rgba(0,184,255,.2);}
-.t-inf  {background:rgba(123,47,255,.1);color:#a66dff;   border:1px solid rgba(123,47,255,.22);}
-.t-eur  {background:rgba(0,255,136,.08);color:var(--lime);border:1px solid rgba(0,255,136,.2);font-size:.62rem;}
-.t-free {background:rgba(0,255,136,.07);color:var(--lime);border:1px solid rgba(0,255,136,.18);}
-.t-diy  {background:rgba(255,225,0,.07);color:var(--warn);border:1px solid rgba(255,225,0,.18);}
-.t-best {
-  background:linear-gradient(90deg,rgba(255,68,0,.15),rgba(255,140,0,.15));
-  color:var(--hot2);border:1px solid rgba(255,100,0,.3);
-  animation:bestpulse 2.5s ease infinite;
-}
+.tag{font-family:'Share Tech Mono',monospace;font-size:.55rem;padding:2px 7px;border-radius:4px;letter-spacing:.4px;white-space:nowrap;}
+.t-mat{background:rgba(255,68,0,.1);color:var(--hot);border:1px solid rgba(255,68,0,.22);}
+.t-spec{background:rgba(0,184,255,.08);color:var(--c2);border:1px solid rgba(0,184,255,.2);}
+.t-inf{background:rgba(123,47,255,.1);color:#a66dff;border:1px solid rgba(123,47,255,.22);}
+.t-eur{background:rgba(0,255,136,.08);color:var(--lime);border:1px solid rgba(0,255,136,.2);font-size:.6rem;}
+.t-free{background:rgba(0,255,136,.07);color:var(--lime);border:1px solid rgba(0,255,136,.18);}
+.t-diy{background:rgba(255,225,0,.07);color:var(--warn);border:1px solid rgba(255,225,0,.18);}
+.t-gamma{background:rgba(255,140,0,.1);color:#ffaa00;border:1px solid rgba(255,140,0,.3);}
+.t-best{background:linear-gradient(90deg,rgba(255,68,0,.15),rgba(255,140,0,.15));color:var(--hot2);border:1px solid rgba(255,100,0,.3);animation:bestpulse 2.5s ease infinite;}
 @keyframes bestpulse{0%,100%{box-shadow:none}50%{box-shadow:0 0 10px rgba(255,100,0,.3)}}
-
-.cdesc{
-  font-family:'Rajdhani',sans-serif;font-size:.82rem;
-  color:var(--txt2);line-height:1.6;margin-top:3px;
-}
+.cdesc{font-family:'Rajdhani',sans-serif;font-size:.82rem;color:var(--txt2);line-height:1.65;margin-top:3px;}
 
 /* LINKS */
 .links{display:flex;flex-wrap:wrap;gap:6px;padding:0 13px 12px;}
-.btn{
-  font-family:'Share Tech Mono',monospace;font-size:.59rem;
-  padding:7px 13px;border:1px solid;border-radius:6px;
-  text-decoration:none;display:inline-flex;align-items:center;
-  gap:5px;letter-spacing:.5px;text-transform:uppercase;
-  background:none;cursor:pointer;transition:all .15s;
-  white-space:nowrap;
-}
+.btn{font-family:'Share Tech Mono',monospace;font-size:.58rem;padding:7px 12px;border:1px solid;border-radius:6px;text-decoration:none;display:inline-flex;align-items:center;gap:5px;letter-spacing:.5px;text-transform:uppercase;background:none;cursor:pointer;transition:all .15s;white-space:nowrap;}
 .b-ali{border-color:var(--hot);color:var(--hot);background:rgba(255,68,0,.05);}
 .b-amz{border-color:var(--hot2);color:var(--hot2);background:rgba(255,136,0,.05);}
 .b-stl{border-color:var(--c2);color:var(--c2);background:rgba(0,184,255,.05);}
-.b-tc {border-color:var(--warn);color:var(--warn);background:rgba(255,225,0,.04);}
-.btn:active{transform:scale(.94);opacity:.8;}
+.b-tc{border-color:var(--warn);color:var(--warn);background:rgba(255,225,0,.04);}
+.b-gamma{border-color:#ffaa00;color:#ffaa00;background:rgba(255,170,0,.05);}
+.btn:active{transform:scale(.93);opacity:.8;}
 
 /* INFOBOX */
-.ibox{
-  margin:0 13px 11px;padding:10px 12px;
-  border-radius:var(--r2);
-  border-left:3px solid;
-  font-family:'Rajdhani',sans-serif;font-size:.82rem;
-  line-height:1.6;
-}
-.ibox-blue{background:rgba(0,184,255,.04);border-color:var(--c2);color:rgba(0,184,255,.75);}
+.ibox{margin:0 13px 11px;padding:10px 12px;border-radius:var(--r2);border-left:3px solid;font-family:'Rajdhani',sans-serif;font-size:.82rem;line-height:1.65;}
+.ibox-blue{background:rgba(0,184,255,.04);border-color:var(--c2);color:rgba(0,184,255,.78);}
 .ibox-blue b{color:var(--c2);}
-.ibox-warn{background:rgba(255,225,0,.04);border-color:var(--warn);color:rgba(255,225,0,.75);}
+.ibox-warn{background:rgba(255,225,0,.04);border-color:var(--warn);color:rgba(255,225,0,.78);}
 .ibox-warn b{color:var(--warn);}
-.ibox-red {background:rgba(255,31,75,.04);border-color:var(--red);color:rgba(255,100,120,.8);}
+.ibox-red{background:rgba(255,31,75,.04);border-color:var(--red);color:rgba(255,100,120,.85);}
 .ibox-red b{color:var(--red);}
-.ibox-lime{background:rgba(0,255,136,.04);border-color:var(--lime);color:rgba(0,255,136,.75);}
+.ibox-lime{background:rgba(0,255,136,.04);border-color:var(--lime);color:rgba(0,255,136,.78);}
 .ibox-lime b{color:var(--lime);}
+.ibox-gamma{background:rgba(255,170,0,.04);border-color:#ffaa00;color:rgba(255,200,100,.82);}
+.ibox-gamma b{color:#ffaa00;}
 
-/* TINKERCAD BOX */
-.tcbox{
-  margin:8px 13px 0;padding:11px 12px;
-  background:rgba(255,225,0,.03);
-  border:1px solid rgba(255,225,0,.1);
-  border-radius:var(--r2);
-}
-.tc-hd{
-  font-family:'Orbitron',monospace;font-size:.57rem;
-  letter-spacing:2px;color:var(--warn);text-transform:uppercase;
-  margin-bottom:8px;display:flex;align-items:center;gap:6px;
-}
+/* TCBOX */
+.tcbox{margin:0 13px 8px;padding:11px 12px;background:rgba(255,225,0,.03);border:1px solid rgba(255,225,0,.1);border-radius:var(--r2);}
+.tc-hd{font-family:'Orbitron',monospace;font-size:.56rem;letter-spacing:2px;color:var(--warn);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
 .tc-hd::before{content:'◈';}
-.tc-row{display:flex;gap:8px;margin-bottom:6px;}
+.tc-row{display:flex;gap:8px;margin-bottom:6px;align-items:flex-start;}
 .tc-row:last-child{margin-bottom:0;}
-.tc-n{
-  font-family:'Orbitron',monospace;font-size:.65rem;
-  font-weight:700;color:rgba(255,225,0,.3);
-  min-width:16px;margin-top:2px;flex-shrink:0;
-}
-.tc-t{
-  font-family:'Rajdhani',sans-serif;font-size:.8rem;
-  color:rgba(255,225,0,.78);line-height:1.55;
-}
+.tc-n{font-family:'Orbitron',monospace;font-size:.64rem;font-weight:700;color:rgba(255,225,0,.3);min-width:16px;margin-top:2px;flex-shrink:0;}
+.tc-t{font-family:'Rajdhani',sans-serif;font-size:.82rem;color:rgba(255,225,0,.8);line-height:1.6;}
 .tc-t b{color:#fff;}
 
-/* DIVIDER */
-.div{
-  font-family:'Share Tech Mono',monospace;font-size:.57rem;
-  letter-spacing:2px;text-transform:uppercase;
-  color:var(--hot);margin:14px 0 6px;
-  display:flex;align-items:center;gap:8px;opacity:.75;
-}
-.div::after{content:'';flex:1;height:1px;
-  background:linear-gradient(90deg,rgba(255,68,0,.35),transparent);}
+/* DIV */
+.div{font-family:'Share Tech Mono',monospace;font-size:.56rem;letter-spacing:2px;text-transform:uppercase;color:var(--hot);margin:14px 0 6px;display:flex;align-items:center;gap:8px;opacity:.75;}
+.div::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(255,68,0,.35),transparent);}
 
-/* TOTAL */
-.tot{
-  text-align:right;padding:9px 2px;
-  font-family:'Share Tech Mono',monospace;font-size:.68rem;
-  color:var(--txt2);border-top:1px solid var(--e2);margin-top:4px;
-}
+/* TOT */
+.tot{text-align:right;padding:9px 2px;font-family:'Share Tech Mono',monospace;font-size:.66rem;color:var(--txt2);border-top:1px solid var(--e2);margin-top:4px;}
 .tot b{color:var(--lime);}
 
-/* ══════════════════════════════════════
-   STEP CARDS
-══════════════════════════════════════ */
-.scard{
-  background:var(--p1);border:1px solid var(--e2);
-  border-radius:var(--r);margin-bottom:9px;
-  position:relative;overflow:hidden;transition:border-color .2s;
-}
-.scard::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(255,68,0,.1),transparent);
-}
-.scard.done{border-color:var(--lime);}
-.scard.done::after{
-  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
-  background:linear-gradient(180deg,var(--lime),rgba(0,255,136,.15));
-}
+/* STEP CARDS */
+.scard{background:var(--p1);border:1px solid var(--e2);border-radius:var(--r);margin-bottom:9px;position:relative;overflow:hidden;transition:border-color .2s;}
+.scard::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,184,255,.1),transparent);}
+.scard.done{border-color:var(--lime);box-shadow:0 0 16px rgba(0,255,136,.06);}
+.scard.done::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--lime),rgba(0,255,136,.15));}
 .srow{display:flex;gap:10px;padding:13px 13px 11px;align-items:flex-start;}
-.snum{
-  font-family:'Orbitron',monospace;font-size:1.6rem;
-  font-weight:900;color:var(--c2);opacity:.2;
-  min-width:38px;line-height:1;margin-top:3px;flex-shrink:0;
-  transition:opacity .2s;
-}
+.snum{font-family:'Orbitron',monospace;font-size:1.55rem;font-weight:900;color:var(--c2);opacity:.2;min-width:36px;line-height:1;margin-top:3px;flex-shrink:0;transition:opacity .2s;}
 .scard.done .snum{opacity:.1;color:var(--lime);}
 .sbody{flex:1;}
-.s-tit{
-  font-family:'Orbitron',monospace;font-size:.75rem;
-  font-weight:700;color:#ddeeff;margin-bottom:5px;
-  line-height:1.35;transition:color .2s;
-}
+.s-tit{font-family:'Orbitron',monospace;font-size:.73rem;font-weight:700;color:#ddeeff;margin-bottom:5px;line-height:1.35;transition:color .2s;}
 .scard.done .s-tit{color:var(--txt2);text-decoration:line-through;}
-.s-desc{font-family:'Rajdhani',sans-serif;font-size:.82rem;color:var(--txt2);line-height:1.6;}
-.s-tips{margin-top:8px;display:flex;flex-direction:column;gap:3px;}
-.stip{
-  font-family:'Share Tech Mono',monospace;font-size:.66rem;
-  color:var(--hot2);line-height:1.45;
-}
+.s-desc{font-family:'Rajdhani',sans-serif;font-size:.83rem;color:var(--txt2);line-height:1.65;}
+.s-tips{margin-top:8px;display:flex;flex-direction:column;gap:4px;}
+.stip{font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--hot2);line-height:1.5;}
 .stip::before{content:'▸ ';}
+.stip.g{color:var(--lime);}
+.stip.g::before{content:'✓ ';}
+.stip.r{color:var(--red);}
+.stip.r::before{content:'⚠ ';}
+.chk-step{width:28px;height:28px;min-width:28px;border:1.5px solid var(--e3);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:1rem;color:transparent;background:rgba(0,255,224,.03);transition:all .2s;cursor:pointer;flex-shrink:0;user-select:none;}
+.scard.done .chk-step{background:var(--lime);border-color:var(--lime);color:#000;box-shadow:0 0 16px rgba(0,255,136,.35);}
 
-/* ══════════════════════════════════════
-   HERO COMPARISON
-══════════════════════════════════════ */
-.hero-card{
-  background:linear-gradient(135deg,var(--p2) 0%,var(--p1) 100%);
-  border:1px solid var(--e3);border-radius:var(--r);
-  padding:16px;margin-bottom:12px;position:relative;overflow:hidden;
-}
-.hero-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,var(--hot),var(--warn),var(--hot));
-  animation:topshine 3s ease infinite;
-}
-@keyframes topshine{
-  0%,100%{opacity:.6}50%{opacity:1;box-shadow:0 0 20px var(--hot2);}
-}
-.winner-badge{
-  font-family:'Orbitron',monospace;font-size:.52rem;
-  letter-spacing:3px;color:var(--warn);text-transform:uppercase;
-  display:flex;align-items:center;gap:6px;margin-bottom:8px;
-}
+/* HERO */
+.hero-card{background:linear-gradient(135deg,var(--p2),var(--p1));border:1px solid var(--e3);border-radius:var(--r);padding:16px;margin-bottom:12px;position:relative;overflow:hidden;}
+.hero-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--hot),var(--warn),var(--hot));animation:topshine 3s ease infinite;}
+@keyframes topshine{0%,100%{opacity:.6}50%{opacity:1;box-shadow:0 0 20px var(--hot2);}}
+.winner-badge{font-family:'Orbitron',monospace;font-size:.5rem;letter-spacing:3px;color:var(--warn);text-transform:uppercase;display:flex;align-items:center;gap:6px;margin-bottom:8px;}
 .winner-badge::before{content:'★★★';letter-spacing:2px;}
-.winner-title{
-  font-family:'Orbitron',monospace;font-size:1rem;
-  font-weight:900;color:#fff;line-height:1.2;margin-bottom:8px;
-}
-.winner-title em{color:var(--hot2);font-style:normal;
-  text-shadow:0 0 20px rgba(255,140,0,.5);}
-.winner-why{
-  font-family:'Rajdhani',sans-serif;font-size:.84rem;
-  color:rgba(255,200,120,.85);line-height:1.65;
-}
+.winner-title{font-family:'Orbitron',monospace;font-size:.98rem;font-weight:900;color:#fff;line-height:1.2;margin-bottom:8px;}
+.winner-title em{color:var(--hot2);font-style:normal;text-shadow:0 0 20px rgba(255,140,0,.5);}
+.winner-why{font-family:'Rajdhani',sans-serif;font-size:.84rem;color:rgba(255,200,120,.88);line-height:1.7;}
 
 /* COMPARISON TABLE */
-.comptable{
-  border:1px solid var(--e2);border-radius:var(--r);
-  overflow:hidden;margin-bottom:10px;
-}
-.ct-head{
-  display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;
-  background:rgba(0,255,224,.05);
-  border-bottom:1px solid var(--e2);
-}
-.cth{
-  font-family:'Share Tech Mono',monospace;font-size:.53rem;
-  letter-spacing:1px;text-transform:uppercase;
-  color:var(--c1);padding:7px 7px;
-  border-right:1px solid var(--e2);
-}
+.comptable{border:1px solid var(--e2);border-radius:var(--r);overflow:hidden;margin-bottom:10px;}
+.ct-head{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;background:rgba(0,255,224,.05);border-bottom:1px solid var(--e2);}
+.cth{font-family:'Share Tech Mono',monospace;font-size:.52rem;letter-spacing:1px;text-transform:uppercase;color:var(--c1);padding:7px 7px;border-right:1px solid var(--e2);}
 .cth:last-child{border:none;}
-.ct-row{
-  display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;
-  border-bottom:1px solid var(--e2);transition:background .15s;
-}
+.ct-row{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;border-bottom:1px solid var(--e2);transition:background .15s;}
 .ct-row:last-child{border:none;}
 .ct-row.win{background:rgba(255,68,0,.06);}
-.ctd{
-  font-family:'Rajdhani',sans-serif;font-size:.78rem;
-  color:var(--txt);padding:8px 7px;
-  border-right:1px solid var(--e2);line-height:1.35;
-}
+.ctd{font-family:'Rajdhani',sans-serif;font-size:.78rem;color:var(--txt);padding:8px 7px;border-right:1px solid var(--e2);line-height:1.35;}
 .ctd:last-child{border:none;}
 .ctd.lbl{color:#ddeeff;font-weight:600;}
 .g{color:var(--lime);}
-.b{color:var(--red);}
+.bb{color:var(--red);}
 .o{color:var(--warn);}
 
-/* SYSTEM DIAGRAM */
-.sysdiag{
-  background:var(--p2);border:1px solid var(--e2);
-  border-radius:var(--r);padding:14px;margin-bottom:10px;
-}
-.sd-title{
-  font-family:'Orbitron',monospace;font-size:.62rem;
-  letter-spacing:3px;color:var(--c1);text-align:center;
-  text-transform:uppercase;margin-bottom:12px;
-}
-.sd-flow{
-  display:flex;align-items:center;justify-content:center;
-  flex-wrap:wrap;gap:4px;margin-bottom:12px;
-}
-.sd-node{
-  background:rgba(0,255,224,.05);
-  border:1px solid rgba(0,255,224,.18);
-  border-radius:7px;padding:7px 9px;text-align:center;
-  position:relative;
-}
-.sd-node::before{
-  content:'';position:absolute;top:-1px;left:15%;right:15%;
-  height:1px;background:linear-gradient(90deg,transparent,var(--c1),transparent);
-}
-.sd-n{font-family:'Orbitron',monospace;font-size:.56rem;color:var(--c1);letter-spacing:1px;}
-.sd-s{font-family:'Share Tech Mono',monospace;font-size:.5rem;color:var(--txt2);margin-top:2px;}
+/* SYSDIAG */
+.sysdiag{background:var(--p2);border:1px solid var(--e2);border-radius:var(--r);padding:14px;margin-bottom:10px;}
+.sd-title{font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:3px;color:var(--c1);text-align:center;text-transform:uppercase;margin-bottom:12px;}
+.sd-flow{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px;margin-bottom:12px;}
+.sd-node{background:rgba(0,255,224,.05);border:1px solid rgba(0,255,224,.18);border-radius:7px;padding:7px 9px;text-align:center;position:relative;}
+.sd-node::before{content:'';position:absolute;top:-1px;left:15%;right:15%;height:1px;background:linear-gradient(90deg,transparent,var(--c1),transparent);}
+.sd-n{font-family:'Orbitron',monospace;font-size:.55rem;color:var(--c1);letter-spacing:1px;}
+.sd-s{font-family:'Share Tech Mono',monospace;font-size:.49rem;color:var(--txt2);margin-top:2px;}
 .sd-arr{color:var(--e3);font-size:.9rem;}
 .sd-specs{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
 .sd-sp{background:rgba(255,68,0,.06);border:1px solid rgba(255,68,0,.15);border-radius:6px;padding:7px 9px;}
-.sd-sv{font-family:'Orbitron',monospace;font-size:.75rem;font-weight:700;color:var(--hot2);}
-.sd-sl{font-family:'Share Tech Mono',monospace;font-size:.48rem;color:var(--txt2);margin-top:1px;}
+.sd-sv{font-family:'Orbitron',monospace;font-size:.74rem;font-weight:700;color:var(--hot2);}
+.sd-sl{font-family:'Share Tech Mono',monospace;font-size:.47rem;color:var(--txt2);margin-top:1px;}
 
 /* CODE */
-.code-blk{
-  background:#020810;border:1px solid var(--e2);
-  border-radius:var(--r2);padding:14px;overflow-x:auto;margin-bottom:10px;
-}
-pre{font-family:'Share Tech Mono',monospace;font-size:.66rem;line-height:1.75;white-space:pre-wrap;word-break:break-all;}
-.cc{color:#1a3855;}
-.ck{color:var(--hot2);}
-.cd{color:#a56dff;}
-.cn{color:var(--lime);}
-.cs{color:var(--c1);}
-.cf{color:var(--c2);}
+.code-blk{background:#010509;border:1px solid var(--e2);border-radius:var(--r2);padding:14px;overflow-x:auto;margin-bottom:10px;}
+pre{font-family:'Share Tech Mono',monospace;font-size:.65rem;line-height:1.8;white-space:pre-wrap;word-break:break-all;}
+.cc{color:#1a3855;}.ck{color:var(--hot2);}.cd{color:#a56dff;}.cn{color:var(--lime);}.cs{color:var(--c1);}.cf{color:var(--c2);}
 
-/* INSTALL STEPS */
-.ilist{
-  background:rgba(255,225,0,.03);border:1px solid rgba(255,225,0,.1);
-  border-radius:var(--r2);padding:12px;margin-bottom:10px;
-}
-.il-hd{
-  font-family:'Orbitron',monospace;font-size:.58rem;
-  letter-spacing:2px;color:var(--warn);text-transform:uppercase;margin-bottom:9px;
-}
+/* INSTALL LIST */
+.ilist{background:rgba(255,225,0,.03);border:1px solid rgba(255,225,0,.1);border-radius:var(--r2);padding:12px;margin-bottom:10px;}
+.il-hd{font-family:'Orbitron',monospace;font-size:.56rem;letter-spacing:2px;color:var(--warn);text-transform:uppercase;margin-bottom:9px;}
 .il-row{display:flex;gap:9px;margin-bottom:7px;align-items:flex-start;}
 .il-row:last-child{margin-bottom:0;}
 .il-n{font-family:'Orbitron',monospace;font-size:.62rem;font-weight:700;color:rgba(255,225,0,.3);min-width:16px;margin-top:2px;flex-shrink:0;}
@@ -527,39 +208,98 @@ pre{font-family:'Share Tech Mono',monospace;font-size:.66rem;line-height:1.75;wh
 .il-t b{color:#fff;}
 
 /* NOTE */
-.note{
-  background:rgba(0,184,255,.04);border:1px solid rgba(0,184,255,.1);
-  border-radius:var(--r2);padding:11px 13px;
-  font-family:'Rajdhani',sans-serif;font-size:.82rem;
-  color:var(--txt2);line-height:1.65;margin-bottom:10px;
-}
+.note{background:rgba(0,184,255,.04);border:1px solid rgba(0,184,255,.1);border-radius:var(--r2);padding:11px 13px;font-family:'Rajdhani',sans-serif;font-size:.82rem;color:var(--txt2);line-height:1.65;margin-bottom:10px;}
 .note b{color:var(--c2);}
 
 /* GRAND TOTAL */
-.gtotal{
-  background:linear-gradient(135deg,rgba(0,255,224,.06),rgba(0,184,255,.04));
-  border:1px solid rgba(0,255,224,.2);border-radius:var(--r);
-  padding:14px;margin:4px 0 8px;text-align:center;
-}
-.gt-lbl{font-family:'Share Tech Mono',monospace;font-size:.58rem;letter-spacing:3px;color:var(--txt2);text-transform:uppercase;margin-bottom:6px;}
-.gt-val{font-family:'Orbitron',monospace;font-size:1.5rem;font-weight:900;color:var(--c1);text-shadow:0 0 24px rgba(0,255,224,.4);}
-.gt-sub{font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--txt2);margin-top:4px;}
+.gtotal{background:linear-gradient(135deg,rgba(0,255,224,.06),rgba(0,184,255,.04));border:1px solid rgba(0,255,224,.2);border-radius:var(--r);padding:16px;margin:4px 0 10px;text-align:center;}
+.gt-lbl{font-family:'Share Tech Mono',monospace;font-size:.57rem;letter-spacing:3px;color:var(--txt2);text-transform:uppercase;margin-bottom:6px;}
+.gt-val{font-family:'Orbitron',monospace;font-size:1.55rem;font-weight:900;color:var(--c1);text-shadow:0 0 26px rgba(0,255,224,.45);}
+.gt-sub{font-family:'Share Tech Mono',monospace;font-size:.57rem;color:var(--txt2);margin-top:5px;}
+
+/* TOOLS CARD */
+.tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px;}
+.tool-item{background:var(--p2);border:1px solid var(--e2);border-radius:var(--r2);padding:10px;display:flex;flex-direction:column;gap:3px;}
+.tool-icon{font-size:1.3rem;line-height:1;}
+.tool-name{font-family:'Orbitron',monospace;font-size:.56rem;color:#ddeeff;letter-spacing:1px;}
+.tool-desc{font-family:'Rajdhani',sans-serif;font-size:.75rem;color:var(--txt2);line-height:1.5;}
+.tool-price{font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--lime);margin-top:2px;}
+
+/* SVG DIAGRAM VIEWER */
+.model-card{background:var(--p2);border:1px solid var(--e2);border-radius:var(--r);margin-bottom:9px;overflow:hidden;}
+.model-svg-wrap{background:#020810;border-bottom:1px solid var(--e2);display:flex;align-items:center;justify-content:center;padding:16px;min-height:160px;}
+.model-svg-wrap svg{max-width:100%;height:auto;}
+.model-info{padding:12px 13px;}
+.model-title{font-family:'Orbitron',monospace;font-size:.72rem;font-weight:700;color:#ddeeff;margin-bottom:6px;letter-spacing:1px;}
+.model-specs{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px;}
+.model-spec{font-family:'Share Tech Mono',monospace;font-size:.56rem;padding:2px 7px;background:rgba(0,184,255,.07);border:1px solid rgba(0,184,255,.15);border-radius:4px;color:var(--c2);}
+.model-desc{font-family:'Rajdhani',sans-serif;font-size:.82rem;color:var(--txt2);line-height:1.65;}
+.model-steps{margin-top:10px;}
+.ms-row{display:flex;gap:7px;margin-bottom:6px;align-items:flex-start;}
+.ms-n{font-family:'Orbitron',monospace;font-size:.6rem;font-weight:700;color:rgba(0,255,224,.3);min-width:14px;margin-top:2px;flex-shrink:0;}
+.ms-t{font-family:'Rajdhani',sans-serif;font-size:.82rem;color:var(--txt);line-height:1.6;}
+.ms-t b{color:var(--c1);}
+
+/* TOOLS PAGE */
+.tools-section{background:var(--p2);border:1px solid var(--e2);border-radius:var(--r);padding:13px;margin-bottom:10px;}
+.ts-head{font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:2px;color:var(--hot2);text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:7px;}
+.ts-head::before{content:'⚙';font-size:.8rem;}
+.ts-row{display:flex;gap:10px;margin-bottom:8px;align-items:flex-start;padding-bottom:8px;border-bottom:1px solid var(--e1);}
+.ts-row:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none;}
+.ts-icon{font-size:1.4rem;flex-shrink:0;width:32px;text-align:center;}
+.ts-body{flex:1;}
+.ts-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.9rem;color:#ddeeff;}
+.ts-where{font-family:'Share Tech Mono',monospace;font-size:.56rem;padding:1px 7px;border-radius:3px;display:inline-block;margin:3px 0;}
+.ts-gamma{background:rgba(255,170,0,.1);color:#ffaa00;border:1px solid rgba(255,170,0,.25);}
+.ts-ali{background:rgba(255,68,0,.08);color:var(--hot);border:1px solid rgba(255,68,0,.2);}
+.ts-thuis{background:rgba(0,255,136,.07);color:var(--lime);border:1px solid rgba(0,255,136,.18);}
+.ts-why{font-family:'Rajdhani',sans-serif;font-size:.8rem;color:var(--txt2);line-height:1.55;margin-top:3px;}
+.ts-price{font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--lime);margin-top:3px;}
+
+/* FULLVIS DIAGRAM */
+.fullvis{background:#010509;border:1px solid var(--e3);border-radius:var(--r);margin-bottom:12px;overflow:hidden;position:relative;}
+.fullvis-lbl{font-family:'Orbitron',monospace;font-size:.55rem;letter-spacing:3px;color:var(--c1);text-align:center;text-transform:uppercase;padding:8px 0 4px;background:rgba(0,255,224,.03);border-bottom:1px solid var(--e2);}
+.fullvis svg{display:block;margin:0 auto;max-width:100%;}
+
+/* GAMMA SPECIAL */
+.gamma-section{background:linear-gradient(135deg,rgba(255,170,0,.04),rgba(255,68,0,.03));border:1px solid rgba(255,170,0,.15);border-radius:var(--r);padding:14px;margin-bottom:10px;}
+.gamma-hd{font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:3px;color:#ffaa00;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:7px;}
+.gamma-hd::before{content:'🟧';}
+.gamma-row{display:flex;gap:10px;margin-bottom:9px;padding-bottom:9px;border-bottom:1px solid rgba(255,170,0,.08);align-items:flex-start;}
+.gamma-row:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none;}
+.gamma-num{font-family:'Orbitron',monospace;font-size:.62rem;color:rgba(255,170,0,.35);min-width:18px;font-weight:700;margin-top:2px;flex-shrink:0;}
+.gamma-body{flex:1;}
+.gamma-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.9rem;color:#ffcc66;}
+.gamma-spec{font-family:'Share Tech Mono',monospace;font-size:.56rem;color:rgba(255,200,100,.6);margin:2px 0;}
+.gamma-why{font-family:'Rajdhani',sans-serif;font-size:.8rem;color:var(--txt2);line-height:1.55;}
+.gamma-price{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:#ffaa00;margin-top:3px;}
+
+/* WIRING TABLE */
+.wiring-table{border:1px solid var(--e2);border-radius:var(--r);overflow:hidden;margin-bottom:10px;}
+.wt-head{display:grid;grid-template-columns:1fr 1.3fr 1fr 1fr;background:rgba(0,255,224,.04);border-bottom:1px solid var(--e2);}
+.wth{font-family:'Share Tech Mono',monospace;font-size:.5rem;letter-spacing:1px;text-transform:uppercase;color:var(--c1);padding:7px 8px;border-right:1px solid var(--e2);}
+.wth:last-child{border:none;}
+.wt-row{display:grid;grid-template-columns:1fr 1.3fr 1fr 1fr;border-bottom:1px solid var(--e1);}
+.wt-row:last-child{border:none;}
+.wtd{font-family:'Share Tech Mono',monospace;font-size:.6rem;padding:7px 8px;border-right:1px solid var(--e1);color:var(--txt);line-height:1.4;}
+.wtd:last-child{border:none;}
+.wtd.from{color:var(--hot2);}
+.wtd.to{color:var(--c2);}
+.wtd.cable{color:var(--lime);}
 </style>
 </head>
 <body>
-
 <div class="atmo"></div>
 <div class="scan"></div>
 <div class="hex"></div>
-
 <div class="root">
 
-<!-- ══════════ HEADER ══════════ -->
+<!-- HEADER -->
 <div class="hdr">
   <div class="hdr-top">
     <div class="logo-wrap">
       <div class="logo-n"><em>NEXO</em>·1</div>
-      <div class="logo-s">// arm exoskelet</div>
+      <div class="logo-s">// arm exoskelet PRO</div>
     </div>
     <div class="hdr-stats">
       <div class="hstat"><div class="hv" id="hv-pct">0%</div><div class="hl">Klaar</div></div>
@@ -568,55 +308,128 @@ pre{font-family:'Share Tech Mono',monospace;font-size:.66rem;line-height:1.75;wh
       <div class="hstat"><div class="hv" style="color:var(--lime)">75kg</div><div class="hl">Kracht</div></div>
     </div>
   </div>
-  <div class="pbar-outer">
-    <div class="pbar-inner" id="pb" style="width:0%"><div class="pbar-tip"></div></div>
-  </div>
+  <div class="pbar-outer"><div class="pbar-inner" id="pb" style="width:0%"><div class="pbar-tip"></div></div></div>
 </div>
 
-<!-- ══════════════════════════════════
-     PAGE 1 -- SYSTEEM
-══════════════════════════════════ -->
+<!-- ════════════ PAGE 1: SYSTEEM ════════════ -->
 <div class="page on" id="pg-sys">
 
-  <div class="sec" style="margin-top:14px;">⚡ Actuator Analyse</div>
+  <div class="sec" style="margin-top:14px;">⚡ Eindresultaat Visualisatie</div>
+
+  <!-- FULL ARM SVG DIAGRAM -->
+  <div class="fullvis">
+    <div class="fullvis-lbl">◈ NEXO-1 // Complete Arm Visualisatie</div>
+    <svg viewBox="0 0 340 500" width="340" height="500" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="armGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#1e3048"/><stop offset="100%" stop-color="#152030"/>
+        </linearGradient>
+        <linearGradient id="actGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#2a3a1a"/><stop offset="100%" stop-color="#1a2a0a"/>
+        </linearGradient>
+        <filter id="glow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="glow2"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <!-- SHOULDER -->
+      <ellipse cx="170" cy="38" rx="52" ry="18" fill="url(#armGrad)" stroke="#2a4460" stroke-width="1.5"/>
+      <text x="170" y="42" text-anchor="middle" font-family="Orbitron" font-size="7" fill="#00ffe0" letter-spacing="1">SCHOUDER HARNAS</text>
+
+      <!-- UPPER ARM SHELL LEFT -->
+      <path d="M118,56 L128,220 L142,220 L148,56 Z" fill="url(#armGrad)" stroke="#2a4460" stroke-width="1.5"/>
+      <!-- UPPER ARM SHELL RIGHT -->
+      <path d="M192,56 L188,220 L202,220 L222,56 Z" fill="url(#armGrad)" stroke="#2a4460" stroke-width="1.5"/>
+
+      <!-- UPPER ARM CENTER SKIN -->
+      <path d="M148,60 Q170,52 192,60 L188,220 Q170,226 142,220 Z" fill="#0c1620" stroke="#2a4460" stroke-width="1"/>
+
+      <!-- VELCRO STRAPS upper arm -->
+      <rect x="127" y="85" width="86" height="9" rx="4" fill="none" stroke="#00ffe0" stroke-width="1.2" stroke-dasharray="4,2" opacity=".5"/>
+      <text x="215" y="92" font-family="Share Tech Mono" font-size="5.5" fill="#00ffe0" opacity=".6">VELCRO</text>
+      <rect x="127" y="160" width="86" height="9" rx="4" fill="none" stroke="#00ffe0" stroke-width="1.2" stroke-dasharray="4,2" opacity=".5"/>
+
+      <!-- ACTUATOR on side -->
+      <rect x="224" y="70" width="28" height="148" rx="5" fill="#1a2a0a" stroke="#558844" stroke-width="1.5"/>
+      <rect x="229" y="78" width="18" height="125" rx="3" fill="#223318" stroke="#558844" stroke-width="1"/>
+      <!-- Actuator rod -->
+      <rect x="234" y="175" width="8" height="46" rx="2" fill="#66aa44" stroke="#88cc66" stroke-width="1" filter="url(#glow)"/>
+      <text x="238" y="118" text-anchor="middle" font-family="Orbitron" font-size="5" fill="#88cc44" transform="rotate(90,238,118)" letter-spacing="1">ACTUATOR 750N</text>
+
+      <!-- ELBOW JOINT -->
+      <ellipse cx="165" cy="228" rx="34" ry="20" fill="#1e3048" stroke="#2a4460" stroke-width="1.5"/>
+      <ellipse cx="165" cy="228" rx="18" ry="10" fill="#152030" stroke="#00ffe0" stroke-width="1" opacity=".6"/>
+      <circle cx="165" cy="228" r="5" fill="#00b8ff" opacity=".7" filter="url(#glow)"/>
+      <text x="203" y="232" font-family="Share Tech Mono" font-size="5.5" fill="#00b8ff">SCHARNIER M4</text>
+      <!-- Actuator rod coupling -->
+      <line x1="238" y1="220" x2="199" y2="228" stroke="#88cc44" stroke-width="2" stroke-dasharray="3,2" opacity=".8"/>
+      <circle cx="199" cy="228" r="4" fill="none" stroke="#88cc44" stroke-width="1.5" opacity=".8"/>
+      <text x="200" y="218" font-family="Share Tech Mono" font-size="5" fill="#88cc44">SPLITPEN</text>
+
+      <!-- FOREARM SHELL -->
+      <path d="M142,246 L148,390 L184,390 L188,246 Q175,238 155,238 Q145,238 142,246 Z" fill="url(#armGrad)" stroke="#2a4460" stroke-width="1.5"/>
+
+      <!-- FOREARM velcro -->
+      <rect x="142" y="290" width="46" height="9" rx="4" fill="none" stroke="#00ffe0" stroke-width="1.2" stroke-dasharray="4,2" opacity=".5"/>
+      <rect x="142" y="350" width="46" height="9" rx="4" fill="none" stroke="#00ffe0" stroke-width="1.2" stroke-dasharray="4,2" opacity=".5"/>
+
+      <!-- Cable routing -->
+      <path d="M220,145 Q230,240 204,280 Q190,310 188,350" stroke="#ff8800" stroke-width="1.5" fill="none" stroke-dasharray="4,3" opacity=".6"/>
+      <text x="228" y="280" font-family="Share Tech Mono" font-size="5" fill="#ff8800" opacity=".7">KABEL</text>
+
+      <!-- Battery pack -->
+      <rect x="224" y="230" width="36" height="52" rx="5" fill="#101820" stroke="#2a4460" stroke-width="1.5"/>
+      <rect x="228" y="234" width="28" height="44" rx="3" fill="#0c1620"/>
+      <text x="242" y="258" text-anchor="middle" font-family="Orbitron" font-size="5" fill="#00b8ff" letter-spacing=".5" transform="rotate(90,242,258)">3S LIPO</text>
+      <text x="242" y="280" text-anchor="middle" font-family="Share Tech Mono" font-size="4.5" fill="#5a8aa8" transform="rotate(90,242,280)">2200mAh</text>
+
+      <!-- Arduino box -->
+      <rect x="224" y="292" width="34" height="28" rx="4" fill="#0c1620" stroke="#2a4460" stroke-width="1.2"/>
+      <text x="241" y="309" text-anchor="middle" font-family="Orbitron" font-size="5" fill="#00ffe0" letter-spacing=".5">NANO</text>
+
+      <!-- WRIST BRACE -->
+      <path d="M148,392 Q165,385 184,392 L186,418 Q165,426 146,418 Z" fill="url(#armGrad)" stroke="#2a4460" stroke-width="1.5"/>
+      <text x="165" y="408" text-anchor="middle" font-family="Share Tech Mono" font-size="5.5" fill="#00ffe0" opacity=".7">POLSBEUGEL</text>
+
+      <!-- EMG sensor -->
+      <rect x="96" y="100" width="26" height="16" rx="3" fill="#100820" stroke="#7b2fff" stroke-width="1.2"/>
+      <text x="109" y="111" text-anchor="middle" font-family="Share Tech Mono" font-size="4.5" fill="#a66dff">EMG</text>
+      <line x1="122" y1="108" x2="148" y2="118" stroke="#a66dff" stroke-width="1" stroke-dasharray="3,2" opacity=".7"/>
+
+      <!-- E-stop on wrist -->
+      <circle cx="140" cy="410" r="7" fill="#3a0808" stroke="#ff1f4b" stroke-width="1.5"/>
+      <text x="140" y="413" text-anchor="middle" font-family="Orbitron" font-size="5" fill="#ff4466">!</text>
+      <text x="125" y="430" font-family="Share Tech Mono" font-size="4.5" fill="#ff1f4b">NOODSTOP</text>
+
+      <!-- LABELS -->
+      <text x="76" y="75" font-family="Orbitron" font-size="6" fill="#8ab4cc" letter-spacing=".5">BOVENARM</text>
+      <text x="76" y="84" font-family="Orbitron" font-size="6" fill="#8ab4cc" letter-spacing=".5">SCHALEN</text>
+      <line x1="116" y1="80" x2="118" y2="130" stroke="#2a4460" stroke-width="1" opacity=".6"/>
+
+      <text x="76" y="260" font-family="Orbitron" font-size="6" fill="#8ab4cc">ONDERARM</text>
+      <line x1="116" y1="258" x2="142" y2="300" stroke="#2a4460" stroke-width="1" opacity=".6"/>
+
+      <!-- Dimensions -->
+      <line x1="268" y1="60" x2="268" y2="390" stroke="#2a4460" stroke-width=".8" stroke-dasharray="3,3" opacity=".5"/>
+      <text x="276" y="225" font-family="Share Tech Mono" font-size="5" fill="#5a8aa8">~400mm</text>
+
+      <!-- TITLE -->
+      <text x="170" y="478" text-anchor="middle" font-family="Orbitron" font-size="7.5" fill="#00ffe0" letter-spacing="2" opacity=".6">NEXO-1 // SIDE VIEW</text>
+    </svg>
+  </div>
+
+  <div class="sec">⚡ Actuator Analyse</div>
 
   <div class="hero-card">
     <div class="winner-badge">winnaar na analyse</div>
-    <div class="winner-title">12V Lineaire <em>Elektrische</em> Actuator</div>
-    <div class="winner-why">Na vergelijking van alle opties is de elektrische lineaire actuator (750N / 75kg kracht, 50mm slag) de absolute beste keuze. Geen lekkagerisico, geen pomp, direct aanstuurbaar via Arduino L298N driver, ingebouwde rem houdt positie vast bij stroomverlies, en beschikbaar voor ~€30–40 op AliExpress.</div>
+    <div class="winner-title">12V Lineaire <em>Elektrische</em> Actuator 750N</div>
+    <div class="winner-why">De elektrische lineaire actuator (750N / 75kg, 50mm slag) is de absolute beste keuze. Geen lekkagerisico, geen compressor, direct aanstuurbaar via Arduino L298N driver, ingebouwde eindschakelaar stopt automatisch, ingebouwde rem houdt positie vast bij stroomverlies. Beschikbaar voor ~€30–40 op AliExpress.</div>
   </div>
 
   <div class="comptable">
-    <div class="ct-head">
-      <div class="cth">Actuator Type</div>
-      <div class="cth">Max Kracht</div>
-      <div class="cth">Gewicht</div>
-      <div class="cth">DIY Geschikt?</div>
-    </div>
-    <div class="ct-row win">
-      <div class="ctd lbl">⚡ Elektrisch lineair</div>
-      <div class="ctd g">75 kg</div>
-      <div class="ctd g">Licht</div>
-      <div class="ctd g">✓ Ja</div>
-    </div>
-    <div class="ct-row">
-      <div class="ctd lbl">💧 Hydraulisch</div>
-      <div class="ctd o">100 kg+</div>
-      <div class="ctd b">Zwaar</div>
-      <div class="ctd b">✗ Complex</div>
-    </div>
-    <div class="ct-row">
-      <div class="ctd lbl">🌬️ Pneumatisch</div>
-      <div class="ctd o">20–40 kg</div>
-      <div class="ctd o">Medium</div>
-      <div class="ctd b">✗ Compressor</div>
-    </div>
-    <div class="ct-row">
-      <div class="ctd lbl">⚙️ Servo motor</div>
-      <div class="ctd b">5–15 kg</div>
-      <div class="ctd g">Licht</div>
-      <div class="ctd o">~ Beperkt</div>
-    </div>
+    <div class="ct-head"><div class="cth">Type</div><div class="cth">Kracht</div><div class="cth">Gewicht</div><div class="cth">DIY OK?</div></div>
+    <div class="ct-row win"><div class="ctd lbl">⚡ Elektrisch lin.</div><div class="ctd g">75 kg</div><div class="ctd g">Licht</div><div class="ctd g">✓ Ja</div></div>
+    <div class="ct-row"><div class="ctd lbl">💧 Hydraulisch</div><div class="ctd o">100 kg+</div><div class="ctd bb">Zwaar</div><div class="ctd bb">✗ Complex</div></div>
+    <div class="ct-row"><div class="ctd lbl">🌬️ Pneumatisch</div><div class="ctd o">20–40 kg</div><div class="ctd o">Medium</div><div class="ctd bb">✗ Compressor</div></div>
+    <div class="ct-row"><div class="ctd lbl">⚙️ Servo</div><div class="ctd bb">5–15 kg</div><div class="ctd g">Licht</div><div class="ctd o">~ Beperkt</div></div>
   </div>
 
   <div class="sysdiag">
@@ -624,231 +437,345 @@ pre{font-family:'Share Tech Mono',monospace;font-size:.66rem;line-height:1.75;wh
     <div class="sd-flow">
       <div class="sd-node"><div class="sd-n">BICEP</div><div class="sd-s">EMG sensor</div></div>
       <div class="sd-arr">→</div>
-      <div class="sd-node"><div class="sd-n">ARDUINO</div><div class="sd-s">Nano brein</div></div>
+      <div class="sd-node"><div class="sd-n">ARDUINO</div><div class="sd-s">Nano v3</div></div>
       <div class="sd-arr">→</div>
-      <div class="sd-node"><div class="sd-n">L298N</div><div class="sd-s">Driver 12V</div></div>
+      <div class="sd-node"><div class="sd-n">L298N</div><div class="sd-s">12V driver</div></div>
       <div class="sd-arr">→</div>
-      <div class="sd-node"><div class="sd-n">ACTUATOR</div><div class="sd-s">75kg kracht</div></div>
+      <div class="sd-node"><div class="sd-n">ACTUATOR</div><div class="sd-s">750N / 75kg</div></div>
     </div>
-    <div style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--txt2);text-align:center;margin-bottom:10px;">↑ 12V LiPo 3S voedt alles · NC noodstop op pols</div>
+    <div style="font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--txt2);text-align:center;margin-bottom:10px;">3S LiPo 12V voedt alles · NC noodstop op pols · LM2596 buck 5V voor Nano</div>
     <div class="sd-specs">
       <div class="sd-sp"><div class="sd-sv">75 kg</div><div class="sd-sl">Max tilkracht</div></div>
-      <div class="sd-sp"><div class="sd-sv">50mm</div><div class="sd-sl">Actuator slag</div></div>
+      <div class="sd-sp"><div class="sd-sv">50 mm</div><div class="sd-sl">Actuatorslag</div></div>
       <div class="sd-sp"><div class="sd-sv">12V / 8A</div><div class="sd-sl">Voeding</div></div>
-      <div class="sd-sp"><div class="sd-sv">~€130</div><div class="sd-sl">Totaal schatting</div></div>
+      <div class="sd-sp"><div class="sd-sv">~€140</div><div class="sd-sl">Totaalschatting</div></div>
     </div>
   </div>
 
-  <div class="note"><b>Hoe werkt het?</b> De lineaire actuator zit parallel aan je elleboogscharnier. Als jij je bicep aanspant → EMG-sensor detecteert dit → Arduino opent de L298N driver → actuator strekt uit → elleboog buigt krachtig → jij tilt makkelijk tot 75kg mee. Loslaten = actuator trekt terug. De ingebouwde rem houdt de positie vast als stroom stopt.</div>
-
-  <div class="sec">🖥️ Tinkercad Beginnersgids</div>
-
-  <div class="note"><b>Tinkercad is 100% gratis en werkt in je browser.</b> Ga naar tinkercad.com, maak een gratis account, klik "Create new design". Geen installatie, geen ervaring nodig.</div>
-
-  <div class="card" style="cursor:default;">
-    <div class="crow" style="padding-bottom:4px;"><div class="cbody">
-      <div class="ctitle" style="color:var(--warn);">De 5 Tinkercad Skills die je écht nodig hebt</div>
-    </div></div>
-    <div class="tcbox" style="margin-top:0;">
-      <div class="tc-hd">Basis principes</div>
-      <div class="tc-row"><div class="tc-n">1</div><div class="tc-t"><b>Shapes slepen</b> -- Rechterpaneel → sleep "Cylinder" of "Box" naar het raster. Klik erop → typ exacte maten in mm in de vakjes die verschijnen.</div></div>
-      <div class="tc-row"><div class="tc-n">2</div><div class="tc-t"><b>Hole maken</b> -- Selecteer shape → klik "Hole" rechtsonder. De shape wordt oranje = trekt materiaal WEG bij groeperen. Dit is het kernprincipe!</div></div>
-      <div class="tc-row"><div class="tc-n">3</div><div class="tc-t"><b>Groeperen (Ctrl+G)</b> -- Selecteer meerdere shapes + Ctrl+G. Solid + Hole samen = uitgehold object. Zo maak je holle buizen en gaten.</div></div>
-      <div class="tc-row"><div class="tc-n">4</div><div class="tc-t"><b>Spiegelen</b> -- Selecteer alles → klik de spiegelpijl op één van de assen. Handig voor linker/rechter helften van armschalen.</div></div>
-      <div class="tc-row"><div class="tc-n">5</div><div class="tc-t"><b>Exporteren</b> -- Rechtsboven "Export" → kies "STL" → importeer in Cura of PrusaSlicer → print!</div></div>
-    </div>
-    <div class="links" style="padding-top:8px;">
-      <a class="btn b-tc" href="https://www.tinkercad.com/learn" target="_blank">📖 Gratis Tinkercad Tutorials</a>
-      <a class="btn b-tc" href="https://www.tinkercad.com" target="_blank">🖥️ Open Tinkercad</a>
-    </div>
-  </div>
+  <div class="note"><b>Hoe werkt het precies?</b> De lineaire actuator zit parallel aan je elleboogscharnier. Als jij je bicep aanspant → EMG sensor detecteert de elektrische activiteit → Arduino leest analoog signaal → overschrijdt drempelwaarde → L298N H-bridge schakelt 12V door naar de actuator → stang strekt uit → elleboog buigt → jij tilt met 75kg ondersteuning. Bij ontspanning: actuator trekt terug op langzame PWM snelheid. Rem houdt positie automatisch vast zodra stroom wegvalt.</div>
 
 </div>
 
-<!-- ══════════════════════════════════
-     PAGE 2 -- PRINT
-══════════════════════════════════ -->
-<div class="page" id="pg-print">
-  <div class="note"><b>Aanpak:</b> Print ALTIJD eerst in goedkope PLA op 20% infill om de pasvorm te testen. Pas als alles klopt → definitief in PETG.</div>
-  <div class="sec">🖨️ Te Printen Onderdelen <span class="sec-badge" id="cp">0/10</span></div>
+<!-- ════════════ PAGE 2: MODELLEN ════════════ -->
+<div class="page" id="pg-models">
 
-  <div class="div">-- Armschalen (zelf ontwerpen in Tinkercad)</div>
+  <div class="note"><b>Strategie:</b> Print ALTIJD eerst in goedkope PLA op 20% infill. Test de pasvorm. Pas als alles 100% klopt → definitief in PETG.</div>
+  <div class="sec">🖨️ 3D Modellen <span class="sec-badge" id="cp">0/10</span></div>
 
+  <!-- MODEL 1: BOVENARM BINNENSCHAAL -->
   <div class="card" id="p1" onclick="tog('p1')">
     <div class="crow"><div class="chk">✓</div><div class="cbody">
-      <div class="ctitle">Bovenarm Binnenschaal (halve cilinder)</div>
+      <div class="ctitle">01 · Bovenarm Binnenschaal</div>
       <div class="tags"><span class="tag t-mat">PETG</span><span class="tag t-spec">~80g</span><span class="tag t-inf">40% infill, 4 wanden</span><span class="tag t-diy">✏ Tinkercad</span></div>
-      <div class="cdesc">Halve holle cilinder op maat van jouw bovenarm. De binnenkant krijgt EVA foam padding. Zijranden hebben schroefgaten voor M3 heat-set inserts.</div>
     </div></div>
-    <div class="tcbox">
-      <div class="tc-hd">Stap-voor-stap Tinkercad</div>
-      <div class="tc-row"><div class="tc-n">1</div><div class="tc-t">Sleep <b>Cylinder</b> → Diameter = (jouw bovenarm omtrek ÷ 3.14) + 14mm. Hoogte = 150mm.</div></div>
-      <div class="tc-row"><div class="tc-n">2</div><div class="tc-t">Dupliceer (Ctrl+D) → 4mm kleiner → "Hole" → Ctrl+G samen = holle buis.</div></div>
-      <div class="tc-row"><div class="tc-n">3</div><div class="tc-t">Grote Box als Hole over de helft → Ctrl+G = halve goot.</div></div>
-      <div class="tc-row"><div class="tc-n">4</div><div class="tc-t">4× Cylinder Ø4.8mm holes langs randen = schroefgaten voor M3 inserts. Export als STL.</div></div>
+    <div class="model-card" style="margin:0 13px 10px;">
+      <div class="model-svg-wrap">
+        <svg viewBox="0 0 220 130" width="220" height="130" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="shellGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1e3048"/><stop offset="100%" stop-color="#0c1620"/></linearGradient></defs>
+          <!-- Half-cylinder shell shape -->
+          <path d="M30,90 Q30,20 110,20 Q190,20 190,90" fill="url(#shellGrad)" stroke="#2a4460" stroke-width="1.5"/>
+          <path d="M38,88 Q38,30 110,30 Q182,30 182,88" fill="#080f18" stroke="#1e3048" stroke-width="1"/>
+          <!-- Wall thickness indicator -->
+          <line x1="30" y1="90" x2="38" y2="88" stroke="#00ffe0" stroke-width="1.5"/>
+          <text x="18" y="80" font-family="Share Tech Mono" font-size="6" fill="#00ffe0">4mm</text>
+          <!-- Screw holes -->
+          <circle cx="50" cy="85" r="4" fill="none" stroke="#ff8800" stroke-width="1.5"/>
+          <circle cx="80" cy="25" r="4" fill="none" stroke="#ff8800" stroke-width="1.5"/>
+          <circle cx="140" cy="25" r="4" fill="none" stroke="#ff8800" stroke-width="1.5"/>
+          <circle cx="170" cy="85" r="4" fill="none" stroke="#ff8800" stroke-width="1.5"/>
+          <text x="155" y="105" font-family="Share Tech Mono" font-size="5.5" fill="#ff8800">M3 gaten</text>
+          <!-- EVA foam indicator -->
+          <path d="M42,86 Q42,36 110,36 Q178,36 178,86" fill="none" stroke="#00ff88" stroke-width="1" stroke-dasharray="3,2"/>
+          <text x="110" y="65" text-anchor="middle" font-family="Share Tech Mono" font-size="5.5" fill="#00ff88">EVA foam</text>
+          <!-- Dimensions -->
+          <line x1="30" y1="100" x2="190" y2="100" stroke="#2a4460" stroke-width="1" marker-end="url(#arr)"/>
+          <text x="110" y="115" text-anchor="middle" font-family="Share Tech Mono" font-size="6" fill="#5a8aa8">Ø = (omtrek ÷ π) + 14mm</text>
+          <text x="110" y="15" text-anchor="middle" font-family="Orbitron" font-size="7" fill="#00b8ff" letter-spacing="1">BOVENARM BINNENSCHAAL</text>
+        </svg>
+      </div>
+      <div class="model-info">
+        <div class="model-specs">
+          <span class="model-spec">Hoogte: 150mm</span><span class="model-spec">Wanddikte: 4mm</span><span class="model-spec">4× M3 gaten</span><span class="model-spec">65% infill scharnier!</span>
+        </div>
+        <div class="model-desc">Halve holle cilinder, exact op maat van jouw bovenarm. Binnenkant krijgt EVA foam padding. Schroefgaten langs de randen voor heat-set inserts M3.</div>
+        <div class="model-steps">
+          <div class="ms-row"><div class="ms-n">1</div><div class="ms-t">Sleep <b>Cylinder</b> → diameter = (jouw bovenarm omtrek ÷ 3.14) + 14mm, hoogte = 150mm</div></div>
+          <div class="ms-row"><div class="ms-n">2</div><div class="ms-t">Ctrl+D dupliceer → 8mm kleiner → "Hole" → Ctrl+G = holle buis</div></div>
+          <div class="ms-row"><div class="ms-n">3</div><div class="ms-t">Box als Hole over de helft heen → Ctrl+G = halve goot vorm</div></div>
+          <div class="ms-row"><div class="ms-n">4</div><div class="ms-t">4× <b>Cylinder Ø4.8mm</b> Holes langs de randen = M3 schroefgaten voor heat-inserts</div></div>
+        </div>
+      </div>
     </div>
-    <div style="padding-bottom:4px;"></div>
   </div>
 
+  <!-- MODEL 2: BOVENARM BUITENSCHAAL -->
   <div class="card" id="p2" onclick="tog('p2')">
     <div class="crow"><div class="chk">✓</div><div class="cbody">
-      <div class="ctitle">Bovenarm Buitenschaal + Actuator Mount</div>
+      <div class="ctitle">02 · Bovenarm Buitenschaal + Actuator Mount</div>
       <div class="tags"><span class="tag t-mat">PETG</span><span class="tag t-spec">~90g</span><span class="tag t-inf">40% infill</span><span class="tag t-diy">✏ Tinkercad</span></div>
-      <div class="cdesc">Spiegelbeeld van binnenschaal + externe rechthoekige houder voor de lineaire actuator body aan de buitenzijde.</div>
     </div></div>
-    <div class="tcbox">
-      <div class="tc-hd">Tinkercad</div>
-      <div class="tc-row"><div class="tc-n">1</div><div class="tc-t">Kopieer binnenschaal → spiegelknop horizontaal → andere helft.</div></div>
-      <div class="tc-row"><div class="tc-n">2</div><div class="tc-t">Voeg <b>Box 65×32×32mm</b> toe aan buitenzijde midden. Hole Cylinder Ø22mm er dwars door = actuator-kanaal.</div></div>
-      <div class="tc-row"><div class="tc-n">3</div><div class="tc-t">2× Ø5mm holes aan onderkant houder voor M4 klembouten. Groepeer alles.</div></div>
+    <div class="model-card" style="margin:0 13px 10px;">
+      <div class="model-svg-wrap">
+        <svg viewBox="0 0 220 140" width="220" height="140" xmlns="http://www.w3.org/2000/svg">
+          <!-- Mirror of inner shell -->
+          <path d="M30,100 Q30,25 110,25 Q190,25 190,100" fill="#1a2a3a" stroke="#2a4460" stroke-width="1.5"/>
+          <path d="M38,98 Q38,34 110,34 Q182,34 182,98" fill="#080f18" stroke="#1e3048" stroke-width="1"/>
+          <!-- Actuator mount box on outside -->
+          <rect x="155" y="25" width="40" height="32" rx="4" fill="#1a2a10" stroke="#558844" stroke-width="1.5"/>
+          <ellipse cx="175" cy="41" rx="10" ry="10" fill="none" stroke="#88cc44" stroke-width="1.5"/>
+          <ellipse cx="175" cy="41" rx="5" ry="5" fill="#223318" stroke="#88cc44" stroke-width="1"/>
+          <text x="175" y="44" text-anchor="middle" font-family="Share Tech Mono" font-size="5" fill="#88cc44">Ø22</text>
+          <text x="175" y="68" text-anchor="middle" font-family="Share Tech Mono" font-size="5" fill="#88cc44">ACTUATOR</text>
+          <text x="175" y="76" text-anchor="middle" font-family="Share Tech Mono" font-size="5" fill="#558844">MOUNT</text>
+          <!-- M4 holes -->
+          <circle cx="159" cy="53" r="3" fill="none" stroke="#ff8800" stroke-width="1.2"/>
+          <circle cx="191" cy="53" r="3" fill="none" stroke="#ff8800" stroke-width="1.2"/>
+          <text x="93" y="15" text-anchor="middle" font-family="Orbitron" font-size="7" fill="#00b8ff" letter-spacing="1">BUITENSCHAAL + MOUNT</text>
+          <!-- Mirror arrow -->
+          <text x="80" y="80" font-family="Share Tech Mono" font-size="5.5" fill="#00ffe0" opacity=".7">⟵ spiegelb. binnenschaal</text>
+          <text x="30" y="120" font-family="Share Tech Mono" font-size="5.5" fill="#5a8aa8">65×32×32mm mount block</text>
+          <text x="30" y="130" font-family="Share Tech Mono" font-size="5.5" fill="#5a8aa8">Ø22mm actuator kanaal</text>
+        </svg>
+      </div>
+      <div class="model-info">
+        <div class="model-specs"><span class="model-spec">Spiegelb. binnenschaal</span><span class="model-spec">Mount 65×32×32mm</span><span class="model-spec">Kanaal Ø22mm</span></div>
+        <div class="model-desc">Spiegelbeeld van binnenschaal + externe houder voor de lineaire actuator aan de buitenzijde bovenarm. De mount heeft een Ø22mm kanaal voor de actuator body + 2× M4 klembouten.</div>
+        <div class="model-steps">
+          <div class="ms-row"><div class="ms-n">1</div><div class="ms-t">Kopieer binnenschaal → spiegelknop horizontaal → andere helft</div></div>
+          <div class="ms-row"><div class="ms-n">2</div><div class="ms-t">Voeg <b>Box 65×32×32mm</b> toe aan buitenzijde midden</div></div>
+          <div class="ms-row"><div class="ms-n">3</div><div class="ms-t"><b>Cylinder Hole Ø22mm</b> dwars door de box = actuator-kanaal</div></div>
+          <div class="ms-row"><div class="ms-n">4</div><div class="ms-t">2× Ø5mm holes aan zijkant box voor M4 klembouten → Groepeer alles</div></div>
+        </div>
+      </div>
     </div>
-    <div style="padding-bottom:4px;"></div>
   </div>
 
+  <!-- MODEL 3: ONDERARM -->
   <div class="card" id="p3" onclick="tog('p3')">
     <div class="crow"><div class="chk">✓</div><div class="cbody">
-      <div class="ctitle">Onderarm Schaal (2 helften, taps)</div>
+      <div class="ctitle">03 · Onderarm Schaal (taps, 2 helften)</div>
       <div class="tags"><span class="tag t-mat">PETG</span><span class="tag t-spec">~120g</span><span class="tag t-inf">40% infill</span><span class="tag t-diy">✏ Tinkercad</span></div>
-      <div class="cdesc">Taps toelopend -- pols smaller dan elleboogkant. Zijgroef voor kabelgeleiding actuator. Zelfde methode als bovenarm.</div>
     </div></div>
-    <div class="tcbox">
-      <div class="tc-hd">Tinkercad</div>
-      <div class="tc-row"><div class="tc-n">1</div><div class="tc-t">Gebruik <b>Cone</b> shape: bovenkant Ø=(onderarm elleboog+14mm), onderkant Ø=(pols+14mm). Hoogte=200mm. Hol uitboren (kopie 4mm kleiner als Hole).</div></div>
-      <div class="tc-row"><div class="tc-n">2</div><div class="tc-t">Halve-box Hole doormidden. Lengtegroef 7×7mm aan zijkant voor kabel. Schroefgaten langs rand.</div></div>
+    <div class="model-card" style="margin:0 13px 10px;">
+      <div class="model-svg-wrap">
+        <svg viewBox="0 0 220 150" width="220" height="150" xmlns="http://www.w3.org/2000/svg">
+          <!-- Tapered forearm shape - 2 halves -->
+          <path d="M50,20 L80,20 L95,130 L35,130 Z" fill="#1a2a3a" stroke="#2a4460" stroke-width="1.5"/>
+          <path d="M130,20 L160,20 L175,130 L115,130 Z" fill="#1a2a3a" stroke="#2a4460" stroke-width="1.5"/>
+          <!-- Inner cavity -->
+          <path d="M54,24 L76,24 L90,126 L40,126 Z" fill="#080f18" stroke="#1e3048" stroke-width="1"/>
+          <path d="M134,24 L156,24 L170,126 L120,126 Z" fill="#080f18" stroke="#1e3048" stroke-width="1"/>
+          <!-- Cable groove on right half -->
+          <rect x="160" y="30" width="7" height="90" rx="2" fill="#0c1620" stroke="#ff8800" stroke-width="1" stroke-dasharray="3,2"/>
+          <text x="172" y="75" font-family="Share Tech Mono" font-size="5" fill="#ff8800" transform="rotate(90,172,75)">KABELGROEF 7mm</text>
+          <!-- Screw holes -->
+          <circle cx="57" cy="35" r="3" fill="none" stroke="#ff8800" stroke-width="1.2"/>
+          <circle cx="57" cy="115" r="3" fill="none" stroke="#ff8800" stroke-width="1.2"/>
+          <circle cx="73" cy="35" r="3" fill="none" stroke="#ff8800" stroke-width="1.2"/>
+          <circle cx="73" cy="115" r="3" fill="none" stroke="#ff8800" stroke-width="1.2"/>
+          <!-- Dimensions -->
+          <line x1="35" y1="135" x2="95" y2="135" stroke="#5a8aa8" stroke-width="1"/>
+          <text x="65" y="145" text-anchor="middle" font-family="Share Tech Mono" font-size="5.5" fill="#5a8aa8">200mm hoog</text>
+          <text x="105" y="75" font-family="Share Tech Mono" font-size="6" fill="#00ffe0">2×</text>
+          <text x="5" y="15" font-family="Orbitron" font-size="7" fill="#00b8ff" letter-spacing="1">ONDERARM (taps)</text>
+          <text x="20" y="25" font-family="Share Tech Mono" font-size="5" fill="#5a8aa8">elleboog → pols smaller</text>
+        </svg>
+      </div>
+      <div class="model-info">
+        <div class="model-specs"><span class="model-spec">200mm hoog</span><span class="model-spec">Taps: elleboog→pols</span><span class="model-spec">Kabelgroef 7×7mm</span></div>
+        <div class="model-desc">Taps toelopend — pols is smaller dan elleboogkant. Zijgroef voor kabelgeleiding naar actuator. Zelfde methode als bovenarm met Cone shape in Tinkercad.</div>
+        <div class="model-steps">
+          <div class="ms-row"><div class="ms-n">1</div><div class="ms-t">Gebruik <b>Cone</b> shape: bovenkant Ø=onderarm-elleboog+14mm, onderkant Ø=pols+14mm, hoogte=200mm</div></div>
+          <div class="ms-row"><div class="ms-n">2</div><div class="ms-t">Kopie 8mm kleiner als Hole → hol uitboren → halve-box Hole doormidden</div></div>
+          <div class="ms-row"><div class="ms-n">3</div><div class="ms-t">Lengtegroef <b>7×7mm</b> aan buitenzijde voor kabelgeleiding → schroefgaten langs rand</div></div>
+        </div>
+      </div>
     </div>
-    <div style="padding-bottom:4px;"></div>
   </div>
 
-  <div class="div">-- Elleboog Scharnier (kritisch onderdeel)</div>
-
+  <!-- MODEL 4: ELBOW HINGE -->
   <div class="card" id="p4" onclick="tog('p4')">
     <div class="crow"><div class="chk">✓</div><div class="cbody">
-      <div class="ctitle">Elleboog Scharnier -- 2 Armen + Spil</div>
-      <div class="tags"><span class="tag t-mat">PETG</span><span class="tag t-spec">~95g</span><span class="tag t-inf">65% infill !</span><span class="tag t-diy">✏ Tinkercad</span></div>
-      <div class="cdesc">Twee scharnierarmen op M4×50 spil. Onderarm-kant heeft een lug met gat voor de actuator-stang koppeling via splitpen. Meest kritische onderdeel -- minimaal 65% infill, 5 wanden!</div>
+      <div class="ctitle">04 · Elleboog Scharnier — 2 Armen + Spil</div>
+      <div class="tags"><span class="tag t-mat">PETG</span><span class="tag t-spec">~95g</span><span class="tag t-inf">65% infill VERPLICHT</span><span class="tag t-diy">✏ Tinkercad</span></div>
     </div></div>
-    <div class="tcbox">
-      <div class="tc-hd">Tinkercad</div>
-      <div class="tc-row"><div class="tc-n">1</div><div class="tc-t"><b>Arm 1 (boven, 85×34×15mm):</b> Ø5mm spilgat aan één uiteinde. Flens Ø28mm aan ander uiteinde met 4× M3 gaten voor bevestiging aan bovenarmschaal.</div></div>
-      <div class="tc-row"><div class="tc-n">2</div><div class="tc-t"><b>Arm 2 (onder, 72×34×15mm):</b> Zelfde spilgat. Voeg een <b>lug 22×13×13mm</b> toe met Ø7mm hole dwars erdoor -- hier koppelt de actuatorstang via splitpen.</div></div>
-      <div class="tc-row"><div class="tc-n">3</div><div class="tc-t">Print apart. M4×50 bout + nyloc moer. Soepel maar zonder speling. 65% infill verplicht!</div></div>
+    <div class="ibox ibox-red" style="margin:13px 13px 0;">⚠ <b>Kritisch onderdeel!</b> Minimaal 65% infill, 5 wanden. Dit draagt de volledige 75kg belasting. Nooit skippen.</div>
+    <div class="model-card" style="margin:8px 13px 10px;">
+      <div class="model-svg-wrap">
+        <svg viewBox="0 0 260 160" width="260" height="160" xmlns="http://www.w3.org/2000/svg">
+          <!-- Arm 1 (upper) -->
+          <rect x="20" y="40" width="85" height="34" rx="6" fill="#1a2a3a" stroke="#2a4460" stroke-width="1.5"/>
+          <text x="62" y="62" text-anchor="middle" font-family="Share Tech Mono" font-size="5.5" fill="#00b8ff">ARM 1: 85×34×15mm</text>
+          <!-- Pivot hole arm1 -->
+          <circle cx="95" cy="57" r="8" fill="#080f18" stroke="#00ffe0" stroke-width="1.5"/>
+          <circle cx="95" cy="57" r="3" fill="#00ffe0" opacity=".6"/>
+          <!-- Flange arm1 -->
+          <ellipse cx="28" cy="57" rx="12" ry="16" fill="#1e3048" stroke="#2a4460" stroke-width="1.2"/>
+          <circle cx="22" cy="51" r="3" fill="none" stroke="#ff8800" stroke-width="1.2"/>
+          <circle cx="34" cy="51" r="3" fill="none" stroke="#ff8800" stroke-width="1.2"/>
+          <circle cx="22" cy="63" r="3" fill="none" stroke="#ff8800" stroke-width="1.2"/>
+          <circle cx="34" cy="63" r="3" fill="none" stroke="#ff8800" stroke-width="1.2"/>
+          <text x="28" y="78" text-anchor="middle" font-family="Share Tech Mono" font-size="4.5" fill="#ff8800">flens M3×4</text>
+
+          <!-- Arm 2 (lower) -->
+          <rect x="155" y="85" width="75" height="34" rx="6" fill="#1a2a3a" stroke="#2a4460" stroke-width="1.5" transform="rotate(-15,155,85)"/>
+          <text x="200" y="108" text-anchor="middle" font-family="Share Tech Mono" font-size="5" fill="#00b8ff" transform="rotate(-15,200,108)">ARM 2: 72×34×15mm</text>
+          <!-- Pivot hole arm2 -->
+          <circle cx="160" cy="90" r="8" fill="#080f18" stroke="#00ffe0" stroke-width="1.5"/>
+          <circle cx="160" cy="90" r="3" fill="#00ffe0" opacity=".6"/>
+
+          <!-- Actuator LUG on arm2 -->
+          <rect x="190" y="116" width="22" height="13" rx="3" fill="#223318" stroke="#88cc44" stroke-width="1.5" transform="rotate(-15,190,116)"/>
+          <circle cx="195" cy="124" r="5" fill="#080f18" stroke="#88cc44" stroke-width="1.5" transform="rotate(-15,195,124)"/>
+          <text x="200" y="142" font-family="Share Tech Mono" font-size="5" fill="#88cc44">LUG Ø7mm</text>
+          <text x="200" y="150" font-family="Share Tech Mono" font-size="5" fill="#558844">splitpen koppeling</text>
+
+          <!-- M4 BOLT -->
+          <line x1="95" y1="57" x2="160" y2="90" stroke="#00ffe0" stroke-width="2" opacity=".5"/>
+          <circle cx="95" cy="57" r="10" fill="none" stroke="#00ffe0" stroke-width="1" stroke-dasharray="3,2" opacity=".4"/>
+          <text x="120" y="72" font-family="Share Tech Mono" font-size="5.5" fill="#00ffe0">M4×50 SPIL</text>
+          <text x="120" y="80" font-family="Share Tech Mono" font-size="5" fill="#5a8aa8">+ nyloc moer</text>
+
+          <text x="130" y="15" text-anchor="middle" font-family="Orbitron" font-size="7" fill="#ff4400" letter-spacing="1">ELLEBOOG SCHARNIER</text>
+          <text x="130" y="25" text-anchor="middle" font-family="Share Tech Mono" font-size="5" fill="#ff8800">65% INFILL · 5 WANDEN</text>
+        </svg>
+      </div>
+      <div class="model-info">
+        <div class="model-specs"><span class="model-spec">Arm1: 85×34×15mm</span><span class="model-spec">Arm2: 72×34×15mm</span><span class="model-spec">Spil: M4×50mm</span><span class="model-spec">Lug: 22×13×13mm</span></div>
+        <div class="model-desc">Twee scharnierarmen op M4×50 spil met nyloc moer. Arm2 heeft een lug met Ø7mm gat voor de actuatorstang koppeling via splitpen. MEEST KRITISCHE ONDERDEEL.</div>
+        <div class="model-steps">
+          <div class="ms-row"><div class="ms-n">1</div><div class="ms-t"><b>Arm1:</b> Box 85×34×15mm, Ø5mm spilgat aan één uiteinde, flens Ø28mm met 4× M3 gaten</div></div>
+          <div class="ms-row"><div class="ms-n">2</div><div class="ms-t"><b>Arm2:</b> Box 72×34×15mm, zelfde spilgat, + <b>lug 22×13×13mm</b> met Ø7mm hole dwars erdoor</div></div>
+          <div class="ms-row"><div class="ms-n">3</div><div class="ms-t">Print APART. M4×50 bout + nyloc moer. Test souplesse. 65% infill verplicht!</div></div>
+        </div>
+      </div>
     </div>
-    <div style="padding-bottom:4px;"></div>
   </div>
 
-  <div class="div">-- Actuator Bevestiging</div>
-
+  <!-- MODEL 5: ACTUATOR CLAMPS -->
   <div class="card" id="p5" onclick="tog('p5')">
     <div class="crow"><div class="chk">✓</div><div class="cbody">
-      <div class="ctitle">Actuator Eindklemmen (2×)</div>
+      <div class="ctitle">05 · Actuator Eindklemmen (2×)</div>
       <div class="tags"><span class="tag t-mat">PETG</span><span class="tag t-spec">~40g</span><span class="tag t-inf">55% infill</span><span class="tag t-diy">✏ Tinkercad</span></div>
-      <div class="cdesc">Houdt de actuator vast op de armschaal. Moet de volledige 75kg kracht doorgeven -- stevige print met brede voet.</div>
     </div></div>
-    <div class="tcbox">
-      <div class="tc-hd">Tinkercad</div>
-      <div class="tc-row"><div class="tc-n">1</div><div class="tc-t">Box 45×30×24mm. Cylinder hole Ø22.5mm dwars erdoor. Wanddikte minimaal 8mm. Voet breed genoeg voor 2× M4 bouten.</div></div>
+    <div class="model-card" style="margin:0 13px 10px;">
+      <div class="model-svg-wrap">
+        <svg viewBox="0 0 200 120" width="200" height="120" xmlns="http://www.w3.org/2000/svg">
+          <!-- Clamp block -->
+          <rect x="40" y="25" width="120" height="60" rx="6" fill="#1a2a3a" stroke="#2a4460" stroke-width="1.5"/>
+          <!-- Actuator hole -->
+          <ellipse cx="100" cy="55" rx="22" ry="22" fill="#080f18" stroke="#88cc44" stroke-width="2"/>
+          <ellipse cx="100" cy="55" rx="11" ry="11" fill="#0c1a10" stroke="#558844" stroke-width="1" stroke-dasharray="3,2"/>
+          <text x="100" y="58" text-anchor="middle" font-family="Share Tech Mono" font-size="5.5" fill="#88cc44">Ø22.5mm</text>
+          <!-- M4 bolt holes -->
+          <circle cx="52" cy="72" r="4" fill="none" stroke="#ff8800" stroke-width="1.2"/>
+          <circle cx="148" cy="72" r="4" fill="none" stroke="#ff8800" stroke-width="1.2"/>
+          <text x="100" y="95" text-anchor="middle" font-family="Share Tech Mono" font-size="5" fill="#ff8800">M4 klembouten</text>
+          <!-- Dimensions -->
+          <text x="40" y="17" font-family="Share Tech Mono" font-size="5.5" fill="#5a8aa8">45×30×24mm · wanddikte min 8mm</text>
+          <text x="100" y="112" text-anchor="middle" font-family="Orbitron" font-size="6.5" fill="#00b8ff">ACTUATOR KLEM (×2)</text>
+        </svg>
+      </div>
+      <div class="model-info">
+        <div class="model-specs"><span class="model-spec">45×30×24mm</span><span class="model-spec">Kanaal Ø22.5mm</span><span class="model-spec">Wand min 8mm</span></div>
+        <div class="model-desc">Houdt de actuator vast op de armschaal. Geeft de volledige 75kg kracht door naar de structuur. Brede voet voor stevige bevestiging.</div>
+        <div class="model-steps">
+          <div class="ms-row"><div class="ms-n">1</div><div class="ms-t">Box 45×30×24mm. <b>Cylinder Hole Ø22.5mm</b> dwars erdoor. Wanddikte minimaal 8mm rondom.</div></div>
+          <div class="ms-row"><div class="ms-n">2</div><div class="ms-t">2× Ø5mm holes in de voet voor M4 bouten naar armschaal. Print 2× . 55% infill.</div></div>
+        </div>
+      </div>
     </div>
-    <div style="padding-bottom:4px;"></div>
   </div>
 
-  <div class="div">-- Gratis STL Downloads ✅</div>
+  <div class="div">-- Gratis STL Downloads</div>
 
   <div class="card" id="p6" onclick="tog('p6')">
     <div class="crow"><div class="chk">✓</div><div class="cbody">
-      <div class="ctitle">Polsbeugel / Wrist Brace</div>
-      <div class="tags"><span class="tag t-mat">PLA</span><span class="tag t-spec">~50g</span><span class="tag t-inf">25% infill</span><span class="tag t-free">✅ Gratis STL</span></div>
-      <div class="cdesc">Print plat → buigen in heet water 80°C → perfect op jouw pols. Klaar in 30 min.</div>
+      <div class="ctitle">06 · Polsbeugel / Wrist Brace</div>
+      <div class="tags"><span class="tag t-mat">PLA</span><span class="tag t-spec">~50g</span><span class="tag t-inf">25%</span><span class="tag t-free">✅ Gratis STL</span></div>
+      <div class="cdesc">Print plat → buigen in heet water 80°C → perfect op pols. 30 min werk. Noodstop knop monteert hier aan.</div>
     </div></div>
-    <div class="links"><a class="btn b-stl" href="https://www.thingiverse.com/thing:403001" target="_blank">📥 STL: Wrist Brace -- Thingiverse</a></div>
+    <div class="links"><a class="btn b-stl" href="https://www.thingiverse.com/thing:403001" target="_blank">📥 STL: Wrist Brace – Thingiverse</a></div>
   </div>
 
   <div class="card" id="p7" onclick="tog('p7')">
     <div class="crow"><div class="chk">✓</div><div class="cbody">
-      <div class="ctitle">Arduino Nano Behuizing</div>
-      <div class="tags"><span class="tag t-mat">PLA</span><span class="tag t-spec">~18g</span><span class="tag t-inf">20% infill</span><span class="tag t-free">✅ Gratis STL</span></div>
-      <div class="cdesc">Beschermende doos voor Arduino Nano v3 met LED-venster en USB-toegang.</div>
+      <div class="ctitle">07 · Arduino Nano Behuizing</div>
+      <div class="tags"><span class="tag t-mat">PLA</span><span class="tag t-spec">~18g</span><span class="tag t-inf">20%</span><span class="tag t-free">✅ Gratis STL</span></div>
+      <div class="cdesc">Beschermende doos voor Arduino Nano v3 met LED-venster en USB-toegang. Sluit op bovenarm met M3.</div>
     </div></div>
     <div class="links">
-      <a class="btn b-stl" href="https://www.printables.com/model/302821-arduino-nano-case" target="_blank">📥 Printables: Nano Case</a>
-      <a class="btn b-stl" href="https://www.thingiverse.com/thing:608121" target="_blank">📥 Thingiverse: Nano Case</a>
+      <a class="btn b-stl" href="https://www.printables.com/model/302821-arduino-nano-case" target="_blank">📥 Printables</a>
+      <a class="btn b-stl" href="https://www.thingiverse.com/thing:608121" target="_blank">📥 Thingiverse</a>
     </div>
   </div>
 
-  <div class="div">-- Kleine Onderdelen (Tinkercad, elk ≤ 15 min)</div>
+  <div class="div">-- Kleine Onderdelen (elk ≤15 min Tinkercad)</div>
 
   <div class="card" id="p8" onclick="tog('p8')">
     <div class="crow"><div class="chk">✓</div><div class="cbody">
-      <div class="ctitle">Velcro Klemmen (8×) -- TPU 95A</div>
+      <div class="ctitle">08 · Velcro Klemmen (8×) — TPU 95A</div>
       <div class="tags"><span class="tag t-mat">TPU 95A</span><span class="tag t-spec">~35g</span><span class="tag t-inf">20%</span><span class="tag t-diy">✏ Tinkercad</span></div>
-      <div class="cdesc">U-profiel dat 5cm velcroband klemt. Flexibel door TPU. Klipt op rand van armschalen.</div>
+      <div class="cdesc">U-profiel dat 5cm velcroband klemt. Flexibel door TPU. Klipt op rand van armschalen. Print op max 25mm/s.</div>
     </div></div>
-    <div class="tcbox">
-      <div class="tc-hd">Tinkercad -- 10 min</div>
-      <div class="tc-row"><div class="tc-n">1</div><div class="tc-t">Box 58×14×11mm. Hole Box 53×10×8mm erin → U-profiel. Print 8× in TPU 95A op max 25mm/s.</div></div>
+    <div class="tcbox" style="margin:0 13px 8px;">
+      <div class="tc-hd">Tinkercad – 10 min</div>
+      <div class="tc-row"><div class="tc-n">1</div><div class="tc-t">Box 58×14×11mm. Hole Box 53×10×8mm erin → U-profiel. Print 8× in TPU 95A op max 25mm/s, 225°C</div></div>
     </div>
-    <div style="padding-bottom:4px;"></div>
   </div>
 
   <div class="card" id="p9" onclick="tog('p9')">
     <div class="crow"><div class="chk">✓</div><div class="cbody">
-      <div class="ctitle">Kabelgeleiders D-Ring (6×) -- PLA</div>
+      <div class="ctitle">09 · Kabelgeleiders D-Ring (6×)</div>
       <div class="tags"><span class="tag t-mat">PLA</span><span class="tag t-spec">~18g</span><span class="tag t-inf">25%</span><span class="tag t-diy">✏ Tinkercad</span></div>
-      <div class="cdesc">Houdt de actuatorkabel langs de arm. Torus + voet. 5 minuten werk per stuk.</div>
+      <div class="cdesc">Houdt de actuatorkabel langs de arm. Torus + voet. 5 minuten per stuk in Tinkercad.</div>
     </div></div>
-    <div class="tcbox">
-      <div class="tc-hd">Tinkercad -- 5 min</div>
+    <div class="tcbox" style="margin:0 13px 8px;">
+      <div class="tc-hd">Tinkercad – 5 min</div>
       <div class="tc-row"><div class="tc-n">1</div><div class="tc-t">Torus Ø16mm, buisdia 4.5mm + platte voet 22×11×3mm + 2× Ø3.2mm M3 holes. Groepeer. Print 6×.</div></div>
     </div>
-    <div style="padding-bottom:4px;"></div>
   </div>
 
   <div class="card" id="p10" onclick="tog('p10')">
     <div class="crow"><div class="chk">✓</div><div class="cbody">
-      <div class="ctitle">Battery Pack Houder -- op bovenarm</div>
-      <div class="tags"><span class="tag t-mat">PETG</span><span class="tag t-spec">~50g</span><span class="tag t-inf">30% infill</span><span class="tag t-diy">✏ Tinkercad</span></div>
-      <div class="cdesc">Houder voor de 3S LiPo batterij, monteert aan de bovenkant van de bovenarmschaal. Heeft een deksel dat vastklikt met M3 boutjes.</div>
+      <div class="ctitle">10 · Battery + L298N Houder</div>
+      <div class="tags"><span class="tag t-mat">PETG</span><span class="tag t-spec">~55g</span><span class="tag t-inf">30%</span><span class="tag t-diy">✏ Tinkercad</span></div>
+      <div class="cdesc">Combineert de 3S LiPo en L298N board in één houder op de bovenarm. Deksel klikt vast met M3.</div>
     </div></div>
-    <div class="tcbox">
+    <div class="tcbox" style="margin:0 13px 8px;">
       <div class="tc-hd">Tinkercad</div>
-      <div class="tc-row"><div class="tc-n">1</div><div class="tc-t">Meet jouw LiPo pakket op (bijv. 115×35×23mm). Maak Box + 2mm wanddikte rondom. Voeg lipjes toe voor schuifdeksel of 2× M3 schroefgaten voor klipdeksel.</div></div>
+      <div class="tc-row"><div class="tc-n">1</div><div class="tc-t">Meet LiPo (bijv. 115×35×23mm) + L298N (43×43mm). Maak box met 2mm wanddikte rondom beide. Schuifdeksel of 4× M3 klipdeksel.</div></div>
     </div>
-    <div style="padding-bottom:4px;"></div>
   </div>
 
-  <div class="tot">Filament: ~1.6kg PETG + 0.1kg TPU + 0.15kg PLA ≈ <b>€26–30 (Amazon/AliExpress)</b></div>
+  <div class="tot">Filament: ~1.6kg PETG + 0.1kg TPU + 0.15kg PLA ≈ <b>€26–30</b></div>
 </div>
 
-<!-- ══════════════════════════════════
-     PAGE 3 -- KOPEN
-══════════════════════════════════ -->
+<!-- ════════════ PAGE 3: KOPEN ════════════ -->
 <div class="page" id="pg-buy">
 
-  <div class="sec">⚡ Actuator -- Het Hart <span class="sec-badge" id="cb">0/3</span></div>
+  <div class="ibox ibox-gamma"><b>Gamma-items:</b> Metalen staven, bouten, scharnieren en tools zijn ook gewoon te kopen bij de Gamma / Praxis. Zie ook de Gamma-sectie onderaan voor specifieke producten!</div>
+
+  <div class="sec">⚡ Actuator + Driver <span class="sec-badge" id="cb">0/3</span></div>
 
   <div class="card" id="b1" onclick="tog('b1')" data-p="35">
     <div class="crow"><div class="chk">✓</div><div class="cbody">
-      <div class="ctitle">12V Lineaire Actuator 750N / 75kg -- 50mm slag</div>
-      <div class="tags">
-        <span class="tag t-best">🏆 BESTE KEUZE</span>
-        <span class="tag t-eur">~€30–40</span>
-        <span class="tag t-spec">750N · 50mm</span>
-      </div>
-      <div class="cdesc">750N = 75kg tilkracht. Ingebouwde limietschakelaars stoppen automatisch aan het einde van de slag. Ingebouwde rem houdt positie vast bij stroomverlies. Aluminium body. Direct aanstuurbaar via L298N.</div>
+      <div class="ctitle">12V Lineaire Actuator 750N / 75kg — 50mm slag</div>
+      <div class="tags"><span class="tag t-best">🏆 BESTE KEUZE</span><span class="tag t-eur">~€30–40</span><span class="tag t-spec">750N · 50mm</span></div>
+      <div class="cdesc">750N = 75kg tilkracht. Ingebouwde limietschakelaars stoppen automatisch aan het einde van de slag. Ingebouwde rem houdt positie vast bij stroomverlies. Aluminium body, IP44 waterdicht.</div>
     </div></div>
-    <div class="ibox ibox-blue" style="margin:0 13px 4px;">
-      <b>Let op bij aanschaf:</b> Kies "double-acting" of gewoon 12V DC. Slag 50mm. Kracht minimaal 500N (750N is beter). Snelheid 5–15mm/s (langzamer = sterker). Controleer of limietschakelaars ingebouwd zijn.
-    </div>
+    <div class="ibox ibox-blue" style="margin:0 13px 4px;"><b>Let op bij aanschaf:</b> Kies 12V DC. Slag 50mm. Kracht minimaal 500N (750N ideaal). Snelheid 5–15mm/s. Zorg dat limietschakelaars ingebouwd zijn. Stroke "double-acting" is NIET nodig — gewone 12V DC werkt.</div>
     <div class="links">
-      <a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=12V+linear+actuator+750N+50mm+stroke+limit+switch" target="_blank">🛒 AliExpress: 750N actuator</a>
+      <a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=12V+linear+actuator+750N+50mm+stroke+limit+switch" target="_blank">🛒 AliExpress</a>
       <a class="btn b-amz" href="https://www.amazon.com/s?k=12v+linear+actuator+750N+50mm+stroke" target="_blank">🛒 Amazon</a>
     </div>
   </div>
 
-  <div class="card" id="b2" onclick="tog('b2')" data-p="5">
+  <div class="card" id="b2" onclick="tog('b2')" data-p="3">
     <div class="crow"><div class="chk">✓</div><div class="cbody">
       <div class="ctitle">L298N Dual H-Bridge Motor Driver</div>
       <div class="tags"><span class="tag t-eur">~€2–4</span></div>
-      <div class="cdesc">Stuurt de actuator in beide richtingen. Arduino (5V) → L298N → actuator (12V). Ingebouwde 5V regelaar voor Arduino voeding. Max 2A per kanaal -- voldoende voor de actuator in normale bediening.</div>
+      <div class="cdesc">Stuurt actuator in beide richtingen. Arduino 5V → L298N → actuator 12V. Ingebouwde 5V regelaar. 2A per kanaal — voldoende voor normale bediening.</div>
     </div></div>
     <div class="links">
       <a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=L298N+dual+H-bridge+motor+driver+module" target="_blank">🛒 AliExpress</a>
@@ -856,42 +783,38 @@ pre{font-family:'Share Tech Mono',monospace;font-size:.66rem;line-height:1.75;wh
     </div>
   </div>
 
-  <div class="card" id="b3" onclick="tog('b3')" data-p="5">
+  <div class="card" id="b3" onclick="tog('b3')" data-p="30">
     <div class="crow"><div class="chk">✓</div><div class="cbody">
-      <div class="ctitle">PETG Filament 1.75mm -- 2kg (Creality / SUNLU / eSUN)</div>
+      <div class="ctitle">PETG Filament 1.75mm — 2kg (SUNLU / Creality)</div>
       <div class="tags"><span class="tag t-eur">~€28–34 (2kg)</span></div>
-      <div class="cdesc">Voor alle structurele onderdelen. Koop minimaal 2kg: 1 rol voor test-prints in PLA is ook goed, maar PETG is wat je voor de eindprint nodig hebt. SUNLU en Creality zijn betrouwbare budget-merken.</div>
+      <div class="cdesc">Voor alle structurele onderdelen. Minimaal 2kg. SUNLU en Creality zijn betrouwbare budget-merken.</div>
     </div></div>
     <div class="links">
-      <a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=PETG+filament+1.75mm+1kg+3d+printer" target="_blank">🛒 AliExpress PETG</a>
-      <a class="btn b-amz" href="https://www.amazon.com/s?k=SUNLU+PETG+filament+1.75mm+1kg" target="_blank">🛒 Amazon: SUNLU PETG</a>
+      <a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=PETG+filament+1.75mm+1kg" target="_blank">🛒 AliExpress PETG</a>
+      <a class="btn b-amz" href="https://www.amazon.com/s?k=SUNLU+PETG+filament+1.75mm+1kg" target="_blank">🛒 Amazon SUNLU</a>
     </div>
   </div>
 
   <div class="sec">🧠 Elektronica <span class="sec-badge" id="ce">0/7</span></div>
 
-  <div class="card" id="e1" onclick="tog('e1')" data-p="2">
+  <div class="card" id="e1" onclick="tog('e1')" data-p="4">
     <div class="crow"><div class="chk">✓</div><div class="cbody">
-      <div class="ctitle">Arduino Nano (CH340 clone)</div>
-      <div class="tags"><span class="tag t-eur">~€2</span></div>
-      <div class="cdesc">Het brein van het systeem. CH340 USB-chip = goedkopere clone, werkt perfect. Installeer CH340 driver op je PC voor gebruik. Koop 2 stuks als reserve.</div>
+      <div class="ctitle">Arduino Nano v3 (CH340 clone) — 2 stuks</div>
+      <div class="tags"><span class="tag t-eur">~€4 voor 2</span></div>
+      <div class="cdesc">Het brein. CH340 clone is prima. Installeer CH340 driver op je PC. Koop 2 stuks als reserve — ze zijn goedkoop.</div>
     </div></div>
-    <div class="links">
-      <a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=arduino+nano+v3+ch340+atmega328p" target="_blank">🛒 AliExpress (~€2)</a>
-    </div>
+    <div class="links"><a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=arduino+nano+v3+ch340+atmega328p+2pcs" target="_blank">🛒 AliExpress (~€4 voor 2)</a></div>
   </div>
 
   <div class="card" id="e2" onclick="tog('e2')" data-p="13">
     <div class="crow"><div class="chk">✓</div><div class="cbody">
-      <div class="ctitle">EMG Spiersensor Module (AliExpress clone)</div>
+      <div class="ctitle">EMG Spiersensor Module (AliExpress)</div>
       <div class="tags"><span class="tag t-eur">~€10–14</span></div>
-      <div class="cdesc">Detecteert elektrische activiteit van je bicep. Plak 3 elektroden op de spier → analoog 0–5V signaal naar Arduino. De AliExpress-versie ("muscle signal sensor EMG") werkt prima voor dit project voor ~€13. MyoWare 2.0 is nauwkeuriger maar kost ~€35.</div>
+      <div class="cdesc">Detecteert elektrische activiteit van je bicep. 3 elektroden → analoog 0–5V signaal → Arduino A0. AliExpress clone werkt prima voor dit project.</div>
     </div></div>
-    <div class="ibox ibox-warn" style="margin:0 13px 4px;">
-      <b>Tip:</b> Koop ook losse snap-elektroden (EMG pads) erbij -- ~€5 voor 50 stuks. Die ga je regelmatig vervangen.
-    </div>
+    <div class="ibox ibox-warn" style="margin:0 13px 4px;"><b>Tip:</b> Koop ook losse snap-elektroden erbij — ~€5 voor 50 stuks. Vervang elke 2–3 sessies.</div>
     <div class="links">
-      <a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=EMG+muscle+signal+sensor+module+arduino+electromyography" target="_blank">🛒 AliExpress (~€13)</a>
+      <a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=EMG+muscle+signal+sensor+module+arduino" target="_blank">🛒 AliExpress (~€13)</a>
       <a class="btn b-amz" href="https://www.amazon.com/s?k=myoware+2.0+muscle+sensor" target="_blank">🛒 Amazon MyoWare 2.0 (~€35)</a>
     </div>
   </div>
@@ -900,74 +823,69 @@ pre{font-family:'Share Tech Mono',monospace;font-size:.66rem;line-height:1.75;wh
     <div class="crow"><div class="chk">✓</div><div class="cbody">
       <div class="ctitle">EMG Elektroden / Snap Pads (50×)</div>
       <div class="tags"><span class="tag t-eur">~€4–6</span></div>
-      <div class="cdesc">Wegwerp-elektroden die je op je huid plakt. Snap-type, compatibel met EMG modules. Vervang elke 2–3 sessies voor betrouwbaar signaal.</div>
+      <div class="cdesc">Wegwerp-elektroden op huid. Snap-type, compatibel met EMG modules. Vervang elke 2–3 sessies.</div>
     </div></div>
-    <div class="links">
-      <a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=ECG+EMG+snap+electrode+pads+50pcs+disposable" target="_blank">🛒 AliExpress (~€5)</a>
-    </div>
+    <div class="links"><a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=ECG+EMG+snap+electrode+pads+50pcs" target="_blank">🛒 AliExpress (~€5)</a></div>
   </div>
 
-  <div class="card" id="e4" onclick="tog('e4')" data-p="15">
+  <div class="card" id="e4" onclick="tog('e4')" data-p="17">
     <div class="crow"><div class="chk">✓</div><div class="cbody">
       <div class="ctitle">12V LiPo Accu 3S 2200mAh + B6 Balancer Lader</div>
-      <div class="tags"><span class="tag t-eur">~€15–18</span></div>
-      <div class="cdesc">3S = 11.1V nominaal / 12.6V vol -- ideaal voor de 12V actuator. 2200mAh geeft ~45–60 min actief gebruik. B6 lader is de meest betrouwbare budget-lader voor LiPo. Koop ook XT60 connector-paren erbij.</div>
+      <div class="tags"><span class="tag t-eur">~€15–20</span></div>
+      <div class="cdesc">3S = 11.1V nominaal / 12.6V vol. 2200mAh geeft ~45–60 min actief gebruik. B6 lader is meest betrouwbare budget-lader. Koop ook XT60 connector-paren.</div>
     </div></div>
-    <div class="ibox ibox-red" style="margin:0 13px 4px;">
-      <b>Veiligheid:</b> Laad LiPo ALTIJD via een balancer-lader. Nooit onbeheerd opladen. Bewaar in een vuurvaste LiPo-zak.
-    </div>
+    <div class="ibox ibox-red" style="margin:0 13px 4px;"><b>Veiligheid:</b> Laad LiPo ALTIJD via balancer-lader. Nooit onbeheerd opladen. Bewaar in vuurvaste LiPo-zak. Nooit onder 3.5V per cel ontladen!</div>
     <div class="links">
-      <a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=3S+lipo+battery+2200mah+11.1V+XT60+drone" target="_blank">🛒 LiPo 3S (AliExpress)</a>
+      <a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=3S+lipo+battery+2200mah+11.1V+XT60" target="_blank">🛒 LiPo 3S</a>
       <a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=B6+mini+lipo+balance+charger+80W" target="_blank">🛒 B6 Lader</a>
     </div>
   </div>
 
-  <div class="card" id="e5" onclick="tog('e5')" data-p="3">
+  <div class="card" id="e5" onclick="tog('e5')" data-p="2">
     <div class="crow"><div class="chk">✓</div><div class="cbody">
       <div class="ctitle">LM2596 Buck Converter (12V → 5V)</div>
-      <div class="tags"><span class="tag t-eur">~€2</span></div>
-      <div class="cdesc">Zet 12V LiPo om naar stabiele 5V voor Arduino + EMG sensor. Instelbaar via potentiometer. Stel exact 5.0V in met multimeter vóór aansluiting op Arduino. Nooit direct 12V op Nano!</div>
+      <div class="tags"><span class="tag t-eur">~€1.50–2</span></div>
+      <div class="cdesc">Zet 12V LiPo om naar stabiele 5V voor Arduino + EMG sensor. Instelbaar via potentiometer. Stel exact 5.0V in met multimeter vóór aansluiting op Arduino!</div>
     </div></div>
-    <div class="links">
-      <a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=LM2596+DC-DC+buck+converter+adjustable+step+down" target="_blank">🛒 AliExpress (~€1.50)</a>
-    </div>
+    <div class="links"><a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=LM2596+DC-DC+buck+converter+adjustable" target="_blank">🛒 AliExpress (~€1.50)</a></div>
   </div>
 
   <div class="card" id="e6" onclick="tog('e6')" data-p="3">
     <div class="crow"><div class="chk">✓</div><div class="cbody">
       <div class="ctitle">XT60 Connectoren (5 paar) + NC Noodstop Knop</div>
       <div class="tags"><span class="tag t-eur">~€3</span></div>
-      <div class="cdesc">XT60 voor LiPo-verbinding (robuust bij hoge stroom). NC noodstop = normaal gesloten, opent bij indrukken → Arduino stopt alles. Monteert op polsbeugel, bereikbaar met duim.</div>
+      <div class="cdesc">XT60 voor LiPo-verbinding (robuust bij hoge stroom). NC noodstop = normaal gesloten, opent bij indrukken → Arduino stopt alles. Op polsbeugel, bereikbaar met duim.</div>
     </div></div>
     <div class="links">
-      <a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=XT60+connector+male+female+5+pairs" target="_blank">🛒 XT60</a>
-      <a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=NC+normally+closed+push+button+momentary+switch+metal" target="_blank">🛒 Noodstop</a>
+      <a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=XT60+connector+5+pairs" target="_blank">🛒 XT60</a>
+      <a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=NC+normally+closed+push+button+momentary+metal" target="_blank">🛒 Noodstop</a>
     </div>
   </div>
 
-  <div class="card" id="e7" onclick="tog('e7')" data-p="4">
+  <div class="card" id="e7" onclick="tog('e7')" data-p="7">
     <div class="crow"><div class="chk">✓</div><div class="cbody">
-      <div class="ctitle">Dupont Kabels + 1kΩ Weerstanden + Multimeter</div>
-      <div class="tags"><span class="tag t-eur">~€5–8</span></div>
-      <div class="cdesc">40x M/F dupont jumper kabels voor verbindingen. 1kΩ weerstanden voor EMG sensor ingang. Goedkope multimeter is essentieel voor buck converter instellen en probleemoplossing.</div>
+      <div class="ctitle">Dupont Kabels + Weerstanden 1kΩ + Multimeter</div>
+      <div class="tags"><span class="tag t-eur">~€6–9</span></div>
+      <div class="cdesc">40× M/F dupont jumper kabels. 1kΩ weerstanden voor EMG sensor ingang. Multimeter essentieel voor buck converter instellen en probleemoplossing.</div>
     </div></div>
     <div class="links">
       <a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=dupont+jumper+wire+40pcs+male+female" target="_blank">🛒 Kabels</a>
-      <a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=digital+multimeter+pocket+cheap+UT33" target="_blank">🛒 Multimeter (~€5)</a>
+      <a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=digital+multimeter+pocket+UT33" target="_blank">🛒 Multimeter (~€5)</a>
     </div>
   </div>
 
-  <div class="sec">🔩 Mechanisch + Bevestiging <span class="sec-badge" id="cm">0/6</span></div>
+  <div class="sec">🔩 Mechanisch <span class="sec-badge" id="cm">0/6</span></div>
 
-  <div class="card" id="m1" onclick="tog('m1')" data-p="9">
+  <div class="card" id="m1" onclick="tog('m1')" data-p="8">
     <div class="crow"><div class="chk">✓</div><div class="cbody">
       <div class="ctitle">M3 + M4 Bouten & Moeren Kit (300+ stuks)</div>
-      <div class="tags"><span class="tag t-eur">~€6–9</span></div>
-      <div class="cdesc">M3 = alle geprinte onderdelen. M4×50 = elleboogscharnier spil (nyloc moer verplicht!). Koop assortimentdoos met M3×6/10/16/20 en M4×20/30/50 + bijbehorende moeren en sluitringen.</div>
+      <div class="tags"><span class="tag t-eur">~€6–9</span><span class="tag t-gamma">ook bij Gamma</span></div>
+      <div class="cdesc">M3 = alle geprinte onderdelen. M4×50 = elleboogscharnier spil (nyloc moer verplicht!). Assortimentdoos met M3×6/10/16/20 en M4×20/30/50 + moeren + sluitringen.</div>
     </div></div>
     <div class="links">
-      <a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=M3+M4+screw+bolt+nut+assortment+kit+stainless+300pcs" target="_blank">🛒 Bouten kit AliExpress</a>
-      <a class="btn b-amz" href="https://www.amazon.com/s?k=M3+M4+screw+assortment+stainless+steel" target="_blank">🛒 Amazon</a>
+      <a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=M3+M4+screw+bolt+nut+assortment+300pcs" target="_blank">🛒 AliExpress</a>
+      <a class="btn b-amz" href="https://www.amazon.com/s?k=M3+M4+screw+assortment+stainless" target="_blank">🛒 Amazon</a>
+      <a class="btn b-gamma" href="https://www.gamma.nl/assortiment/zoeken?text=bouten+assortiment+M3+M4" target="_blank">🟧 Gamma</a>
     </div>
   </div>
 
@@ -975,360 +893,956 @@ pre{font-family:'Share Tech Mono',monospace;font-size:.66rem;line-height:1.75;wh
     <div class="crow"><div class="chk">✓</div><div class="cbody">
       <div class="ctitle">M3 Heat-Set Inserts Messing (50×)</div>
       <div class="tags"><span class="tag t-eur">~€3–4</span></div>
-      <div class="cdesc">Indrukken met soldeerbout op 200°C. Geeft sterke schroefdraad in PETG die je meerdere keren kunt in- en uitschroeven zonder slijtage. Essentieel voor duurzame verbindingen.</div>
+      <div class="cdesc">Indrukken met soldeerbout op 200°C. Sterke schroefdraad in PETG, meerdere keren in- en uitschroeven zonder slijtage.</div>
     </div></div>
-    <div class="links">
-      <a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=M3+heat+set+insert+brass+knurled+threaded+50pcs" target="_blank">🛒 AliExpress (~€3.50)</a>
-    </div>
+    <div class="links"><a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=M3+heat+set+insert+brass+knurled+50pcs" target="_blank">🛒 AliExpress (~€3.50)</a></div>
   </div>
 
-  <div class="card" id="m3" onclick="tog('m3')" data-p="4">
+  <div class="card" id="m3" onclick="tog('m3')" data-p="6">
     <div class="crow"><div class="chk">✓</div><div class="cbody">
-      <div class="ctitle">Velcro Klittenband 5cm breed × 2m + Schouderharnas</div>
-      <div class="tags"><span class="tag t-eur">~€5–7</span></div>
-      <div class="cdesc">Velcro = verstelbare draagbanden (minimaal 3 banden). Schouderharnas = essentieel! De actuator trekt aan je schouder bij het tillen -- gebruik een rugzak-schouderband of koop losse webbing harnas.</div>
+      <div class="ctitle">Velcro Klittenband 5cm × 2m + Schouderharnas</div>
+      <div class="tags"><span class="tag t-eur">~€5–7</span><span class="tag t-gamma">ook bij Gamma</span></div>
+      <div class="cdesc">Velcro = verstelbare draagbanden (minimaal 3 banden). Schouderharnas is essentieel — de actuator trekt anders aan je schouder bij het tillen.</div>
     </div></div>
     <div class="links">
-      <a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=velcro+strap+5cm+hook+loop+adhesive+2m" target="_blank">🛒 Velcro AliExpress</a>
-      <a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=shoulder+harness+strap+5cm+adjustable+webbing" target="_blank">🛒 Harnas</a>
+      <a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=velcro+strap+5cm+hook+loop+2m" target="_blank">🛒 Velcro AliExpress</a>
+      <a class="btn b-gamma" href="https://www.gamma.nl/assortiment/zoeken?text=klittenband+5cm" target="_blank">🟧 Gamma klittenband</a>
     </div>
   </div>
 
   <div class="card" id="m4" onclick="tog('m4')" data-p="4">
     <div class="crow"><div class="chk">✓</div><div class="cbody">
       <div class="ctitle">EVA Foam 5mm (comfort padding)</div>
-      <div class="tags"><span class="tag t-eur">~€3–5</span></div>
-      <div class="cdesc">Aan de binnenzijde van alle armschalen plakken voor draagcomfort. Voorkomt drukpunten bij langdurig dragen. Snij op maat, plak met contactlijm.</div>
+      <div class="tags"><span class="tag t-eur">~€3–5</span><span class="tag t-gamma">ook bij Gamma</span></div>
+      <div class="cdesc">Aan de binnenzijde van alle armschalen plakken. Voorkomt drukpunten bij langdurig dragen. Snij op maat, plak met contactlijm.</div>
     </div></div>
     <div class="links">
-      <a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=EVA+foam+sheet+5mm+black+30x30cm+padding" target="_blank">🛒 AliExpress (~€3)</a>
+      <a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=EVA+foam+sheet+5mm+black+30x30cm" target="_blank">🛒 AliExpress (~€3)</a>
+      <a class="btn b-gamma" href="https://www.gamma.nl/assortiment/zoeken?text=schuimrubber+5mm" target="_blank">🟧 Gamma schuimrubber</a>
     </div>
   </div>
 
   <div class="card" id="m5" onclick="tog('m5')" data-p="3">
     <div class="crow"><div class="chk">✓</div><div class="cbody">
-      <div class="ctitle">Splitpennen Ø3mm + M4 Borgringen (actuator koppeling)</div>
-      <div class="tags"><span class="tag t-eur">~€2–3</span></div>
-      <div class="cdesc">Splitpen koppelt de actuatorstang aan de elleboogarm-lug. Borgringen op de scharnierspil als dubbele vergrendeling. Veiligheidsonderdelen -- niet overslaan!</div>
+      <div class="ctitle">Splitpennen Ø3mm + M4 Borgringen</div>
+      <div class="tags"><span class="tag t-eur">~€2–3</span><span class="tag t-gamma">ook bij Gamma</span></div>
+      <div class="cdesc">Splitpen koppelt de actuatorstang aan de elleboogarm-lug. Borgringen op scharnierspil als dubbele vergrendeling. Veiligheidsonderdelen — niet overslaan!</div>
     </div></div>
     <div class="links">
-      <a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=split+cotter+pin+3mm+assortment+stainless" target="_blank">🛒 Splitpennen</a>
+      <a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=split+cotter+pin+3mm+stainless" target="_blank">🛒 Splitpennen</a>
+      <a class="btn b-gamma" href="https://www.gamma.nl/assortiment/zoeken?text=splitpennen+3mm" target="_blank">🟧 Gamma splitpennen</a>
     </div>
   </div>
 
-  <div class="card" id="m6" onclick="tog('m6')" data-p="3">
+  <div class="card" id="m6" onclick="tog('m6')" data-p="14">
     <div class="crow"><div class="chk">✓</div><div class="cbody">
-      <div class="ctitle">PLA Filament 1.75mm 1kg (voor test-prints)</div>
+      <div class="ctitle">PLA Filament 1.75mm 1kg (test-prints)</div>
       <div class="tags"><span class="tag t-eur">~€12–16</span></div>
-      <div class="cdesc">Goedkope PLA voor alle test-prints vóór je dure PETG gebruikt. Print alles eerst in PLA op 20% infill om de pasvorm te checken. Bespaar zo €10–15 aan PETG filament bij fouten.</div>
+      <div class="cdesc">Goedkope PLA voor alle test-prints. Print alles eerst in PLA op 20% infill om de pasvorm te checken. Bespaart €10–15 aan PETG bij fouten.</div>
     </div></div>
     <div class="links">
-      <a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=PLA+filament+1.75mm+1kg+3d+printer" target="_blank">🛒 AliExpress PLA</a>
-      <a class="btn b-amz" href="https://www.amazon.com/s?k=PLA+filament+1.75mm+1kg+cheap" target="_blank">🛒 Amazon PLA</a>
+      <a class="btn b-ali" href="https://www.aliexpress.com/wholesale?SearchText=PLA+filament+1.75mm+1kg" target="_blank">🛒 AliExpress</a>
+      <a class="btn b-amz" href="https://www.amazon.com/s?k=PLA+filament+1.75mm+1kg" target="_blank">🛒 Amazon</a>
     </div>
   </div>
 
-  <!-- GRAND TOTAL -->
+  <!-- GAMMA SPECIAL SECTION -->
+  <div class="sec" style="color:#ffaa00;">🟧 Gamma / Praxis Items</div>
+
+  <div class="gamma-section">
+    <div class="gamma-hd">Wat je lokaal kunt kopen</div>
+
+    <div class="gamma-row">
+      <div class="gamma-num">01</div>
+      <div class="gamma-body">
+        <div class="gamma-name">Aluminium Platte Staf — 20×3mm × 1m</div>
+        <div class="gamma-spec">Gamma artikel: platte aluminiumstrip / profielen sectie</div>
+        <div class="gamma-why">Optionele versteviging voor het scharnier. Boor er twee M4-gaten in op de juiste afstand → stevig scharnier dat niet buigt bij 75kg. Zaag op maat met ijzerzaag of Gamma zaagt het voor je.</div>
+        <div class="gamma-price">~€5–8 per staf</div>
+      </div>
+    </div>
+
+    <div class="gamma-row">
+      <div class="gamma-num">02</div>
+      <div class="gamma-body">
+        <div class="gamma-name">M4 Stalen Bout × 50mm (5 stuks) + Nyloc Moeren</div>
+        <div class="gamma-spec">Gamma boutjes & moeren sectie, doos of los</div>
+        <div class="gamma-why">Voor de elleboogscharnier spil. Gamma verkoopt losse boutjes in de bout-muur. Goedkoper dan complete kit als je alleen dit nodig hebt. Neem altijd nyloc moeren (zelfborgende moer met nylonring).</div>
+        <div class="gamma-price">~€2–4 voor 5 stuks</div>
+      </div>
+    </div>
+
+    <div class="gamma-row">
+      <div class="gamma-num">03</div>
+      <div class="gamma-body">
+        <div class="gamma-name">Contactlijm / Bison Kit Transparant</div>
+        <div class="gamma-spec">Bison of Soudal contact adhesive — tube of penneel</div>
+        <div class="gamma-why">Voor het plakken van EVA foam in de armschalen. Contactlijm werkt het best op PETG — aanbrengen op beide oppervlakken, 5 min drogen, samendrukken. Houdt perfect.</div>
+        <div class="gamma-price">~€4–7</div>
+      </div>
+    </div>
+
+    <div class="gamma-row">
+      <div class="gamma-num">04</div>
+      <div class="gamma-body">
+        <div class="gamma-name">Hechtband / Geweven Webbing Zwart — 5cm breed</div>
+        <div class="gamma-spec">Klittenband sectie of sjorband sectie</div>
+        <div class="gamma-why">Steviger dan standaard klittenband. Gebruik voor de schouderband en bovenarm-riem. Maximaal belastbaar (schouderband draagt mee met de 75kg). Koop minimaal 2 meter.</div>
+        <div class="gamma-price">~€3–6</div>
+      </div>
+    </div>
+
+    <div class="gamma-row">
+      <div class="gamma-num">05</div>
+      <div class="gamma-body">
+        <div class="gamma-name">Schuurpapier P120 + P240 + P400</div>
+        <div class="gamma-spec">Schuurpapier sectie — vellen of set</div>
+        <div class="gamma-why">Voor het nabewerken van 3D prints. P120 voor ruwe randjes, P240 voor gladmaken, P400 voor afwerking. Geprint PETG is ruw — schaaf de scharnier-assen glad voor soepele beweging.</div>
+        <div class="gamma-price">~€3–5 set</div>
+      </div>
+    </div>
+
+    <div class="gamma-row">
+      <div class="gamma-num">06</div>
+      <div class="gamma-body">
+        <div class="gamma-name">Stalen Scharnier Ø50mm (als backup)</div>
+        <div class="gamma-spec">Scharnier sectie — klein meubelschanier of klapschanier</div>
+        <div class="gamma-why">Als backup voor het 3D geprinte scharnier. Als je het geprinte scharnier niet vertrouwt bij hoge belasting, gebruik dan een stalen meubelschanier (Ø50mm) als kern en print er een adapter omheen in Tinkercad.</div>
+        <div class="gamma-price">~€2–5</div>
+      </div>
+    </div>
+
+    <div class="gamma-row">
+      <div class="gamma-num">07</div>
+      <div class="gamma-body">
+        <div class="gamma-name">Foam Tape Dubbelzijdig 5mm dik</div>
+        <div class="gamma-spec">Tape sectie — Tesa of 3M dubbelzijdig foam</div>
+        <div class="gamma-why">Plak de Arduino Nano behuizing en L298N tijdelijk vast voor testen. Geen bouten nodig voor testfase. Verwijdert schoon van PETG oppervlak.</div>
+        <div class="gamma-price">~€3–5</div>
+      </div>
+    </div>
+
+    <div class="gamma-row">
+      <div class="gamma-num">08</div>
+      <div class="gamma-body">
+        <div class="gamma-name">Kabelbinders Zwart 3mm × 150mm (100 stuks)</div>
+        <div class="gamma-spec">Kabelbeheer sectie</div>
+        <div class="gamma-why">Voor het netjes bundelen van alle kabels langs de arm. Strak aantrekken, overtollig deel afknippen. Professioneel resultaat. Koop ook 2.5mm voor kleine kabels.</div>
+        <div class="gamma-price">~€3–4</div>
+      </div>
+    </div>
+
+    <div class="links" style="margin-top:4px;">
+      <a class="btn b-gamma" href="https://www.gamma.nl" target="_blank">🟧 Gamma.nl — Zoekopdracht</a>
+      <a class="btn b-gamma" href="https://www.praxis.nl" target="_blank">🟧 Praxis.nl</a>
+    </div>
+  </div>
+
   <div class="gtotal">
     <div class="gt-lbl">Totale Schatting</div>
-    <div class="gt-val">€120–145</div>
-    <div class="gt-sub">Filament €30 · Actuator €35 · Elektronica €40 · Mechanisch €25 · Marge voor verzending &amp; extra's</div>
+    <div class="gt-val">€130–155</div>
+    <div class="gt-sub">Filament €30 · Actuator €37 · Elektronica €44 · Mechanisch €26 · Gamma items ~€18 · Verzending/extra's</div>
   </div>
-
 </div>
 
-<!-- ══════════════════════════════════
-     PAGE 4 -- STAPPEN
-══════════════════════════════════ -->
+<!-- ════════════ PAGE 4: STAPPEN ════════════ -->
 <div class="page" id="pg-steps">
-  <div class="note"><b>Heilige volgorde.</b> Test élke fase 100% voor je verdergaat. Eerste draagtest: maximaal 2kg. Veiligheid gaat altijd voor snelheid.</div>
-  <div class="sec">📋 Bouwstappen <span class="sec-badge" id="cs">0/10</span></div>
+  <div class="note"><b>Heilige volgorde.</b> Test élke fase 100% voor je verdergaat. Eerste draagtest maximaal 2kg. Veiligheid gaat altijd voor snelheid. Lees elke stap volledig door voor je begint.</div>
+  <div class="sec">📋 Bouwstappen <span class="sec-badge" id="cs">0/16</span></div>
+
+  <!-- FASE 1 -->
+  <div class="div">FASE 1 — Voorbereiding &amp; Meten</div>
 
   <div class="scard" id="s1" onclick="togS('s1')"><div class="srow">
     <div class="chk-step">✓</div><div class="snum">01</div><div class="sbody">
-    <div class="s-tit">Arm Opmeten</div>
-    <div class="s-desc">Gebruik een meetlint: bovenarm omtrek (midden), bovenarm lengte, elleboogbreedte, onderarm omtrek op 3 punten (elleboog/midden/pols), polsomtrek. Tel 12–14mm op voor speelruimte + padding.</div>
-    <div class="s-tips"><div class="stip">Meet bij relaxed, licht gebogen arm</div><div class="stip">Schrijf alles op papier naast je PC</div><div class="stip">Meet ook de andere arm -- gebruik het gemiddelde</div></div>
+    <div class="s-tit">Alle Materialen Bestellen + Ontvangen</div>
+    <div class="s-desc">Bestel alles van AliExpress, Amazon en Gamma in één keer. Maak een spreadsheet van wat je hebt besteld, welke datum en of het is ontvangen. AliExpress levertijd: 2–4 weken. Bestel Arduino, L298N en EMG sensor als allereerste zodat je alvast kunt programmeren terwijl de rest aankomt.</div>
+    <div class="s-tips">
+      <div class="stip">Bestel Arduino + L298N als EERSTE — programmeertijd terwijl rest onderweg is</div>
+      <div class="stip">Gamma items haal je op nadat je de maten van je arm weet</div>
+      <div class="stip r">Controleer bij elke levering of het klopt met de bestelling</div>
+      <div class="stip g">Actuator: controleer slag (50mm) en spanning (12V DC) op het label</div>
+    </div>
   </div></div></div>
 
   <div class="scard" id="s2" onclick="togS('s2')"><div class="srow">
     <div class="chk-step">✓</div><div class="snum">02</div><div class="sbody">
-    <div class="s-tit">Tinkercad Account + 3 Basis Tutorials</div>
-    <div class="s-desc">Maak gratis account op tinkercad.com. Doe de eerste 3 gratis "Starter" tutorials (ca. 25 min totaal). Maak dan zelf een simpele holle box als oefening.</div>
-    <div class="s-tips"><div class="stip">Werkt in browser, geen installatie nodig</div><div class="stip">Sla elk design op met duidelijke naam</div><div class="stip">Gebruik Chrome of Firefox voor beste ervaring</div></div>
+    <div class="s-tit">Nauwkeurig Arm Opmeten (8 metingen)</div>
+    <div class="s-desc">Gebruik een meetlint. Meet bij ontspannen, licht gebogen arm. Meet beide armen en gebruik het gemiddelde. Schrijf alle maten op papier naast de PC voor Tinkercad.</div>
+    <div class="s-tips">
+      <div class="stip">M1: Bovenarm omtrek (midden) → gedeeld door π = diameter voor Tinkercad</div>
+      <div class="stip">M2: Bovenarm lengte (schouder → elleboog)</div>
+      <div class="stip">M3: Elleboogbreedte (buitenzijde tot buitenzijde)</div>
+      <div class="stip">M4: Onderarm omtrek bij elleboog, midden, en pols (3 punten!)</div>
+      <div class="stip">M5: Polsomtrek</div>
+      <div class="stip">M6: Afstand van elleboog tot pols</div>
+      <div class="stip g">Tel altijd 12–14mm op voor speelruimte + EVA foam dikte</div>
+      <div class="stip g">Meetlint strak maar niet indrukken — ademruimte houden</div>
+    </div>
   </div></div></div>
 
   <div class="scard" id="s3" onclick="togS('s3')"><div class="srow">
     <div class="chk-step">✓</div><div class="snum">03</div><div class="sbody">
-    <div class="s-tit">3D Modellen Tekenen in Tinkercad</div>
-    <div class="s-desc">Begin met de bovenarm binnenschaal (makkelijkste). Volg de stap-voor-stap op de Print-pagina. Dan buitenschaal, onderarm, scharnier, kleine onderdelen. Sla elk apart op als STL.</div>
-    <div class="s-tips"><div class="stip">Bovenarmschaal eerst -- rechtlijnigst</div><div class="stip">Scharnier + actuatormount als laatste -- moeilijkst</div><div class="stip">Controleer maten in Tinkercad ruler vóór export</div></div>
+    <div class="s-tit">Tinkercad Account + Basis Tutorial (25 min)</div>
+    <div class="s-desc">Maak gratis account op tinkercad.com. Doe de eerste 3 gratis "Starter" tutorials. Doe daarna zelf een oefening: maak een holle box met een gat erin. Sla op als "oefening_1". Dit bouwt het spiergeheugen op dat je nodig hebt.</div>
+    <div class="s-tips">
+      <div class="stip">Werkt in Chrome of Firefox browser — geen installatie</div>
+      <div class="stip">Sla elk design op: Ctrl+S met een duidelijke naam</div>
+      <div class="stip">Zoek op YouTube: "Tinkercad beginner tutorial NL" voor extra hulp</div>
+      <div class="stip g">Kern skills: shapes slepen, Hole maken, Ctrl+G groeperen, STL exporteren</div>
+      <div class="stip">Ruler-tool gebruiken om maten te controleren</div>
+    </div>
   </div></div></div>
+
+  <!-- FASE 2 -->
+  <div class="div">FASE 2 — 3D Modelleren</div>
 
   <div class="scard" id="s4" onclick="togS('s4')"><div class="srow">
     <div class="chk-step">✓</div><div class="snum">04</div><div class="sbody">
-    <div class="s-tit">Test-Print Alles in PLA (20% infill)</div>
-    <div class="s-desc">Print alle onderdelen in PLA op 20% infill. Controleer pasvorm op jouw arm, scharnier-werking, actuator-mount passing. Pas Tinkercad design aan en herprint waar nodig.</div>
-    <div class="s-tips"><div class="stip">PLA test = goedkoop fouten ontdekken</div><div class="stip">Scharnierspilgat: naborin Ø4.3mm boor indien te strak</div><div class="stip">Geen pijnpunten op huid = goed design</div></div>
+    <div class="s-tit">Armschalen Modelleren (begin met bovenarm)</div>
+    <div class="s-desc">Begin met de bovenarm binnenschaal — dit is de makkelijkste. Gebruik je opgemeten maten. Volg de stap-voor-stap op de Modellen-pagina. Dan buitenschaal (spiegelb.), dan onderarm schaal.</div>
+    <div class="s-tips">
+      <div class="stip">Bovenarm eerst — rechtlijnigste ontwerp</div>
+      <div class="stip">Tinkercad ruler: controleer ELKE maat vóór je verdergaat</div>
+      <div class="stip">Sla elk onderdeel op als apart design: "nexo_bovenarm_binnen"</div>
+      <div class="stip g">Schroefgaten: Ø4.8mm voor M3 heat-set inserts (niet Ø3mm!)</div>
+      <div class="stip r">Vergeet de kabelgroef op de onderarmschaal niet (7×7mm langs de zijkant)</div>
+    </div>
   </div></div></div>
 
   <div class="scard" id="s5" onclick="togS('s5')"><div class="srow">
     <div class="chk-step">✓</div><div class="snum">05</div><div class="sbody">
-    <div class="s-tit">Definitief Printen in PETG + TPU</div>
-    <div class="s-desc">Als alle tests kloppen: PETG op 40–65% infill, 4–5 wanden. Scharnier + actuatormounts op 65%. TPU klemmen op 20% infill, max 25mm/s printsnelheid.</div>
-    <div class="s-tips"><div class="stip">PETG: 230°C nozzle / 70–75°C bed</div><div class="stip">TPU: 225°C / 40°C bed / max 25mm/s</div><div class="stip">Scharnier altijd liggend printen voor laagsterkte</div></div>
+    <div class="s-tit">Elleboog Scharnier + Actuator Mount Modelleren</div>
+    <div class="s-desc">Dit zijn de moeilijkste onderdelen. Scharnier arm1 en arm2 apart modelleren. De lug op arm2 is cruciaal — controleer of het Ø7mm gat recht staat. Actuator klemmen zijn eenvoudig: box met hole erdoor.</div>
+    <div class="s-tips">
+      <div class="stip r">Scharnier: 65% infill instellen in Cura/PrusaSlicer — niet vergeten!</div>
+      <div class="stip">Lug op arm2: Ø7mm hole DWARS (haaks op de bewegingsas)</div>
+      <div class="stip">Test de scharnierbeweging virtueel in Tinkercad door de 2 armen samen te leggen</div>
+      <div class="stip g">Actuator mount: Ø22.5mm (0.5mm meer dan actuator = soepele passing)</div>
+    </div>
   </div></div></div>
+
+  <!-- FASE 3 -->
+  <div class="div">FASE 3 — 3D Printen</div>
 
   <div class="scard" id="s6" onclick="togS('s6')"><div class="srow">
     <div class="chk-step">✓</div><div class="snum">06</div><div class="sbody">
-    <div class="s-tit">Mechanische Assemblage</div>
-    <div class="s-desc">Heat-set inserts indrukken met soldeerbout op 200°C. Elleboogscharnier monteren met M4×50 spil + nyloc moer (soepel maar zonder speling). Actuatormounts bevestigen. EVA foam plakken met contactlijm.</div>
-    <div class="s-tips"><div class="stip">Heat inserts: langzaam en recht indrukken</div><div class="stip">Scharnier soepel? Licht vijlen indien te strak</div><div class="stip">EVA foam op maat snijden, randen afschuren</div></div>
+    <div class="s-tit">Test-Print Alles in PLA (20% infill)</div>
+    <div class="s-desc">Export alle STL bestanden. Importeer in Cura of PrusaSlicer. Stel in: 20% infill, 2 wanden, 210°C nozzle, 60°C bed voor PLA. Print elk onderdeel en test de pasvorm op je arm. Scharnierspilgat en actuatorkanaalgat zijn het meest kritisch.</div>
+    <div class="s-tips">
+      <div class="stip">PLA test = goedkoop fouten ontdekken vóór dure PETG</div>
+      <div class="stip">Scharnierspilgat te strak? Naborin met Ø4.3mm boor of ronde vijl</div>
+      <div class="stip">Actuatorkanaal te klein? Pas Tinkercad aan: +0.5mm diameter</div>
+      <div class="stip g">Pasvorm is goed als je het onderdeel zonder kracht kunt aan- en uittrekken</div>
+      <div class="stip r">Drukpunten op huid = design aanpassen, meer speelruimte of andere verdeling</div>
+    </div>
   </div></div></div>
 
   <div class="scard" id="s7" onclick="togS('s7')"><div class="srow">
     <div class="chk-step">✓</div><div class="snum">07</div><div class="sbody">
-    <div class="s-tit">Actuator Monteren + Handmatige Test</div>
-    <div class="s-desc">Actuator in de mounts plaatsen. Stang koppelen aan elleboogarm-lug via splitpen. Test de actuator handmatig op 12V externe voeding, ZONDER arm erin. Strekt hij volledig uit? Trekt hij volledig terug?</div>
-    <div class="s-tips"><div class="stip">Splitpen door gat + ombuigen = veilige koppeling</div><div class="stip">Controleer of scharnier soepel meebeweegt</div><div class="stip">Actuatorslag moet 40–52mm meten</div></div>
+    <div class="s-tit">Definitief Printen in PETG + TPU</div>
+    <div class="s-desc">Als alle tests 100% kloppen: definitief printen in PETG. Elke slicer-instelling telt hier. Scharnier + actuatormounts op 65% infill met 5 wanden. TPU klemmen op lage snelheid.</div>
+    <div class="s-tips">
+      <div class="stip">PETG normaal: 230°C nozzle / 70–75°C bed / 40–50mm/s</div>
+      <div class="stip r">PETG scharnier: 65% infill, 5 wanden, 40mm/s — NOOIT skippen</div>
+      <div class="stip">TPU: 225°C / 40°C bed / MAX 25mm/s — langzamer = betere kwaliteit</div>
+      <div class="stip g">Print scharnierdelen LIGGEND voor maximale laagsterkte in belastingsrichting</div>
+      <div class="stip">PETG print na print: laat bed afkoelen naar 40°C voor onderdeel te verwijderen</div>
+    </div>
   </div></div></div>
+
+  <!-- FASE 4 -->
+  <div class="div">FASE 4 — Mechanische Assemblage</div>
 
   <div class="scard" id="s8" onclick="togS('s8')"><div class="srow">
     <div class="chk-step">✓</div><div class="snum">08</div><div class="sbody">
-    <div class="s-tit">Elektronica Breadboard Test</div>
-    <div class="s-desc">Arduino Nano + EMG sensor + L298N + Buck converter op breadboard. Stel buck converter in op 5.0V. Upload de basis code (zie Code-pagina). Test elk component apart. Noodstop als allereerste!</div>
-    <div class="s-tips"><div class="stip">CH340 driver installeren voor Nano clone</div><div class="stip">Buck converter: multimeter op output vóór Arduino aansluiten</div><div class="stip">L298N ENA pin HIGH voor motor-enable</div></div>
+    <div class="s-tit">Heat-Set Inserts Indrukken + Nabewerking</div>
+    <div class="s-desc">Verwarm soldeerbout op 200°C. Leg het M3 heat-set insert op het Ø4.8mm gat. Druk langzaam en RECHT in met de punt van de soldeerbout. Stop wanneer insert gelijk met het oppervlak staat. Schuur alle geprinte randen glad met P120 → P240.</div>
+    <div class="s-tips">
+      <div class="stip">Insert langzaam indrukken = gelijkmatiger resultaat, geen scheuren</div>
+      <div class="stip r">Schuin ingedrukt insert = opnieuw doen met nieuwe insert en gat vergroten</div>
+      <div class="stip">Schuur de scharnierspilgaten glad met ronde vijl voor soepele draai</div>
+      <div class="stip g">Test elke insert met M3 bout — moet soepel en stevig draaien</div>
+    </div>
   </div></div></div>
 
   <div class="scard" id="s9" onclick="togS('s9')"><div class="srow">
     <div class="chk-step">✓</div><div class="snum">09</div><div class="sbody">
-    <div class="s-tit">Volledige Integratie + Werkbank Test</div>
-    <div class="s-desc">Elektronica in het exoskelet monteren. LiPo aansluiten. Systeem testen aan de werkbank -- NIET aan je arm. Noodstop werkt? Actuator reageert op EMG? Limietschakelaars stoppen op tijd?</div>
-    <div class="s-tips"><div class="stip">Noodstop testen = stap 1, altijd</div><div class="stip">Actuator mag nooit verder dan het scharnier toelaat</div><div class="stip">Oververhitting actuator? = duty cycle te hoog</div></div>
+    <div class="s-tit">Elleboogscharnier Monteren + Actuator Plaatsen</div>
+    <div class="s-desc">M4×50 spilbout door beide scharnierarm-gaten steken. Sluitring aan beide kanten. Nyloc moer aandraaien tot scharnier SOEPEL maar ZONDER SPELING draait. Actuator in de mounts klemmen. Stang koppelen aan scharnierlug met splitpen.</div>
+    <div class="s-tips">
+      <div class="stip">Nyloc moer: aandraaien tot weerstand, dan nog een kwartslag — nooit te strak</div>
+      <div class="stip g">Scharnier soepel? = perfect. Strak? = licht vijlen op de spil</div>
+      <div class="stip">Splitpen door Ø7mm lug-gat, splitpen uiteinden ombuigen met tang</div>
+      <div class="stip r">Splitpen NOOIT vergeten — dit is de veiligheidsverbinding bij 75kg belasting</div>
+      <div class="stip">Actuatorklemmen: M4 bouten aandraaien met ring + borgring</div>
+    </div>
   </div></div></div>
 
   <div class="scard" id="s10" onclick="togS('s10')"><div class="srow">
     <div class="chk-step">✓</div><div class="snum">10</div><div class="sbody">
-    <div class="s-tit">Draagtest + Kalibratie</div>
-    <div class="s-desc">Arm aantrekken. Eerst zonder gewicht -- comfort en bewegingsvrijheid checken. Dan opbouwen: 2kg → 5kg → 10kg → 20kg → 50kg. EMG drempelwaarden fijn bijstellen via Serial Monitor.</div>
-    <div class="s-tips"><div class="stip">Eerste sessie max 10 minuten dragen</div><div class="stip">Rode plekken = meer EVA foam op die plek</div><div class="stip">Noteer je EMG-waarden in de code als comments</div><div class="stip">Actuator heet na 3 min = 30s pauze inbouwen</div></div>
+    <div class="s-tit">EVA Foam Padding + Velcro Banden Monteren</div>
+    <div class="s-desc">Snij EVA foam op maat voor elk armschaal-binnenzijde. Beman met contactlijm (Bison Kit): aanbrengen op beide oppervlakken, 5 min drogen, stevig samendrukken. Velcro banden door TPU klemmen rijgen, klemmen op rand armschalen plaatsen.</div>
+    <div class="s-tips">
+      <div class="stip">Contactlijm op BEIDE oppervlakken aanbrengen voor beste hechting</div>
+      <div class="stip">Foam met schaar uitsnijden, ronde hoeken voor comfort</div>
+      <div class="stip g">Minimaal 3 velcro-banden per segment voor gelijkmatige drukondersteuning</div>
+      <div class="stip">Schouderharnas-webbing: koop bij Gamma, 5cm breed nylon band</div>
+    </div>
+  </div></div></div>
+
+  <!-- FASE 5 -->
+  <div class="div">FASE 5 — Elektronica</div>
+
+  <div class="scard" id="s11" onclick="togS('s11')"><div class="srow">
+    <div class="chk-step">✓</div><div class="snum">11</div><div class="sbody">
+    <div class="s-tit">CH340 Driver Installeren + Arduino IDE Setup</div>
+    <div class="s-desc">Download en installeer de CH340 USB driver voor jouw OS (zoek "CH340 driver download"). Download Arduino IDE op arduino.cc/en/software. Sluit Arduino Nano aan via USB. Stel in: Tools → Board → Arduino Nano → Processor → ATmega328P (Old Bootloader). Test met File → Examples → Blink.</div>
+    <div class="s-tips">
+      <div class="stip">Windows: CH340 driver van wch.cn (officiële bron)</div>
+      <div class="stip">Mac: zelfde site, of zoek "CH340 Mac driver"</div>
+      <div class="stip g">Blink voorbeeld werkt? = Arduino en IDE zijn correct ingesteld</div>
+      <div class="stip r">COM-poort niet zichtbaar? = CH340 driver niet correct geïnstalleerd</div>
+    </div>
+  </div></div></div>
+
+  <div class="scard" id="s12" onclick="togS('s12')"><div class="srow">
+    <div class="chk-step">✓</div><div class="snum">12</div><div class="sbody">
+    <div class="s-tit">Breadboard Test: Buck Converter + EMG Sensor</div>
+    <div class="s-desc">Bouw het circuit op op een breadboard ZONDER de actuator. LM2596 buck converter aansluiten op 12V LiPo. Stel in op exact 5.0V met multimeter vóór aansluiting op Arduino. EMG sensor aanluiten op A0. Noodstop op pin D2 (INPUT_PULLUP).</div>
+    <div class="s-tips">
+      <div class="stip r">NOOIT 12V rechtstreeks op Arduino aansluiten — altijd via buck converter!</div>
+      <div class="stip">Buck converter instellen: draai potentiometer terwijl multimeter de output meet</div>
+      <div class="stip">Stel exact in op 5.0V (niet 5.2V of 4.8V — Arduino is gevoelig)</div>
+      <div class="stip g">EMG elektroden op bicep: midden van de spier, 2cm tussenruimte, grond-elektrode op pols</div>
+      <div class="stip">Open Serial Monitor (9600 baud) om EMG-waarden live te zien</div>
+    </div>
+  </div></div></div>
+
+  <div class="scard" id="s13" onclick="togS('s13')"><div class="srow">
+    <div class="chk-step">✓</div><div class="snum">13</div><div class="sbody">
+    <div class="s-tit">NEXO-1 Code Uploaden + EMG Kalibreren</div>
+    <div class="s-desc">Kopieer de code van de Code-pagina. Plak in Arduino IDE. Upload. Open Serial Monitor op 9600 baud. Ontspan bicep: noteer de rustwaarde. Span bicep stevig aan: noteer de activatiewaarde. Bereken en stel de drempelwaarden in.</div>
+    <div class="s-tips">
+      <div class="stip">DREMPEL_AAN = (rustwaarde + activatiewaarde) ÷ 2</div>
+      <div class="stip">DREMPEL_UIT = rustwaarde + 60</div>
+      <div class="stip g">Typische rustwaarden: 50–200. Activatiewaarden: 400–800 (per persoon anders)</div>
+      <div class="stip">SNELHEID start op 180 — verhoog naar max 220 als actuator te langzaam is</div>
+      <div class="stip r">Actuator oververhit? SNELHEID verlagen of pauze-delay toevoegen</div>
+    </div>
+  </div></div></div>
+
+  <div class="scard" id="s14" onclick="togS('s14')"><div class="srow">
+    <div class="chk-step">✓</div><div class="snum">14</div><div class="sbody">
+    <div class="s-tit">L298N + Actuator Aansluiten — Werkbank Test</div>
+    <div class="s-desc">Sluit L298N aan op de breadboard opstelling. Verbind de actuator (met dupont kabels of stekkertjes). Test de actuator ZONDER het exoskelet, op de werkbank. Verifieer: uitstrekt bij spierspanning, trekt terug bij ontspanning, noodstop stopt alles direct.</div>
+    <div class="s-tips">
+      <div class="stip">L298N ENA pin HIGH (of verbind naar 5V voor altijd-actief)</div>
+      <div class="stip">Actuator draait verkeerd? Wissel IN1 en IN2 om</div>
+      <div class="stip r">NOODSTOP als allereerste testen — drukken = alles stopt direct</div>
+      <div class="stip g">Actuator strekt volledig uit en volledig terug? = limietschakelaars werken correct</div>
+      <div class="stip">Houd de actuator vast om te voelen of de kracht voelbaar is bij 12V</div>
+    </div>
+  </div></div></div>
+
+  <!-- FASE 6 -->
+  <div class="div">FASE 6 — Integratie &amp; Kalibratie</div>
+
+  <div class="scard" id="s15" onclick="togS('s15')"><div class="srow">
+    <div class="chk-step">✓</div><div class="snum">15</div><div class="sbody">
+    <div class="s-tit">Volledige Elektronica Integratie in Exoskelet</div>
+    <div class="s-desc">Monteer alle elektronica-componenten in de houders op het exoskelet. Kabel alles netjes met kabelbinders langs de kabelgeleiders. LiPo in de houder. Arduino en L298N in hun behuizing. Sluit alles definitief aan. Test EERST zonder arm aan te doen of gewicht toe te voegen.</div>
+    <div class="s-tips">
+      <div class="stip">Kabel langs de kabelgroef in de onderarm — kabelbinders elke 5cm</div>
+      <div class="stip">Zorg dat kabels niet strak zijn bij maximale elleboogbuiging</div>
+      <div class="stip g">Noodstop op polsbeugel: test bereikbaarheid met duim terwijl arm gestrekt is</div>
+      <div class="stip r">LiPo connector (XT60): rood op positief, zwart op negatief — ALTIJD dubbelchecken</div>
+      <div class="stip">Maak foto van de bedrading VOOR je alles dichtmaakt</div>
+    </div>
+  </div></div></div>
+
+  <div class="scard" id="s16" onclick="togS('s16')"><div class="srow">
+    <div class="chk-step">✓</div><div class="snum">16</div><div class="sbody">
+    <div class="s-tit">Draagtest + Belastingsopbouw + Eindkalibratie</div>
+    <div class="s-desc">Draag het exoskelet aan. Geen gewicht eerst. Controleer comfort, velcro-spanning, vrijheid van beweging. Dan gewicht opbouwen in fases. EMG drempelwaarden fine-tunen via Serial Monitor tijdens het dragen.</div>
+    <div class="s-tips">
+      <div class="stip">Fase 1: 0kg — comfort en bewegingsvrijheid checken (10 min)</div>
+      <div class="stip">Fase 2: 2kg — eerste belastingstest, NOODSTOP testen</div>
+      <div class="stip">Fase 3: 5kg → 10kg → 20kg → 50kg — stapgewijs</div>
+      <div class="stip r">STOP onmiddellijk bij ongewone geluiden, warmte, of onverwachte beweging</div>
+      <div class="stip r">Eerste sessie max 15 minuten — daarna EMG elektroden vervangen</div>
+      <div class="stip g">Actuator heet na 3 min continue belasting? = voeg 30s pauze in de code toe</div>
+      <div class="stip">Rode drukplekken op huid = meer EVA foam op die plek, of design aanpassen</div>
+      <div class="stip g">Noteer je definitieve EMG-waarden als comments in de code</div>
+    </div>
   </div></div></div>
 
 </div>
 
-<!-- ══════════════════════════════════
-     PAGE 5 -- CODE
-══════════════════════════════════ -->
-<div class="page" id="pg-code">
+<!-- ════════════ PAGE 5: TOOLS ════════════ -->
+<div class="page" id="pg-tools">
+  <div class="note"><b>Gereedschapsgids.</b> Dit zijn ALLE tools die je nodig hebt voor dit project. Wat je waarschijnlijk al hebt thuis, wat je bij Gamma koopt, en wat je eventueel nodig hebt.</div>
 
-  <div class="note"><b>Arduino IDE</b> is gratis downloadbaar op arduino.cc/en/software. Kopieer de code hieronder, plak in een nieuw sketch, sla op als "nexo1.ino" en klik Upload.</div>
+  <div class="sec">🔧 Tools Overzicht</div>
+
+  <div class="tools-section">
+    <div class="ts-head">Verplicht — Zonder dit werkt het niet</div>
+
+    <div class="ts-row">
+      <div class="ts-icon">🖨️</div>
+      <div class="ts-body">
+        <div class="ts-name">3D Printer (FDM)</div>
+        <div><span class="ts-where ts-thuis">Heb je al / bibliotheek / vriend</span></div>
+        <div class="ts-why">Ender 3, Prusa MK3, Bambu A1 — elk FDM printer die PETG kan printen. Geen FDM printer? Zoek een lokale makerspace of gebruik 3Dhubs.com om prints te bestellen.</div>
+        <div class="ts-price">€0 (al hebben) / €180+ (Ender 3) / €5–15 per onderdeel (Hubs)</div>
+      </div>
+    </div>
+
+    <div class="ts-row">
+      <div class="ts-icon">💻</div>
+      <div class="ts-body">
+        <div class="ts-name">PC/Laptop (Tinkercad + Arduino IDE)</div>
+        <div><span class="ts-where ts-thuis">Heb je al</span></div>
+        <div class="ts-why">Tinkercad werkt in browser. Arduino IDE werkt op Windows/Mac/Linux. Minimale vereisten: Chrome/Firefox browser, 4GB RAM. Beide gratis te downloaden.</div>
+        <div class="ts-price">€0</div>
+      </div>
+    </div>
+
+    <div class="ts-row">
+      <div class="ts-icon">🔌</div>
+      <div class="ts-body">
+        <div class="ts-name">Soldeerbout + Soldeertin</div>
+        <div><span class="ts-where ts-gamma">Gamma / AliExpress</span></div>
+        <div class="ts-why">Voor het indrukken van heat-set inserts op 200°C en eventueel solderen van kabels. Een goedkope variabele soldeerstation (TS100 of Hakko clone) werkt perfect. Budget soldeerbout (€8) is ook voldoende.</div>
+        <div class="ts-price">€8–25 (Gamma / AliExpress)</div>
+      </div>
+    </div>
+
+    <div class="ts-row">
+      <div class="ts-icon">📏</div>
+      <div class="ts-body">
+        <div class="ts-name">Schuifmaat (digitaal)</div>
+        <div><span class="ts-where ts-gamma">Gamma / AliExpress</span></div>
+        <div class="ts-why">Meten van 3D geprinte onderdelen, actuator diameter, boutdiameters. Een goedkope digitale schuifmaat (±0.01mm) is onmisbaar voor nauwkeurig Tinkercad werken.</div>
+        <div class="ts-price">€6–12 (AliExpress) / €15–25 (Gamma)</div>
+      </div>
+    </div>
+
+    <div class="ts-row">
+      <div class="ts-icon">🔋</div>
+      <div class="ts-body">
+        <div class="ts-name">Multimeter (digitaal)</div>
+        <div><span class="ts-where ts-gamma">Gamma / AliExpress</span></div>
+        <div class="ts-why">Essentieel voor: LM2596 buck converter instellen op exact 5.0V, kabelverbindingen testen, LiPo spanning controleren. Een UT33 pocket multimeter (€5) is voldoende.</div>
+        <div class="ts-price">€5–10 (AliExpress) / €12–20 (Gamma)</div>
+      </div>
+    </div>
+
+    <div class="ts-row">
+      <div class="ts-icon">🔩</div>
+      <div class="ts-body">
+        <div class="ts-name">Schroevendraaier Set (Philips + plat + Torx)</div>
+        <div><span class="ts-where ts-thuis">Heb je waarschijnlijk al</span></div>
+        <div class="ts-why">M3 en M4 bouten aandraaien. Philips PH1 en PH2 zijn de meest gebruikte. Precisieschroevendraaier set (€5–10) bevat alles wat je nodig hebt.</div>
+        <div class="ts-price">€0 (al hebben) / €5–10</div>
+      </div>
+    </div>
+
+    <div class="ts-row">
+      <div class="ts-icon">🔑</div>
+      <div class="ts-body">
+        <div class="ts-name">Inbussleutels Set (2mm t/m 6mm)</div>
+        <div><span class="ts-where ts-gamma">Gamma</span></div>
+        <div class="ts-why">M3 inbus (2.5mm) en M4 inbus (3mm) zijn de meest gebruikte. Koop een volledige set — goedkoop en altijd handig.</div>
+        <div class="ts-price">€3–8 (Gamma)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tools-section">
+    <div class="ts-head">Aanbevolen — Maakt het leven veel makkelijker</div>
+
+    <div class="ts-row">
+      <div class="ts-icon">🪚</div>
+      <div class="ts-body">
+        <div class="ts-name">Handboormachine + Boorset (2–6mm)</div>
+        <div><span class="ts-where ts-gamma">Gamma</span></div>
+        <div class="ts-why">Voor het nabewerken van te-nauwe gaten in 3D prints. Ø4.3mm voor M3-inserts die niet passen, Ø5mm voor M4-bout gaten. Een goedkope accu-boor (€25–40) is voldoende.</div>
+        <div class="ts-price">€25–45 (Gamma)</div>
+      </div>
+    </div>
+
+    <div class="ts-row">
+      <div class="ts-icon">🗜️</div>
+      <div class="ts-body">
+        <div class="ts-name">Tang Set (buigtang, kniptang, combinatietang)</div>
+        <div><span class="ts-where ts-gamma">Gamma / al thuis</span></div>
+        <div class="ts-why">Buigtang voor splitpennen ombuigen, kniptang voor kabelbinders afknippen, combinatietang voor nyloc moeren vasthouden bij aandraaien.</div>
+        <div class="ts-price">€8–15 set (Gamma)</div>
+      </div>
+    </div>
+
+    <div class="ts-row">
+      <div class="ts-icon">🗂️</div>
+      <div class="ts-body">
+        <div class="ts-name">Vijlenset (plat, rond, halfrond)</div>
+        <div><span class="ts-where ts-gamma">Gamma</span></div>
+        <div class="ts-why">Ronde vijl voor scharniergatjes gladmaken, halfronde voor schaalranden, platte voor vlakke oppervlakken. PETG vijlen is snel en makkelijk.</div>
+        <div class="ts-price">€5–10 (Gamma)</div>
+      </div>
+    </div>
+
+    <div class="ts-row">
+      <div class="ts-icon">🧵</div>
+      <div class="ts-body">
+        <div class="ts-name">Krimpkous Set (2mm, 4mm, 6mm)</div>
+        <div><span class="ts-where ts-ali">AliExpress / Gamma</span></div>
+        <div class="ts-why">Voor het netjes isoleren van alle solderverbindingen en kabels. Verwarm met aansteker of warmteluchtpistool. Professioneel resultaat en veiligheid.</div>
+        <div class="ts-price">€2–4 (AliExpress) / €5–8 (Gamma)</div>
+      </div>
+    </div>
+
+    <div class="ts-row">
+      <div class="ts-icon">🔦</div>
+      <div class="ts-body">
+        <div class="ts-name">Breadboard + Extra Dupont Kabels</div>
+        <div><span class="ts-where ts-ali">AliExpress</span></div>
+        <div class="ts-why">Groot breadboard (830 punten) voor de volledige elektronica-test fase. Dupont kabels in M/M, M/F en F/F varianten. Essentieel voor Stap 12 (elektronica test).</div>
+        <div class="ts-price">€2–4 (AliExpress)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WIRING DIAGRAM -->
+  <div class="sec">🔌 Bedrading Schema</div>
+
+  <div class="sysdiag">
+    <div class="sd-title">◈ Complete Bedrading NEXO-1</div>
+    <svg viewBox="0 0 310 260" width="310" height="260" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:0 auto;">
+      <!-- LiPo Battery -->
+      <rect x="5" y="100" width="52" height="30" rx="4" fill="#101820" stroke="#2a4460" stroke-width="1.2"/>
+      <text x="31" y="116" text-anchor="middle" font-family="Orbitron" font-size="5.5" fill="#00b8ff">3S LiPo</text>
+      <text x="31" y="124" text-anchor="middle" font-family="Share Tech Mono" font-size="4.5" fill="#5a8aa8">12V 2200mAh</text>
+      <!-- +/- terminals -->
+      <rect x="5" y="95" width="14" height="7" rx="2" fill="#ff4400"/>
+      <text x="12" y="101" text-anchor="middle" font-family="Share Tech Mono" font-size="5" fill="white">+</text>
+      <rect x="43" y="95" width="14" height="7" rx="2" fill="#333"/>
+      <text x="50" y="101" text-anchor="middle" font-family="Share Tech Mono" font-size="5" fill="white">−</text>
+
+      <!-- Buck Converter -->
+      <rect x="70" y="60" width="52" height="30" rx="4" fill="#101820" stroke="#2a4460" stroke-width="1.2"/>
+      <text x="96" y="75" text-anchor="middle" font-family="Orbitron" font-size="5" fill="#00ffe0">LM2596</text>
+      <text x="96" y="83" text-anchor="middle" font-family="Share Tech Mono" font-size="4.5" fill="#00ff88">12V → 5V</text>
+
+      <!-- Arduino Nano -->
+      <rect x="140" y="45" width="60" height="40" rx="4" fill="#0c1218" stroke="#2a4460" stroke-width="1.2"/>
+      <text x="170" y="60" text-anchor="middle" font-family="Orbitron" font-size="5.5" fill="#00ffe0">ARDUINO</text>
+      <text x="170" y="69" text-anchor="middle" font-family="Share Tech Mono" font-size="4.5" fill="#5a8aa8">NANO v3</text>
+      <!-- Pins visual -->
+      <text x="143" y="79" font-family="Share Tech Mono" font-size="4" fill="#ff8800">A0 D2 D7 D8 D9</text>
+
+      <!-- L298N -->
+      <rect x="218" y="90" width="60" height="38" rx="4" fill="#101820" stroke="#558844" stroke-width="1.2"/>
+      <text x="248" y="106" text-anchor="middle" font-family="Orbitron" font-size="5.5" fill="#88cc44">L298N</text>
+      <text x="248" y="115" text-anchor="middle" font-family="Share Tech Mono" font-size="4.5" fill="#558844">H-Bridge</text>
+      <text x="248" y="123" text-anchor="middle" font-family="Share Tech Mono" font-size="4" fill="#5a8aa8">IN1 IN2 ENA</text>
+
+      <!-- Actuator -->
+      <rect x="218" y="150" width="60" height="30" rx="4" fill="#1a2a0a" stroke="#558844" stroke-width="1.2"/>
+      <text x="248" y="164" text-anchor="middle" font-family="Orbitron" font-size="5" fill="#88cc44">ACTUATOR</text>
+      <text x="248" y="172" text-anchor="middle" font-family="Share Tech Mono" font-size="4.5" fill="#558844">750N 12V</text>
+
+      <!-- EMG -->
+      <rect x="70" y="150" width="52" height="30" rx="4" fill="#0c0818" stroke="#7b2fff" stroke-width="1.2"/>
+      <text x="96" y="164" text-anchor="middle" font-family="Orbitron" font-size="5" fill="#a66dff">EMG</text>
+      <text x="96" y="172" text-anchor="middle" font-family="Share Tech Mono" font-size="4.5" fill="#7b2fff">Bicep sensor</text>
+
+      <!-- Emergency stop -->
+      <circle cx="155" cy="220" r="14" fill="#1a0808" stroke="#ff1f4b" stroke-width="1.5"/>
+      <text x="155" y="218" text-anchor="middle" font-family="Orbitron" font-size="5" fill="#ff4466">NC</text>
+      <text x="155" y="226" text-anchor="middle" font-family="Share Tech Mono" font-size="4" fill="#ff1f4b">STOP</text>
+
+      <!-- WIRES -->
+      <!-- LiPo + to Buck -->
+      <path d="M19,95 L19,75 L70,75" stroke="#ff4400" stroke-width="1.8" fill="none"/>
+      <!-- LiPo + to L298N -->
+      <path d="M19,95 L19,50 L218,50 L218,95" stroke="#ff4400" stroke-width="1.8" fill="none" stroke-dasharray="4,2"/>
+      <!-- LiPo - to L298N -->
+      <path d="M50,115 L60,115 L60,145 L218,145 L218,128" stroke="#444" stroke-width="1.5" fill="none"/>
+      <!-- Buck 5V to Arduino -->
+      <path d="M122,70 L140,65" stroke="#00ff88" stroke-width="1.5" fill="none"/>
+      <!-- Arduino to L298N (IN1/IN2/ENA) -->
+      <path d="M200,68 L210,68 L210,95 L218,100" stroke="#00b8ff" stroke-width="1.5" fill="none"/>
+      <!-- L298N to Actuator -->
+      <path d="M248,128 L248,150" stroke="#88cc44" stroke-width="2" fill="none"/>
+      <!-- EMG to Arduino A0 -->
+      <path d="M122,160 L140,65" stroke="#a66dff" stroke-width="1.5" fill="none" stroke-dasharray="4,2"/>
+      <!-- Noodstop to Arduino D2 -->
+      <path d="M155,206 L155,85" stroke="#ff4466" stroke-width="1.5" fill="none" stroke-dasharray="3,2"/>
+
+      <!-- Labels -->
+      <text x="25" y="68" font-family="Share Tech Mono" font-size="4" fill="#ff4400">12V+</text>
+      <text x="126" y="67" font-family="Share Tech Mono" font-size="4" fill="#00ff88">5V</text>
+      <text x="203" y="62" font-family="Share Tech Mono" font-size="4" fill="#00b8ff">D7/D8/D9</text>
+      <text x="255" y="143" font-family="Share Tech Mono" font-size="4" fill="#88cc44">12V</text>
+      <text x="128" y="138" font-family="Share Tech Mono" font-size="4" fill="#a66dff">A0 sig</text>
+      <text x="160" y="200" font-family="Share Tech Mono" font-size="4" fill="#ff4466">D2 NC</text>
+
+      <text x="155" y="248" text-anchor="middle" font-family="Share Tech Mono" font-size="5" fill="#5a8aa8">— − − GND gedeeld − − —</text>
+    </svg>
+  </div>
+
+  <div class="wiring-table">
+    <div class="wt-head"><div class="wth">Van</div><div class="wth">Naar</div><div class="wth">Kleur</div><div class="wth">Opmerking</div></div>
+    <div class="wt-row"><div class="wtd from">LiPo XT60 +</div><div class="wtd to">L298N VCC + LM2596 IN+</div><div class="wtd cable" style="color:var(--hot);">Rood dik</div><div class="wtd">12V voeding naar alles</div></div>
+    <div class="wt-row"><div class="wtd from">LiPo XT60 −</div><div class="wtd to">L298N GND + LM2596 IN−</div><div class="wtd cable" style="color:#666;">Zwart dik</div><div class="wtd">GND gedeeld altijd</div></div>
+    <div class="wt-row"><div class="wtd from">LM2596 OUT+</div><div class="wtd to">Arduino VIN of +5V</div><div class="wtd cable" style="color:var(--lime);">Rood dun</div><div class="wtd">Stel 5.0V in vóór aansluiting!</div></div>
+    <div class="wt-row"><div class="wtd from">LM2596 OUT−</div><div class="wtd to">Arduino GND</div><div class="wtd cable" style="color:#666;">Zwart</div><div class="wtd">5V GND</div></div>
+    <div class="wt-row"><div class="wtd from">Arduino D7</div><div class="wtd to">L298N IN1</div><div class="wtd cable" style="color:var(--c2);">Blauw</div><div class="wtd">Actuator richting</div></div>
+    <div class="wt-row"><div class="wtd from">Arduino D8</div><div class="wtd to">L298N IN2</div><div class="wtd cable" style="color:#6688ff;">Blauw</div><div class="wtd">Actuator richting</div></div>
+    <div class="wt-row"><div class="wtd from">Arduino D9 (PWM)</div><div class="wtd to">L298N ENA</div><div class="wtd cable" style="color:var(--warn);">Geel</div><div class="wtd">Snelheidscontrole PWM</div></div>
+    <div class="wt-row"><div class="wtd from">L298N OUT1+OUT2</div><div class="wtd to">Actuator + −</div><div class="wtd cable" style="color:var(--lime);">Groen dik</div><div class="wtd">12V motor output</div></div>
+    <div class="wt-row"><div class="wtd from">EMG Signal OUT</div><div class="wtd to">Arduino A0</div><div class="wtd cable" style="color:#a66dff;">Paars</div><div class="wtd">Analoog 0–5V signaal</div></div>
+    <div class="wt-row"><div class="wtd from">EMG VCC</div><div class="wtd to">Arduino 5V</div><div class="wtd cable" style="color:var(--hot);">Rood</div><div class="wtd">Sensor voeding</div></div>
+    <div class="wt-row"><div class="wtd from">EMG GND</div><div class="wtd to">Arduino GND</div><div class="wtd cable" style="color:#666;">Zwart</div><div class="wtd">Sensor GND</div></div>
+    <div class="wt-row"><div class="wtd from">Noodstop pin 1</div><div class="wtd to">Arduino D2</div><div class="wtd cable" style="color:var(--red);">Rood</div><div class="wtd">NC = normaal gesloten</div></div>
+    <div class="wt-row"><div class="wtd from">Noodstop pin 2</div><div class="wtd to">Arduino GND</div><div class="wtd cable" style="color:#666;">Zwart</div><div class="wtd">INPUT_PULLUP in code</div></div>
+  </div>
+</div>
+
+<!-- ════════════ PAGE 6: CODE ════════════ -->
+<div class="page" id="pg-code">
+  <div class="note"><b>Arduino IDE</b> gratis op arduino.cc/en/software. Kopieer code, plak in nieuw sketch, sla op als "nexo1.ino", klik Upload.</div>
 
   <div class="ilist">
     <div class="il-hd">Installatie Stappenplan</div>
-    <div class="il-row"><div class="il-n">1</div><div class="il-t">Download <b>Arduino IDE</b> op arduino.cc/en/software (gratis, Windows / Mac / Linux)</div></div>
+    <div class="il-row"><div class="il-n">1</div><div class="il-t">Download <b>Arduino IDE</b> op arduino.cc/en/software (gratis, Windows/Mac/Linux)</div></div>
     <div class="il-row"><div class="il-n">2</div><div class="il-t">Google: <b>"CH340 driver download"</b> → installeer voor jouw OS. Zonder dit herkent PC de Nano clone niet.</div></div>
     <div class="il-row"><div class="il-n">3</div><div class="il-t">Sluit Arduino aan via USB → IDE: <b>Tools → Board → Arduino Nano → Processor → ATmega328P (Old Bootloader)</b></div></div>
     <div class="il-row"><div class="il-n">4</div><div class="il-t">Kopieer code → plak in IDE → klik <b>Upload (→ pijl)</b>. Wacht op "Done uploading".</div></div>
     <div class="il-row"><div class="il-n">5</div><div class="il-t">Open <b>Serial Monitor</b> (rechtsboven, 9600 baud) om live EMG-waarden te zien voor kalibratie.</div></div>
   </div>
 
-  <div class="sec">💻 nexo1.ino</div>
+  <div class="sec">💻 nexo1.ino — Volledige Code</div>
 
   <div class="code-blk">
-<pre><span class="cc">// ╔════════════════════════════════════════╗
-// ║  NEXO-1 // Elektrisch Arm Exoskelet   ║
-// ║  Arduino Nano + EMG Sensor + L298N    ║
-// ║  Lineaire actuator 750N / 75 kg       ║
-// ╚════════════════════════════════════════╝</span>
+<pre><span class="cc">// ╔═══════════════════════════════════════════╗
+// ║  NEXO-1 // Elektrisch Arm Exoskelet      ║
+// ║  Arduino Nano + EMG Sensor + L298N       ║
+// ║  Lineaire actuator 750N / 75 kg          ║
+// ║  v2.1 — met anti-oscillatie + veiligheid ║
+// ╚═══════════════════════════════════════════╝</span>
 
-<span class="cc">// ── PIN DEFINITIE ─────────────────────────</span>
-<span class="cd">#define</span> <span class="ck">EMG_PIN</span>      A0   <span class="cc">// EMG sensor uitgang</span>
-<span class="cd">#define</span> <span class="ck">ACT_IN1</span>      7    <span class="cc">// L298N IN1 → actuator OMHOOG</span>
-<span class="cd">#define</span> <span class="ck">ACT_IN2</span>      8    <span class="cc">// L298N IN2 → actuator OMLAAG</span>
-<span class="cd">#define</span> <span class="ck">ACT_ENA</span>      9    <span class="cc">// L298N ENA (PWM snelheidscontrole)</span>
-<span class="cd">#define</span> <span class="ck">NOODSTOP</span>     2    <span class="cc">// NC knop op pols (LOW = STOP ALLES)</span>
-<span class="cd">#define</span> <span class="ck">LED_STATUS</span>   13   <span class="cc">// Ingebouwde LED voor status</span>
+<span class="cc">// ── PIN DEFINITIE ──────────────────────────────</span>
+<span class="cd">#define</span> <span class="ck">EMG_PIN</span>       A0   <span class="cc">// EMG sensor uitgang (0–1023)</span>
+<span class="cd">#define</span> <span class="ck">ACT_IN1</span>       7    <span class="cc">// L298N IN1 → actuator OMHOOG (uitstrekken)</span>
+<span class="cd">#define</span> <span class="ck">ACT_IN2</span>       8    <span class="cc">// L298N IN2 → actuator OMLAAG (intrekken)</span>
+<span class="cd">#define</span> <span class="ck">ACT_ENA</span>       9    <span class="cc">// L298N ENA (PWM snelheidscontrole 0–255)</span>
+<span class="cd">#define</span> <span class="ck">NOODSTOP_PIN</span>  2    <span class="cc">// NC noodstopknop (LOW = STOP ALLES)</span>
+<span class="cd">#define</span> <span class="ck">LED_PIN</span>       13   <span class="cc">// Ingebouwde LED (HIGH = actuator actief)</span>
 
-<span class="cc">// ── KALIBRATIE (aanpassen per persoon!) ───</span>
-<span class="cd">int</span> <span class="ck">DREMPEL_AAN</span>   = <span class="cn">420</span>;  <span class="cc">// EMG waarde: spier gespannen</span>
-<span class="cd">int</span> <span class="ck">DREMPEL_UIT</span>   = <span class="cn">180</span>;  <span class="cc">// EMG waarde: spier ontspannen</span>
-<span class="cd">int</span> <span class="ck">SNELHEID</span>      = <span class="cn">220</span>;  <span class="cc">// PWM 0–255 (hoger = sneller maar minder kracht)</span>
-<span class="cd">int</span> <span class="ck">VERTR_OMLAAG</span>  = <span class="cn">350</span>;  <span class="cc">// ms: hoe lang omlaag bewegen bij ontspanning</span>
-<span class="cd">int</span> <span class="ck">LOOP_DELAY</span>    = <span class="cn">35</span>;   <span class="cc">// Reactievertraging in ms</span>
+<span class="cc">// ── KALIBRATIE (pas aan na Serial Monitor meting) ──</span>
+<span class="cd">int</span> <span class="ck">DREMPEL_AAN</span>    = <span class="cn">420</span>;  <span class="cc">// EMG-waarde: spier gespannen → omhoog</span>
+<span class="cd">int</span> <span class="ck">DREMPEL_UIT</span>    = <span class="cn">180</span>;  <span class="cc">// EMG-waarde: spier ontspannen → omlaag</span>
+<span class="cd">int</span> <span class="ck">SNELHEID</span>       = <span class="cn">210</span>;  <span class="cc">// PWM 0–255 (lager = meer kracht, minder snelheid)</span>
+<span class="cd">int</span> <span class="ck">SNELHEID_DOWN</span>  = <span class="cn">140</span>;  <span class="cc">// PWM omlaag (langzamer voor veiligheid)</span>
+<span class="cd">int</span> <span class="ck">VERTR_OMLAAG</span>   = <span class="cn">380</span>;  <span class="cc">// ms: hoe lang omlaag bewegen bij ontspanning</span>
+<span class="cd">int</span> <span class="ck">LOOP_DELAY</span>     = <span class="cn">30</span>;   <span class="cc">// ms: reactiecyclus</span>
+<span class="cd">int</span> <span class="ck">EMG_SAMPLES</span>    = <span class="cn">8</span>;    <span class="cc">// Gemiddelde over N samples (anti-ruis)</span>
+<span class="cd">int</span> <span class="ck">OVERHEAT_LIMIT</span> = <span class="cn">180</span>;  <span class="cc">// seconden continue actief voor pauze</span>
 
-<span class="cc">// ── SETUP ─────────────────────────────────</span>
+<span class="cc">// ── STATE VARIABELEN ───────────────────────────</span>
+<span class="cd">bool</span> noodstopActief = <span class="cn">false</span>;
+<span class="cd">int</span>  actuatorStatus  = <span class="cn">0</span>;    <span class="cc">// 0=stil, 1=omhoog, -1=omlaag</span>
+<span class="cd">unsigned long</span> actStartTime = <span class="cn">0</span>;
+<span class="cd">unsigned long</span> actTotalTime = <span class="cn">0</span>;
+
+<span class="cc">// ── SETUP ──────────────────────────────────────</span>
 <span class="cf">void</span> <span class="cs">setup</span>() {
   Serial.<span class="cs">begin</span>(<span class="cn">9600</span>);
   <span class="cs">pinMode</span>(<span class="ck">ACT_IN1</span>,    OUTPUT);
   <span class="cs">pinMode</span>(<span class="ck">ACT_IN2</span>,    OUTPUT);
   <span class="cs">pinMode</span>(<span class="ck">ACT_ENA</span>,    OUTPUT);
-  <span class="cs">pinMode</span>(<span class="ck">LED_STATUS</span>, OUTPUT);
-  <span class="cs">pinMode</span>(<span class="ck">NOODSTOP</span>,   INPUT_PULLUP);
+  <span class="cs">pinMode</span>(<span class="ck">LED_PIN</span>,    OUTPUT);
+  <span class="cs">pinMode</span>(<span class="ck">NOODSTOP_PIN</span>, INPUT_PULLUP);
   <span class="cs">allesUit</span>();
-  Serial.<span class="cs">println</span>(<span class="cs">"NEXO-1 ONLINE // Wacht op kalibratie..."</span>);
+
+  <span class="cc">// Startup blink sequence</span>
+  <span class="cd">for</span>(<span class="cd">int</span> i=<span class="cn">0</span>; i<<span class="cn">3</span>; i++){
+    <span class="cs">digitalWrite</span>(<span class="ck">LED_PIN</span>, HIGH); <span class="cs">delay</span>(<span class="cn">120</span>);
+    <span class="cs">digitalWrite</span>(<span class="ck">LED_PIN</span>, LOW);  <span class="cs">delay</span>(<span class="cn">120</span>);
+  }
+  Serial.<span class="cs">println</span>(<span class="cs">"╔══════════════════════════════╗"</span>);
+  Serial.<span class="cs">println</span>(<span class="cs">"║  NEXO-1 v2.1 -- ONLINE      ║"</span>);
+  Serial.<span class="cs">println</span>(<span class="cs">"║  Open Serial Monitor 9600   ║"</span>);
+  Serial.<span class="cs">println</span>(<span class="cs">"╚══════════════════════════════╝"</span>);
+  Serial.<span class="cs">println</span>(<span class="cs">"Kalibratie: Ontspan bicep → noteer waarde"</span>);
+  Serial.<span class="cs">println</span>(<span class="cs">"           Span bicep aan  → noteer waarde"</span>);
 }
 
-<span class="cc">// ── HOOFD LOOP ────────────────────────────</span>
+<span class="cc">// ── EMG UITLEZEN MET MIDDELING (anti-ruis) ────</span>
+<span class="cd">int</span> <span class="cs">leesEMG</span>() {
+  <span class="cd">long</span> som = <span class="cn">0</span>;
+  <span class="cd">for</span>(<span class="cd">int</span> i=<span class="cn">0</span>; i<<span class="ck">EMG_SAMPLES</span>; i++){
+    som += <span class="cs">analogRead</span>(<span class="ck">EMG_PIN</span>);
+    <span class="cs">delay</span>(<span class="cn">2</span>);
+  }
+  <span class="cd">return</span> (<span class="cd">int</span>)(som / <span class="ck">EMG_SAMPLES</span>);
+}
+
+<span class="cc">// ── HOOFD LOOP ─────────────────────────────────</span>
 <span class="cf">void</span> <span class="cs">loop</span>() {
 
-  <span class="cc">// 1. NOODSTOP CHECK (altijd eerst!)</span>
-  <span class="cd">if</span> (<span class="cs">digitalRead</span>(<span class="ck">NOODSTOP</span>) == LOW) {
+  <span class="cc">// 1. NOODSTOP CHECK (altijd als allereerste!)</span>
+  <span class="cd">if</span> (<span class="cs">digitalRead</span>(<span class="ck">NOODSTOP_PIN</span>) == LOW) {
     <span class="cs">allesUit</span>();
-    <span class="cs">digitalWrite</span>(<span class="ck">LED_STATUS</span>, HIGH);
-    Serial.<span class="cs">println</span>(<span class="cs">"!! NOODSTOP GEACTIVEERD -- herstart vereist !!"</span>);
-    <span class="cd">while</span>(<span class="cn">true</span>) { <span class="cs">delay</span>(<span class="cn">100</span>); } <span class="cc">// volledig halt</span>
+    noodstopActief = <span class="cn">true</span>;
+    <span class="cc">// SOS blink</span>
+    <span class="cd">for</span>(<span class="cd">int</span> i=<span class="cn">0</span>; i<<span class="cn">6</span>; i++){
+      <span class="cs">digitalWrite</span>(<span class="ck">LED_PIN</span>, HIGH); <span class="cs">delay</span>(<span class="cn">80</span>);
+      <span class="cs">digitalWrite</span>(<span class="ck">LED_PIN</span>, LOW);  <span class="cs">delay</span>(<span class="cn">80</span>);
+    }
+    Serial.<span class="cs">println</span>(<span class="cs">"!! NOODSTOP GEACTIVEERD -- Reset Arduino om te hervatten !!"</span>);
+    <span class="cd">while</span>(<span class="cn">true</span>) { <span class="cs">delay</span>(<span class="cn">50</span>); } <span class="cc">// volledig halt</span>
   }
 
-  <span class="cc">// 2. EMG SENSOR UITLEZEN</span>
-  <span class="cd">int</span> emg = <span class="cs">analogRead</span>(<span class="ck">EMG_PIN</span>);
-  Serial.<span class="cs">print</span>(<span class="cs">"EMG: "</span>); Serial.<span class="cs">println</span>(emg);
+  <span class="cc">// 2. OVERVERHITTING BEVEILIGING</span>
+  <span class="cd">if</span> (actuatorStatus != <span class="cn">0</span>) {
+    <span class="cd">if</span> (<span class="cs">millis</span>() - actStartTime > (<span class="cd">unsigned long</span>)<span class="ck">OVERHEAT_LIMIT</span> * <span class="cn">1000</span>) {
+      <span class="cs">allesUit</span>();
+      Serial.<span class="cs">println</span>(<span class="cs">"!! OVERVERHITTING PAUZE -- 30 seconden afkoelen !!"</span>);
+      <span class="cs">delay</span>(<span class="cn">30000</span>);
+      actStartTime = <span class="cs">millis</span>();
+    }
+  }
 
-  <span class="cc">// 3. ACTUATOR AANSTURING LOGICA</span>
+  <span class="cc">// 3. EMG SENSOR UITLEZEN (gemiddelde 8 samples)</span>
+  <span class="cd">int</span> emg = <span class="cs">leesEMG</span>();
+  Serial.<span class="cs">print</span>(<span class="cs">"EMG:"</span>); Serial.<span class="cs">print</span>(emg);
+  Serial.<span class="cs">print</span>(<span class="cs">"  AAN>"</span>); Serial.<span class="cs">print</span>(<span class="ck">DREMPEL_AAN</span>);
+  Serial.<span class="cs">print</span>(<span class="cs">"  UIT<"</span>); Serial.<span class="cs">println</span>(<span class="ck">DREMPEL_UIT</span>);
+
+  <span class="cc">// 4. ACTUATOR AANSTURING LOGICA</span>
   <span class="cd">if</span> (emg > <span class="ck">DREMPEL_AAN</span>) {
-    <span class="cc">// ▲ Spier GESPANNEN → arm OMHOOG</span>
-    <span class="cs">analogWrite</span>(<span class="ck">ACT_ENA</span>,  <span class="ck">SNELHEID</span>);
+    <span class="cc">// ▲ Spier GESPANNEN → arm OMHOOG (actuator uitstrekken)</span>
+    <span class="cd">if</span> (actuatorStatus != <span class="cn">1</span>) { actStartTime = <span class="cs">millis</span>(); }
+    actuatorStatus = <span class="cn">1</span>;
+    <span class="cs">analogWrite</span> (<span class="ck">ACT_ENA</span>,  <span class="ck">SNELHEID</span>);
     <span class="cs">digitalWrite</span>(<span class="ck">ACT_IN1</span>, HIGH);
     <span class="cs">digitalWrite</span>(<span class="ck">ACT_IN2</span>, LOW);
-    <span class="cs">digitalWrite</span>(<span class="ck">LED_STATUS</span>, HIGH);
+    <span class="cs">digitalWrite</span>(<span class="ck">LED_PIN</span>, HIGH);
 
   } <span class="cd">else if</span> (emg < <span class="ck">DREMPEL_UIT</span>) {
-    <span class="cc">// ▼ Spier ONTSPANNEN → arm omlaag (gecontroleerd)</span>
-    <span class="cs">analogWrite</span>(<span class="ck">ACT_ENA</span>,  <span class="cn">160</span>); <span class="cc">// langzamer omlaag</span>
+    <span class="cc">// ▼ Spier ONTSPANNEN → arm gecontroleerd omlaag</span>
+    actuatorStatus = <span class="cn">-1</span>;
+    <span class="cs">analogWrite</span> (<span class="ck">ACT_ENA</span>,  <span class="ck">SNELHEID_DOWN</span>);
     <span class="cs">digitalWrite</span>(<span class="ck">ACT_IN1</span>, LOW);
     <span class="cs">digitalWrite</span>(<span class="ck">ACT_IN2</span>, HIGH);
     <span class="cs">delay</span>(<span class="ck">VERTR_OMLAAG</span>);
     <span class="cs">allesUit</span>(); <span class="cc">// rem actief: houdt positie vast</span>
-    <span class="cs">digitalWrite</span>(<span class="ck">LED_STATUS</span>, LOW);
+    actuatorStatus = <span class="cn">0</span>;
+    <span class="cs">digitalWrite</span>(<span class="ck">LED_PIN</span>, LOW);
 
   } <span class="cd">else</span> {
-    <span class="cc">// = Neutrale zone → HOUD POSITIE (actuator rem)</span>
+    <span class="cc">// = Neutrale zone → HOUD POSITIE (actuator ingebouwde rem)</span>
     <span class="cs">allesUit</span>();
+    actuatorStatus = <span class="cn">0</span>;
   }
 
   <span class="cs">delay</span>(<span class="ck">LOOP_DELAY</span>);
 }
 
-<span class="cc">// ── HELPER: alles uitschakelen ────────────</span>
+<span class="cc">// ── HELPER: alle uitgang uitschakelen ─────────</span>
 <span class="cf">void</span> <span class="cs">allesUit</span>() {
   <span class="cs">digitalWrite</span>(<span class="ck">ACT_IN1</span>, LOW);
   <span class="cs">digitalWrite</span>(<span class="ck">ACT_IN2</span>, LOW);
-  <span class="cs">analogWrite</span>(<span class="ck">ACT_ENA</span>,  <span class="cn">0</span>);
+  <span class="cs">analogWrite</span> (<span class="ck">ACT_ENA</span>,  <span class="cn">0</span>);
+  <span class="cs">digitalWrite</span>(<span class="ck">LED_PIN</span>,  LOW);
 }</pre>
   </div>
 
   <div class="ilist">
-    <div class="il-hd">🎯 Kalibratie: EMG Drempelwaarden Instellen</div>
-    <div class="il-row"><div class="il-n">1</div><div class="il-t">Upload code → open <b>Serial Monitor</b> in IDE → stel in op 9600 baud</div></div>
-    <div class="il-row"><div class="il-n">2</div><div class="il-t">Ontspan bicep volledig → lees EMG-waarde meerdere keren → dit is je <b>rust-waarde</b></div></div>
-    <div class="il-row"><div class="il-n">3</div><div class="il-t">Span bicep stevig aan → lees EMG-waarde → dit is je <b>actief-waarde</b></div></div>
-    <div class="il-row"><div class="il-n">4</div><div class="il-t">Stel in de code: <b>DREMPEL_AAN</b> = (rust + actief) ÷ 2 · <b>DREMPEL_UIT</b> = rust + 60</div></div>
-    <div class="il-row"><div class="il-n">5</div><div class="il-t">Pas <b>SNELHEID</b> aan: lager = meer kracht/minder snelheid. Begin bij 180, verhoog naar 255 indien nodig. Actuator mag niet oververhitten!</div></div>
+    <div class="il-hd">🎯 Kalibratie Procedure</div>
+    <div class="il-row"><div class="il-n">1</div><div class="il-t">Upload code → open Serial Monitor → stel in op <b>9600 baud</b></div></div>
+    <div class="il-row"><div class="il-n">2</div><div class="il-t">Ontspan bicep volledig 10 seconden → lees EMG-waarden → dit is je <b>rustwaarde</b> (typisch 50–200)</div></div>
+    <div class="il-row"><div class="il-n">3</div><div class="il-t">Span bicep stevig aan 5 seconden → lees piekwaarden → dit is je <b>activatiewaarde</b> (typisch 400–900)</div></div>
+    <div class="il-row"><div class="il-n">4</div><div class="il-t">Bereken: <b>DREMPEL_AAN</b> = (rust + actief) ÷ 2 &nbsp;·&nbsp; <b>DREMPEL_UIT</b> = rust + 60</div></div>
+    <div class="il-row"><div class="il-n">5</div><div class="il-t">Pas de waarden aan boven in de code → hercompileer en upload → test opnieuw</div></div>
+    <div class="il-row"><div class="il-n">6</div><div class="il-t">Pas <b>SNELHEID</b> aan: begin bij 180, verhoog naar max 220. Actuator mag niet oververhitten bij continu gebruik &gt; 3 min</div></div>
   </div>
 
-  <div class="ibox ibox-lime">
-    <b>Pro tip:</b> Plak de EMG elektroden altijd op dezelfde plek (markeer met een stift de huidposities). Elektroden worden minder goed na 2–3 sessies -- vervang ze regelmatig voor betrouwbaar signaal.
-  </div>
+  <div class="ibox ibox-lime"><b>Pro tip:</b> Markeer de exacte elektrode-posities op je huid met een huidvriendelijke stift. Elektroden worden minder goed na 2–3 sessies — vervang ze regelmatig voor betrouwbaar signaal. Ontvet de huid met alcohol vóór plakken voor betere geleiding.</div>
 
 </div>
 
-<!-- ══ NAV ══ -->
+<!-- BOTTOM NAV -->
 <nav class="bnav">
-  <button class="nb on"  id="n-sys"   onclick="go('sys')">  <span class="ni">⚡</span><span class="nl">Systeem</span></button>
-  <button class="nb"     id="n-print" onclick="go('print')"><span class="ni">🖨️</span><span class="nl">Print</span></button>
-  <button class="nb"     id="n-buy"   onclick="go('buy')">  <span class="ni">🛒</span><span class="nl">Kopen</span></button>
-  <button class="nb"     id="n-steps" onclick="go('steps')"><span class="ni">📋</span><span class="nl">Stappen</span></button>
-  <button class="nb"     id="n-code"  onclick="go('code')"> <span class="ni">💻</span><span class="nl">Code</span></button>
+  <button class="nb on"  id="n-sys"    onclick="go('sys')">   <span class="ni">⚡</span><span class="nl">Systeem</span></button>
+  <button class="nb"     id="n-models" onclick="go('models')"><span class="ni">🖨️</span><span class="nl">Models</span></button>
+  <button class="nb"     id="n-buy"    onclick="go('buy')">   <span class="ni">🛒</span><span class="nl">Kopen</span></button>
+  <button class="nb"     id="n-steps"  onclick="go('steps')"> <span class="ni">📋</span><span class="nl">Stappen</span></button>
+  <button class="nb"     id="n-tools"  onclick="go('tools')"> <span class="ni">🔧</span><span class="nl">Tools</span></button>
+  <button class="nb"     id="n-code"   onclick="go('code')">  <span class="ni">💻</span><span class="nl">Code</span></button>
 </nav>
 
-</div>
+</div><!-- end root -->
 
 <script>
-/* ── STATE ── */
-const ST = JSON.parse(localStorage.getItem('nexo2')||'{}');
-const BUDGET = 200;
-const PRICES = {
-  b1:35,b2:3,b3:30,
-  e1:4,e2:13,e3:5,e4:17,e5:2,e6:3,e7:7,
-  m1:8,m2:4,m3:6,m4:4,m5:3,m6:14
-};
+// ── PERSISTENT STORAGE ──
+const DB_KEY = 'nexo1_v3';
+let ST = {};
 
-/* ── DONE STYLES ── */
-const DONE_CHK   = 'width:26px;height:26px;min-width:26px;border:1.5px solid var(--lime);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.9rem;color:#000;background:var(--lime);box-shadow:0 0 16px rgba(0,255,136,.35);transition:all .2s;cursor:pointer;flex-shrink:0;user-select:none;';
-const BASE_SCHK  = 'width:26px;height:26px;min-width:26px;border:1.5px solid var(--e3);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.9rem;color:transparent;background:rgba(0,255,224,.03);transition:all .2s;cursor:pointer;flex-shrink:0;user-select:none;';
+// Try IndexedDB first, fallback to in-memory
+let db = null;
+const openDB = () => new Promise((res, rej) => {
+  const req = indexedDB.open('nexo1db', 1);
+  req.onupgradeneeded = e => {
+    const d = e.target.result;
+    if (!d.objectStoreNames.contains('state')) d.createObjectStore('state');
+  };
+  req.onsuccess = e => { db = e.target.result; res(db); };
+  req.onerror = () => res(null);
+});
 
-/* ── TOGGLE CARD ── */
-function tog(id){
-  ST[id]=!ST[id];
-  const el=document.getElementById(id);
-  if(!el)return;
-  ST[id]?el.classList.add('done'):el.classList.remove('done');
-  save();upd();
+const dbGet = key => new Promise((res) => {
+  if (!db) { res(null); return; }
+  try {
+    const tx = db.transaction('state','readonly');
+    const req = tx.objectStore('state').get(key);
+    req.onsuccess = () => res(req.result);
+    req.onerror = () => res(null);
+  } catch(e) { res(null); }
+});
+
+const dbSet = (key, val) => new Promise((res) => {
+  if (!db) { res(); return; }
+  try {
+    const tx = db.transaction('state','readwrite');
+    tx.objectStore('state').put(val, key);
+    tx.oncomplete = () => res();
+    tx.onerror = () => res();
+  } catch(e) { res(); }
+});
+
+async function saveState() {
+  await dbSet(DB_KEY, JSON.stringify(ST));
 }
 
-/* ── TOGGLE STEP ── */
-function togS(id){
-  ST[id]=!ST[id];
-  const el=document.getElementById(id);
-  if(!el)return;
-  const chk=el.querySelector('.chk-step');
-  if(ST[id]){el.classList.add('done');chk.style.cssText=DONE_CHK;}
-  else{el.classList.remove('done');chk.style.cssText=BASE_SCHK;}
-  save();upd();
-}
-
-function save(){localStorage.setItem('nexo2',JSON.stringify(ST));}
-
-function c(pfx,n){let d=0;for(let i=1;i<=n;i++)if(ST[pfx+i])d++;return d;}
-
-function upd(){
-  const p=c('p',10),b=c('b',3),e=c('e',7),m=c('m',6),s=c('s',10);
-  document.getElementById('cp').textContent=p+'/10';
-  document.getElementById('cb').textContent=b+'/3';
-  document.getElementById('ce').textContent=e+'/7';
-  document.getElementById('cm').textContent=m+'/6';
-  document.getElementById('cs').textContent=s+'/10';
-
-  const tot=p+b+e+m+s,all=36;
-  const pct=Math.round(tot/all*100);
-  document.getElementById('pb').style.width=pct+'%';
-  document.getElementById('hv-pct').textContent=pct+'%';
-
-  let sp=0;
-  Object.keys(PRICES).forEach(k=>{if(ST[k])sp+=PRICES[k];});
-  if(p>0)sp+=30;
-  document.getElementById('hv-spent').textContent='€'+sp;
-  document.getElementById('hv-left').textContent='€'+Math.max(0,BUDGET-sp);
-}
-
-/* ── RESTORE ── */
-function restore(){
-  const maps={p:10,b:3,e:7,m:6};
-  Object.keys(maps).forEach(pfx=>{
-    for(let i=1;i<=maps[pfx];i++){
-      if(ST[pfx+i])document.getElementById(pfx+i)?.classList.add('done');
-    }
-  });
-  for(let i=1;i<=10;i++){
-    if(ST['s'+i]){
-      const el=document.getElementById('s'+i);
-      if(!el)continue;
-      el.classList.add('done');
-      el.querySelector('.chk-step').style.cssText=DONE_CHK;
-    }
+async function loadState() {
+  const raw = await dbGet(DB_KEY);
+  if (raw) {
+    try { ST = JSON.parse(raw); } catch(e) { ST = {}; }
   }
+  restoreAll();
   upd();
 }
 
-/* ── NAV ── */
-function go(name){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
-  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
-  document.getElementById('pg-'+name).classList.add('on');
-  document.getElementById('n-'+name).classList.add('on');
-  window.scrollTo({top:0,behavior:'smooth'});
+// ── PRICES ──
+const PRICES = {
+  b1:35, b2:3, b3:30,
+  e1:4, e2:13, e3:5, e4:17, e5:2, e6:3, e7:7,
+  m1:8, m2:4, m3:6, m4:4, m5:3, m6:14
+};
+const BUDGET = 200;
+
+// ── TOGGLE CARD ──
+function tog(id) {
+  ST[id] = !ST[id];
+  const el = document.getElementById(id);
+  if (!el) return;
+  ST[id] ? el.classList.add('done') : el.classList.remove('done');
+  saveState();
+  upd();
 }
 
-restore();
+// ── TOGGLE STEP ──
+function togS(id) {
+  ST[id] = !ST[id];
+  const el = document.getElementById(id);
+  if (!el) return;
+  const chk = el.querySelector('.chk-step');
+  if (ST[id]) {
+    el.classList.add('done');
+    if (chk) { chk.style.background='var(--lime)'; chk.style.borderColor='var(--lime)'; chk.style.color='#000'; chk.style.boxShadow='0 0 16px rgba(0,255,136,.35)'; }
+  } else {
+    el.classList.remove('done');
+    if (chk) { chk.style.background='rgba(0,255,224,.03)'; chk.style.borderColor='var(--e3)'; chk.style.color='transparent'; chk.style.boxShadow='none'; }
+  }
+  saveState();
+  upd();
+}
+
+// ── COUNT ──
+function c(pfx, n) {
+  let d = 0;
+  for (let i = 1; i <= n; i++) if (ST[pfx + i]) d++;
+  return d;
+}
+
+// ── UPDATE UI ──
+function upd() {
+  const p  = c('p', 10);
+  const b  = c('b', 3);
+  const e  = c('e', 7);
+  const m  = c('m', 6);
+  const s  = c('s', 16);
+
+  document.getElementById('cp').textContent = p + '/10';
+  document.getElementById('cb').textContent = b + '/3';
+  document.getElementById('ce').textContent = e + '/7';
+  document.getElementById('cm').textContent = m + '/6';
+  document.getElementById('cs').textContent = s + '/16';
+
+  const tot = p + b + e + m + s;
+  const all = 10 + 3 + 7 + 6 + 16;
+  const pct = Math.round(tot / all * 100);
+  document.getElementById('pb').style.width = pct + '%';
+  document.getElementById('hv-pct').textContent = pct + '%';
+
+  let sp = 0;
+  Object.keys(PRICES).forEach(k => { if (ST[k]) sp += PRICES[k]; });
+  if (p > 0) sp += 30;
+  document.getElementById('hv-spent').textContent = '€' + sp;
+  document.getElementById('hv-left').textContent = '€' + Math.max(0, BUDGET - sp);
+}
+
+// ── RESTORE ──
+function restoreAll() {
+  // Cards
+  ['p','b','e','m'].forEach(pfx => {
+    const max = {p:10,b:3,e:7,m:6}[pfx];
+    for (let i = 1; i <= max; i++) {
+      if (ST[pfx + i]) document.getElementById(pfx + i)?.classList.add('done');
+    }
+  });
+  // Steps
+  for (let i = 1; i <= 16; i++) {
+    if (ST['s' + i]) {
+      const el = document.getElementById('s' + i);
+      if (!el) continue;
+      el.classList.add('done');
+      const chk = el.querySelector('.chk-step');
+      if (chk) {
+        chk.style.background = 'var(--lime)';
+        chk.style.borderColor = 'var(--lime)';
+        chk.style.color = '#000';
+        chk.style.boxShadow = '0 0 16px rgba(0,255,136,.35)';
+      }
+    }
+  }
+}
+
+// ── NAVIGATION ──
+function go(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b => b.classList.remove('on'));
+  document.getElementById('pg-' + name).classList.add('on');
+  document.getElementById('n-' + name).classList.add('on');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── INIT ──
+openDB().then(() => loadState());
 </script>
 </body>
 </html>
